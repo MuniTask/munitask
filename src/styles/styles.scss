@@ -1,0 +1,105 @@
+
+@import "./variables";
+@import "./mediaquery";
+$accordion-button-active-bg:              
+tint-color(#ffffff);
+$accordion-button-active-color:           
+shade-color(#ffffff);
+
+$accordion-button-focus-border-color: #ffffff;
+$accordion-button-focus-box-shadow: #ffffff;
+
+*{
+    font-family:$font-poppins;
+}
+.page-container {
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .content-wrap {
+    padding-bottom: 2.5rem;    /* Footer height */
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;            /* Footer height */
+  }
+  .faq-body{
+    background-color: rgba(136, 81, 255, .2);
+  }
+ 
+  .faq-header{
+    text-align: center;
+    padding: 3rem;
+    
+    border-radius: 0px 0px 158px 69px;
+-moz-border-radius: 0px 0px 158px 69px;
+-webkit-border-radius: 0px 0px 158px 69px;
+border: 0px solid #000000;
+    color: $dark-green-color;
+  }
+
+  .scroll{
+    max-height: 100vh;
+    display: flex;
+  }
+  .job-card-link{
+    text-decoration: none;
+  }
+  .park-logo1, .park-logo2{
+  
+    max-width: 150px;
+    height: auto;
+  }
+div.accordion.faq-accordion{
+  margin: 0% 20% 10% 20% ;
+  font-size: 1rem;
+}
+.faq-accordion-header{
+  font-size: 1.2rem;
+}
+.accordion-container{
+  padding-top: 8%;
+  background-color: white;
+  border-radius: 127px 200px 0px 0px;
+  -moz-border-radius: 127px 200px 0px 0px;
+  -webkit-border-radius: 127px 200px 0px 0px;
+  border: 0px solid #000000;
+
+}
+
+@media only screen and (max-width: 900px) {
+  div.accordion.faq-accordion{
+      margin:5% 0%;
+     
+    }
+}
+
+.button.accordion-button{
+  &:focus{
+    border: none;
+    background-color: none;
+  }
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #ffffff;
+  background-color: white;
+  outline: 0!important;
+  /* I changed the color on this line */
+  /* If you do not want any color, just delete */
+;
+}
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #ffffff;
+  background-color: white;
+  outline: 0!important;
+  /* I changed the color on this line */
+  /* If you do not want any color, just delete */
+;
+}
