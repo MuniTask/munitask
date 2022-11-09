@@ -96,4 +96,26 @@ div.accordion.faq-accordion {
   outline: 0 !important;
   /* I changed the color on this line */
   /* If you do not want any color, just delete */
+}
+
+.profile-container {
+  min-height: 100vh;
+}
+
+a.nav-link {
+  padding-bottom: 0;
+}
+
+a.navbar-brand {
+  padding-top: 0;
+}
+
+.signin-btn {
+  font-size: 1rem;
+  background-color: #292b2c;
+  color: #c3db74;
+  font-weight: bold;
+  border: 2px solid #c3db74;
+  border-radius: 15px;
+  width: 9vw;
 }/*# sourceMappingURL=styles.css.map */

@@ -4,7 +4,8 @@ import JobItem from '../components/JobItem';
 import JobSearch from '../components/JobSearch';
 import '../styles/styles.css';
 import {db} from '../firebase';
-import { getDatabase, ref, onValue, set} from "firebase/database";
+import { getDatabase, ref, onValue, set, child, get, query, limitToFirst, limitToLast, orderByChild, startAt, startAfter, endAt
+, endBefore, equalTo} from "firebase/database";
 import { MDBContainer, MDBRow, MDBInputGroup, MDBBtn, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBBtnGroup, MDBCol } from 'mdb-react-ui-kit';
 
 
@@ -12,41 +13,73 @@ import { MDBContainer, MDBRow, MDBInputGroup, MDBBtn, MDBDropdown, MDBDropdownMe
    
 
 export default function Home() {
-  const  [jobs, setjobs]=useState(['Job1','job2','job3', 'job4',  'job5', 'job6','job7','job8','job9','Job1','job2','job3', 'job4',  'job5', 'job6','job7','job8','job9'])
   const  [myjobs, setmyjobs]=useState([])
-  const [keyword, setKeyword]=useState('')
-  const [location, setLocation]=useState('')
+  const [keywords, setKeywords]=useState('')
+  const [locations, setLocations]=useState('')
   const db = getDatabase();
 
-  const parksRef = ref(db, 'parks');
+  const jobsRef = ref(db, 'jobs');
+
   const getJobs=()=>{
-    onValue(parksRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data)
-      let new_lst=[]
-      for (let x of data){
-       new_lst.push(x)
-      }
-      console.log(new_lst)
-      setmyjobs(new_lst)
-    });
+    if (keywords=='' && locations ==''){
+      onValue(jobsRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        let new_lst=[]
+        for (let x of data){
+         new_lst.push(x)
+        }
+        console.log(new_lst)
+        setmyjobs(new_lst)
+    }); }
   }
   const showJob=()=>{
     return(myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job}/>))
   }
   const search = (e) => {
     e.preventDefault();
-    const keywords = e.target.keyword.value;
+    const keyword = e.target.keyword.value;
     const location=e.target.location.value;
-    console.log(keywords, location)
-    getJobs(keywords, location)
+    console.log(keyword, location);
+    setKeywords(keyword);
+    setLocations(location);
+    
   };
  
-  
-
+  const getTheseJobs=()=>{
+    if (keywords!=''){
+      const que=query(ref(db,'jobs'),orderByChild('job_description'),equalTo(keywords));
+    get(que)
+    .then((snapshot)=>{
+      let mun_jobs=[];
+      snapshot.forEach(childNsapshot=>{
+        mun_jobs.push(childNsapshot.val());
+      })
+      console.log(mun_jobs, 'hi')
+        setmyjobs(mun_jobs)
+        console.log('yo')
+    })
+    }
+    else{
+      onValue(jobsRef, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data)
+        let new_lst=[]
+        for (let x of data){
+         new_lst.push(x)
+        }
+        console.log(new_lst)
+        setmyjobs(new_lst)
+    });
+    }
+    
+  }
+  useEffect(() => {
+    getTheseJobs();
+  }, [keywords]);
   useEffect(()=>{
     getJobs();
-   
+
   },[])
 
   return (

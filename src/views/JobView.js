@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function JobView() {
+export default function JobView({job}) {
   return (
   <div className='page-container m-5'>
     <div className='job-info-header'>

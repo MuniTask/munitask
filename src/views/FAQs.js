@@ -24,7 +24,7 @@ export default function FAQs() {
         </div>
       
       <div className='accordion-container'>
-      <MDBAccordion className='faq-accordion bg-light' flush initialActive={1}>
+      <MDBAccordion className='faq-accordion bg-light' flush >
       <MDBAccordionItem className='' collapseId={1} headerTitle={<><img src={logo}  style={{width: 100, height: 100}}/><h4 className='faq-accordion-header'>What are digital platforms?</h4></>}>
       Digital platforms are businesses that match workers' services or goods with customers via apps or websites. 
           For instance, this includes businesses that provide access to: On-demand labor and repair services.
