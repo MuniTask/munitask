@@ -9,7 +9,7 @@ export default function JobSearch() {
         <MDBInputGroup className='w-50 mx-auto mt-5 mb-4 '>
         <input type="text" aria-label="First name" className="form-control" placeholder='Job title, company name, keywords'/>
         <input type="text" aria-label="Last name" className="form-control" placeholder='City, state or zip code'/>
-        <MDBBtn outline type="submit">Search</MDBBtn>
+        <button  className='btn btn-outline-dark' type="submit">Search</button>
         
         </MDBInputGroup>
     

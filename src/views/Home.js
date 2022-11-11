@@ -1,21 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import JobItem from '../components/JobItem';
-import JobSearch from '../components/JobSearch';
 import '../styles/styles.css';
+import {Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
+import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import { getDatabase, ref, onValue, set, child, get, query, limitToFirst, limitToLast, orderByChild, startAt, startAfter, endAt
 , endBefore, equalTo} from "firebase/database";
 import { MDBContainer, MDBRow, MDBInputGroup, MDBBtn, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBBtnGroup, MDBCol } from 'mdb-react-ui-kit';
+import FilterModal from '../components/FilterModal';
+import Maps from '../components/Maps';
 
 
 
    
-
 export default function Home() {
   const  [myjobs, setmyjobs]=useState([])
   const [keywords, setKeywords]=useState('')
   const [locations, setLocations]=useState('')
+  const [showModal, setShowModal] = useState(false);
+  const [showMap, setShowMap] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseMap = () => setShowMap(false);
+  const handleShowMap = () => setShowMap(true);
   const db = getDatabase();
 
   const jobsRef = ref(db, 'jobs');
@@ -93,32 +102,42 @@ export default function Home() {
         <MDBInputGroup   className='w-50 mx-auto mt-5 mb-4 '>
         <input type="text" name='keyword' aria-label="First name" className="form-control" placeholder='Job title, company name, keywords'/>
         <input type="text" name='location' aria-label="Last name" className="form-control" placeholder='City, state or zip code'/>
-        <MDBBtn outline type="submit">Search</MDBBtn>
+        <button className='btn btn-outline-dark' type="submit">Search</button>
         
         </MDBInputGroup>
         </form>
-        <div  className='d-flex justify-content-end mb-5 w-75'>
-        <MDBDropdown>
-            <MDBDropdownToggle size='xs' color='tertiary'>Sort By</MDBDropdownToggle>
-            <MDBDropdownMenu>
-            <MDBDropdownItem link>Most Recent</MDBDropdownItem>
-            <MDBDropdownItem link>Relevance</MDBDropdownItem>
-            </MDBDropdownMenu>
-        </MDBDropdown>
-            <div>
-            <MDBBtn type="button" color='tertiary'>Filters</MDBBtn>
+        <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
+          <Dropdown>
+              <Dropdown.Toggle variant='link' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
+                Sort By
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu >
+                <Dropdown.Item>Most Recent</Dropdown.Item>
+                <Dropdown.Item>Relevance</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            
+          <div>
+          <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal}>Filter<SlidersHorizontal size={32}/></Button>
+          <FilterModal handleClose={handleCloseModal} show={showModal}/>
+            {/* // <Button className='filter-btn' variant='link' type="button" >Filters <SlidersHorizontal size={32} /></Button> */}
             </div>
-            <MDBBtnGroup >
-                <MDBBtn color='secondary' active>List</MDBBtn>
-                <MDBBtn color='secondary' >Map</MDBBtn>
-            </MDBBtnGroup>
+            <ButtonGroup >
+                <Button variant='outline-dark' className='list-btn' onClick={handleCloseMap}>List</Button>
+                <Button variant='outline-dark' className='map-btn' onClick={handleShowMap}>Map</Button>
+            </ButtonGroup>
+              
         </div>
        
     </div>
         <MDBContainer >
+          {showMap?<>
+          <Maps/>
+          </>:<>
         <MDBRow > 
       {showJob()}
-      </MDBRow> 
+      </MDBRow> </>}
     </MDBContainer>
         
       </div>

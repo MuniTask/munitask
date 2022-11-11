@@ -56,27 +56,27 @@ export default function InterestForm({ writeInterestForm }) {
             <input className="job_pref" type="checkbox" id="lifeguard" name="lifeguard" />
             <br />
 
-            <label htmlFor="swim-instructor">swim instructor</label>
-            <input className="job_pref" type="checkbox" id="swim-instructor" name="swim-instructor" />
+            <label htmlFor="swim_instructor">swim instructor</label>
+            <input className="job_pref" type="checkbox" id="swim_instructor" name="swim_instructor" />
             <br />
 
-            <label htmlFor="camp-counselor">camp counselor</label>
-            <input className="job_pref" type="checkbox" id="camp-counselor" name="camp-counselor" />
+            <label htmlFor="camp_counselor">camp counselor</label>
+            <input className="job_pref" type="checkbox" id="camp_counselor" name="camp_counselor" />
             <br />
 
-            <label htmlFor="park-field-maintenance">
+            <label htmlFor="park_field_maintenance">
               {" "}
               park/field maintenance
             </label>
-            <input type="checkbox" id="park-field-maintenance" name="park-field-maintenance" />
+            <input type="checkbox" id="park_field_maintenance" name="park_field_maintenance" />
             <br />
 
-            <label htmlFor="pool-maintenance">pool maintenance</label>
-            <input className="job_pref" type="checkbox" id="pool-maintenance" name="pool-maintenance" />
+            <label htmlFor="pool_maintenance">pool maintenance</label>
+            <input className="job_pref" type="checkbox" id="pool_maintenance" name="pool_maintenance" />
             <br />
 
-            <label htmlFor="golf-ranger">golf ranger</label>
-            <input className="job_pref" type="checkbox" id="golf-ranger" name="golf-ranger" />
+            <label htmlFor="golf_ranger">golf ranger</label>
+            <input className="job_pref" type="checkbox" id="golf_ranger" name="golf_ranger" />
             <br />
           </div>
           <div className="d-flex flex-row mb-5">
@@ -86,11 +86,11 @@ export default function InterestForm({ writeInterestForm }) {
             </div>
             <div className="form-group w-25 me-4">
               <label htmlFor="start">Job start date:</label>
-              <input type="date" id="start" className="form-control" name="trip-start" min="2022-01-01" max="2024-01-01" />
+              <input type="date" id="start" className="form-control" name="job_start" min="2022-01-01" max="2024-01-01" />
             </div>
             <div className="form-group w-25">
               <label htmlFor="end">Job end date:</label>
-              <input type="date" id="end" className="form-control" name="trip-end"
+              <input type="date" id="end" className="form-control" name="job_end"
                 min="2022-01-01"
                 max="2024-01-01" />
             </div>
@@ -100,7 +100,7 @@ export default function InterestForm({ writeInterestForm }) {
               Do you have any direct training, certifications, or experience in
               the job you're interested in?{" "}
             </label>
-            <textarea name="textarea" className="form-control" id="certifications" rows="5" cols="50" ></textarea>
+            <textarea name="certifications" className="form-control"  id="certifications" rows="5" cols="50" ></textarea>
           </div>
           <div className="d-flex flex-row">
             <p className="m-2">
@@ -125,7 +125,7 @@ export default function InterestForm({ writeInterestForm }) {
           </div>
           <div className="d-flex flex-row mb-3">
             <p className="m-2">
-              What's the best way for us to follow up with you?{" "}
+              What's the best way for us to follow up with you?
             </p>
             <label className="m-2" htmlFor="phone">
               Phone call
@@ -147,15 +147,15 @@ export default function InterestForm({ writeInterestForm }) {
             <label htmlFor="social">
               Share your fav social media and handle/username.
             </label>
-            <input name="" type="text" className="form-control" id="social" placeholder="..." />
+            <input name="social" type="text" className="form-control" id="social" placeholder="..." />
           </div>
           <div>
             <label htmlFor="other-info">Any else you'd like us to know? </label>
-            <textarea name="textarea" className="form-control" id="other-info" rows="5" cols="50" ></textarea>
+            <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea>
           </div>
       
 
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary mt-4">
           Submit
         </button>
       </form>

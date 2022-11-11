@@ -9,6 +9,7 @@ import FAQs from './views/FAQs';
 import JobView from './views/JobView';
 import AddToDb from './views/AddToDb';
 import Test from './views/Test';
+import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
 import { getAuth, signInWithPopup,GoogleAuthProvider, signOut } from "firebase/auth";
@@ -60,10 +61,11 @@ function App() {
  
   return (
     <div className="App">
-      <Navigation user={user} signUserOut={signUserOut} createPopUp={createPopUp}/>
+      
       
       <div className='content-wrap'>
      <BrowserRouter >
+     <Navigation user={user} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
 
       <Route path='/' element={<Home />}/>
@@ -73,6 +75,7 @@ function App() {
       <Route path='/faqs' element={<FAQs />}/>
       <Route path='/test' element={<Test />}/>
       <Route path='/addtodb' element={<AddToDb />}/>
+      <Route path='/maps' element={<Maps />}/>
       <Route path='/userprofile' element={<UserProfile user={user}/>}/>
 
      </Routes>

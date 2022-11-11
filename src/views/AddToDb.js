@@ -65,57 +65,98 @@ useEffect(()=>{
   return (
     <>
     <h1 className='display-5'>Municipality entry</h1>
-    <form className='' onSubmit={(e)=>{writeParkData(e)}}>
-        <label htmlFor="mun_id" className="me-3 m-4">Municipality ID</label>
-        <input type='text' name='mun_id' /><br/>
-        <label htmlFor="budget" className="me-3 m-4">budget</label>
+    <form className=' d-flex flex-row flex-wrap align-items-center' onSubmit={(e)=>{writeParkData(e)}}>
+        <div className="me-4 mb-3" >
+        <label htmlFor="mun_id" >Municipality ID</label>
+        <input type='text'name='mun_id' /><br/>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="budget" >budget</label>
         <input type='text' name='budget'/><br/>
-        <label htmlFor="fiscal_year" className="me-3 m-4">fiscal_year</label>
-        <input type='text' name='fiscal_year'/><br/>
-        <label htmlFor="job_url" className="me-3 m-4">job_url</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="fiscal_year" >fiscal_year</label>
+        <input type='text'  name='fiscal_year'/><br/>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="job_url" >job_url</label>
         <input type='text' name='job_url'/><br/>
-        <label htmlFor="municipal_location" className="me-3 m-4">municipal_location</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="municipal_location" >municipal_location</label>
         <input type='text' name='municipal_location' /><br/>
-        <label htmlFor="municipality" className="me-3 m-4">municipality</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="municipality" >municipality</label>
         <input type='text' name='municipality'/><br/>
-        <label htmlFor="number_of_jobs" className="me-3 m-4">number_of_jobs</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="number_of_jobs" >number_of_jobs</label>
         <input type='text' name='number_of_jobs'/><br/>
-        <label htmlFor="park_url" className="me-3 m-4">park_url</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="park_url" >park_url</label>
         <input type='text' name='park_url'/><br/>
-        <label htmlFor="street_address" className="me-3 m-4">street_address</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="street_address" >street_address</label>
         <input type='text' name='street_address'/><br/>
-        <label htmlFor="zip_code" className="me-3 m-4">zip_code</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="zip_code" >zip_code</label>
         <input type='text' name='zip_code'/><br/>
-        
+        </div>
+        <div className="me-4 mb-3" >
         <label htmlFor="logo_url" className="me-3 m-4" >logo_url</label>
         <input type='text' name='logo_url'/><br/>
+        </div>
         <button type='submit'>Submit</button>
         </form>
 
 
 
         <h1 className='display-5'> Job entry</h1>
-        <form onSubmit={(e)=>{writeJobsData(e)}}>
-        <label htmlFor="job_id" className="me-3 m-4">Job ID</label>
+        <form className='d-flex flex-row flex-wrap align-items-center' onSubmit={(e)=>{writeJobsData(e)}}>
+        <div className="me-4 mb-3" >
+        <label htmlFor="job_id" >Job ID</label>
         <input type='text' name='job_id' /><br/>
-        <label htmlFor="municipality" className="me-3 m-4">municipality</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="municipality" >municipality</label>
         <input type='text' name='municipality'/><br/>
-        <label htmlFor="zip_code" className="me-3 m-4">zip_code</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="zip_code" >zip_code</label>
         <input type='text' name='zip_code'/><br/>
-        <label htmlFor="hourly_wage" className="me-3 m-4">hourly_wage</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="hourly_wage" >hourly_wage</label>
         <input type='text' name='hourly_wage'/><br/>
-        <label htmlFor="full_part_time" className="me-3 m-4">full_part_time</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="full_part_time" >full_part_time</label>
         <input type='text' name='full_part_time'/><br/>
-        <label htmlFor="dates" className="me-3 m-4">dates</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="dates" >dates</label>
         <input type='text' name='dates'/><br/>
-        <label htmlFor="job_description" className="me-3 m-4">job_description</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="job_description" >job_description</label>
         <textarea type='text' name='job_description' rows='3' cols='30'/><br/>
-        <label htmlFor="job_qualifications" className="me-3 m-4">job_qualifications</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="job_qualifications" >job_qualifications</label>
         <textarea type='text' name='job_qualifications' rows='3' cols='30'/><br/>
-        <label htmlFor="job_requirements" className="me-3 m-4" >job_requirements</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="job_requirements"  >job_requirements</label>
         <textarea type='text' name='job_requirements' rows='3' cols='30'/><br/>
-        <label htmlFor="logo_url" className="me-3 m-4" >logo_url</label>
+        </div>
+        <div className="me-4 mb-3" >
+        <label htmlFor="logo_url"  >logo_url</label>
         <input type='text' name='logo_url'/><br/>
+        </div>
         <button type='submit'>Submit</button>
           </form></>
   )

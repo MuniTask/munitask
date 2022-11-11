@@ -1,5 +1,5 @@
 import { MDBCol, MDBContainer, MDBFooter, MDBIcon, MDBRow } from "mdb-react-ui-kit";
-
+import { FacebookLogo, InstagramLogo, LinkedinLogo, TwitterLogo } from "phosphor-react";
 export default function FooterBottom() {
     return (
       <MDBFooter bgColor='dark' className='text-center text-lg-start text-muted'>
@@ -8,18 +8,18 @@ export default function FooterBottom() {
             <span>Get connected with us on social networks:</span>
           </div>
   
-          <div>
+          <div className="me-auto">
             <a href='https://www.facebook.com/MuniTask/' className='me-4 text-reset '>
-              <MDBIcon fab icon="facebook-f" />
+            <FacebookLogo  size={32} />
             </a>
             <a href='https://twitter.com/MuniTask' className='me-4 text-reset'>
-              <MDBIcon fab icon="twitter" />
+            <TwitterLogo size={32} />
             </a>
             <a href='https://www.instagram.com/muni_task/' className='me-4 text-reset'>
-              <MDBIcon fab icon="instagram" />
+            <InstagramLogo size={32} />
             </a>
             <a href='https://www.linkedin.com/company/munitask/about/' className='me-4 text-reset'>
-              <MDBIcon fab icon="linkedin" />
+            <LinkedinLogo size={32} />
             </a>
           </div>
         </section>

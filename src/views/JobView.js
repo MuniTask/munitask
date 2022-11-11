@@ -1,10 +1,14 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
-export default function JobView({job}) {
+export default function JobView() {
+  // const location=useLocation();
+  // const {job}=location.state
+
   return (
   <div className='page-container m-5'>
     <div className='job-info-header'>
-      <h4 className='display-5'>Seasonal Lifeguard</h4>
+      <h4 className='display-5'>LifeGuard</h4>
       <p>YMCA - Youth Development, Healthy Living, Community</p>
       <a href='https://www.ymca.org/' className='mb-4'>https://www.ymca.org/</a>
     </div>
