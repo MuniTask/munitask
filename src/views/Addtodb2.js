@@ -1,75 +1,98 @@
 import React, { useEffect, useState } from 'react'
 import {db} from '../firebase'
-import { getDatabase, ref, onValue, set} from "firebase/database";
-export default function AddToDb() {
+import { collection, addDoc, getDocs} from "firebase/firestore";
+export default function Addtodb2() {
   const  [myjobs, setmyjobs]=useState([])
-    const db = getDatabase();
-  const parksRef = ref(db, 'parks');
-  const jobRef=ref(db,'jobs');
-
- 
+//     const db = getDatabase();
+//   const parksRef = ref(db, 'parks');
+//   const jobRef=ref(db,'jobs');
+const  jobref2=collection(db,'jobs')
+ const addMunData=async(e)=>{
+    e.preventDefault();
+    
+        await addDoc(collection(db, "munitask/"), {
+        
+            budget:e.target.budget.value,
+            fiscal_year:e.target.fiscal_year.value,
+            job_url:e.target.job_url.value,
+            municipal_location:e.target.municipal_location.value,
+            municipality:e.target.municipality.value,
+            number_of_jobs:e.target.number_of_jobs.value,
+            park_url:e.target.park_url.value,
+            street_address:e.target.street_address.value,
+            zip_code:e.target.zip_code.value,
+            logo_url:e.target.logo_url.value
+        });
+        
+ }
+ const getJobs=async()=>{
+    const data = await getDocs(collection(db, 'jobs'));
+    
+    console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+    setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+ }
   
-  const getJobs=()=>{
-    onValue(parksRef, (snapshot) => {
-      const data = snapshot.val();
-      console.log(data)
-      let new_lst=[]
-      for (let x of data){
-       new_lst.push(x)
-      }
-      console.log(new_lst)
-      setmyjobs(new_lst)
-    });
-  }
+//   const getJobs=()=>{
+//     onValue(parksRef, (snapshot) => {
+//       const data = snapshot.val();
+//       console.log(data)
+//       let new_lst=[]
+//       for (let x of data){
+//        new_lst.push(x)
+//       }
+//       console.log(new_lst)
+//       setmyjobs(new_lst)
+//     });
+//   }
 
-const writeParkData = (e)=> {
-  e.preventDefault()
-  const db = getDatabase();
-  set(ref(db, 'parks/' + e.target.mun_id.value), {
-    mun_id:e.target.mun_id.value,
-    budget:e.target.budget.value,
-    fiscal_year:e.target.fiscal_year.value,
-    job_url:e.target.job_url.value,
-    municipal_location:e.target.municipal_location.value,
-    municipality:e.target.municipality.value,
-    number_of_jobs:e.target.number_of_jobs.value,
-    park_url:e.target.park_url.value,
-    street_address:e.target.street_address.value,
-    zip_code:e.target.zip_code.value,
-    job_description:e.target.job_description.value,
-    job_requirements:e.target.job_requirements.value,
-    job_qualifications:e.target.job_qualifications.value,
-    logo_url:e.target.logo_url.value
-  });
-}
+// const writeParkData = (e)=> {
+//   e.preventDefault()
+//   const db = getDatabase();
+//   set(ref(db, 'parks/' + e.target.mun_id.value), {
+//     mun_id:e.target.mun_id.value,
+//     budget:e.target.budget.value,
+//     fiscal_year:e.target.fiscal_year.value,
+//     job_url:e.target.job_url.value,
+//     municipal_location:e.target.municipal_location.value,
+//     municipality:e.target.municipality.value,
+//     number_of_jobs:e.target.number_of_jobs.value,
+//     park_url:e.target.park_url.value,
+//     street_address:e.target.street_address.value,
+//     zip_code:e.target.zip_code.value,
+//     job_description:e.target.job_description.value,
+//     job_requirements:e.target.job_requirements.value,
+//     job_qualifications:e.target.job_qualifications.value,
+//     logo_url:e.target.logo_url.value
+//   });
+// }
 
 
-const writeJobsData = (e)=> {
-  e.preventDefault()
-  const db = getDatabase();
-  set(ref(db, 'jobs/' + e.target.job_id.value), {
-    job_id:e.target.job_id.value,
-    municipality:e.target.municipality.value,
-    zip_code:e.target.zip_code.value,
-    job_description:e.target.job_description.value,
-    job_requirements:e.target.job_requirements.value,
-    job_qualifications:e.target.job_qualifications.value,
-    hourly_wage:e.target.hourly_wage.value,
-    full_part_time:e.target.full_part_time.value,
-    dates:e.target.dates.value,
-    logo_url:e.target.logo_url.value
-  });
-}
+// const writeJobsData = (e)=> {
+//   e.preventDefault()
+//   const db = getDatabase();
+//   set(ref(db, 'jobs/' + e.target.job_id.value), {
+//     job_id:e.target.job_id.value,
+//     municipality:e.target.municipality.value,
+//     zip_code:e.target.zip_code.value,
+//     job_description:e.target.job_description.value,
+//     job_requirements:e.target.job_requirements.value,
+//     job_qualifications:e.target.job_qualifications.value,
+//     hourly_wage:e.target.hourly_wage.value,
+//     full_part_time:e.target.full_part_time.value,
+//     dates:e.target.dates.value,
+//     logo_url:e.target.logo_url.value
+//   });
+// }
 useEffect(()=>{
   getJobs();
 },[])
   return (
     <>
     <h1 className='display-5'>Municipality entry</h1>
-    <form className=' d-flex flex-row flex-wrap align-items-center' onSubmit={(e)=>{writeParkData(e)}}>
+    <form className=' d-flex flex-row flex-wrap align-items-center' onSubmit={(e)=>{addMunData(e)}}>
         <div className="me-4 mb-3" >
-        <label htmlFor="mun_id" >Municipality ID</label>
-        <input type='text'name='mun_id' /><br/>
+        <label htmlFor="id" >Municipality ID</label>
+        <input type='text'name='id' /><br/>
         </div>
         <div className="me-4 mb-3" >
         <label htmlFor="budget" >budget</label>
@@ -116,7 +139,7 @@ useEffect(()=>{
 
 
 
-        <h1 className='display-5'> Job entry</h1>
+        {/* <h1 className='display-5'> Job entry</h1>
         <form className='d-flex flex-row flex-wrap align-items-center' onSubmit={(e)=>{writeJobsData(e)}}>
         <div className="me-4 mb-3" >
         <label htmlFor="job_id" >Job ID</label>
@@ -159,6 +182,8 @@ useEffect(()=>{
         <input type='text' name='logo_url'/><br/>
         </div>
         <button type='submit'>Submit</button>
-          </form></>
+          </form> */}
+          
+          </>
   )
 }

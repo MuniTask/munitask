@@ -13,14 +13,16 @@ import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
 import { getAuth, signInWithPopup,GoogleAuthProvider, signOut } from "firebase/auth";
-import { getDatabase, ref, onValue, set} from "firebase/database";
+import { collection, addDoc, getDocs} from "firebase/firestore";
+import {db} from "./firebase";
+import Addtodb2 from './views/Addtodb2';
+import Home2 from './views/Home2';
 
 
 function App() {
  const [user, setUser]=useState({})
  const auth = getAuth();
- const db = getDatabase();
- const userRef = ref(db, 'user');
+
 
   const createPopUp=async()=>{
     const auth=getAuth()
@@ -37,9 +39,9 @@ function App() {
   
   }
 
-  const writeUserData = (result)=> {
-    const db = getDatabase();
-    set(ref(db, 'users/' + result.user.uid), {
+  const writeUserData = async(result)=> {
+  
+    await addDoc(collection(db, "users/"), {
       uid:result.user.uid,
       name:result.user.displayName,
       email: result.user.email
@@ -63,26 +65,29 @@ function App() {
     <div className="App">
       
       
-      <div className='content-wrap'>
+ 
      <BrowserRouter >
+     <div className='content-wrap'>
      <Navigation user={user} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
 
-      <Route path='/' element={<Home />}/>
+      <Route path='/' element={<Home2 />}/>
+      <Route path='/home2' element={<Home2 />}/>
       <Route path='/:jobTitle' element={<JobView />}/>
       <Route path='/about' element={<About />}/>
       <Route path='/howitworks' element={<HowItWorks />}/>
       <Route path='/faqs' element={<FAQs />}/>
       <Route path='/test' element={<Test />}/>
       <Route path='/addtodb' element={<AddToDb />}/>
-      <Route path='/maps' element={<Maps />}/>
+      <Route path='/addtodb2' element={<Addtodb2 />}/>
+      {/* <Route path='/maps' element={<Maps />}/> */}
       <Route path='/userprofile' element={<UserProfile user={user}/>}/>
 
      </Routes>
-     
-     </BrowserRouter>
      </div>
      <FooterBottom className='footer'/>
+     </BrowserRouter>
+     
      </div>
    
   );

@@ -1,5 +1,6 @@
 import { MDBCol, MDBContainer, MDBFooter, MDBIcon, MDBRow } from "mdb-react-ui-kit";
 import { FacebookLogo, InstagramLogo, LinkedinLogo, TwitterLogo } from "phosphor-react";
+import {Link} from 'react-router-dom';
 export default function FooterBottom() {
     return (
       <MDBFooter bgColor='dark' className='text-center text-lg-start text-muted'>
@@ -33,9 +34,8 @@ export default function FooterBottom() {
                   MuniTask
                 </h6>
                 <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                 
+                MuniTask™ is a digital marketplace community connecting gig workers to seasonal work with local governments.
+
                 </p>
               </MDBCol >
   
@@ -44,14 +44,14 @@ export default function FooterBottom() {
               <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                 <p>
-                  <a href='#!' className='text-reset'>
+                  <Link to='/' className='text-reset'>
                     Jobs
-                  </a>
+                  </Link>
                 </p>
                 <p>
-                  <a href='#!' className='text-reset'>
+                  <Link to='/about' className='text-reset'>
                     About
-                  </a>
+                  </Link>
                 </p>
                 <p>
                   <a href='#!' className='text-reset'>
@@ -75,12 +75,7 @@ export default function FooterBottom() {
                   <MDBIcon icon="envelope" className="me-3" />
                   hello@munitask.com
                 </p>
-                <p>
-                  <MDBIcon icon="phone" className="me-3" /> + 01 234 567 88
-                </p>
-                <p>
-                  <MDBIcon icon="print" className="me-3" /> + 01 234 567 89
-                </p>
+                
               </MDBCol>
             </MDBRow>
           </MDBContainer>

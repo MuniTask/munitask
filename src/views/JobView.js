@@ -20,7 +20,7 @@ export default function JobView() {
       <div className='ms-4'>$$/HR</div>
       <div className='ms-4'>Location</div>
       </div>
-      <button className='me-4 btn btn-primary'>Apply</button>
+      <button className='me-4 btn btn-primary'>Submit Interest Form</button>
     </div>
     <div className='job-info-body'>
       <div className='qual'>

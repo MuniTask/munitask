@@ -5,8 +5,8 @@ import '../styles/styles.css';
 import {Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
-import { getDatabase, ref, onValue, set, child, get, query, limitToFirst, limitToLast, orderByChild, startAt, startAfter, endAt
-, endBefore, equalTo} from "firebase/database";
+import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+
 
 
 import { MDBContainer, MDBRow, MDBInputGroup, MDBBtn, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBBtnGroup, MDBCol } from 'mdb-react-ui-kit';
@@ -16,7 +16,7 @@ import Maps from '../components/Maps';
 
 
    
-export default function Home() {
+export default function Home2() {
   const  [myjobs, setmyjobs]=useState([])
   const [keywords, setKeywords]=useState('')
   const [locations, setLocations]=useState('')
@@ -27,25 +27,25 @@ export default function Home() {
   const handleShowModal = () => setShowModal(true);
   const handleCloseMap = () => setShowMap(false);
   const handleShowMap = () => setShowMap(true);
-  const db = getDatabase();
 
-  const jobsRef = ref(db, 'jobs');
 
-  const getJobs=()=>{
+  const jobsRef = collection(db, 'jobs');
+
+  const getJobs=async()=>{
     if (keywords=='' && locations ==''){
-      onValue(jobsRef, (snapshot) => {
-        const data = snapshot.val();
-        console.log(data)
-        let new_lst=[]
-        for (let x of data){
-         new_lst.push(x)
-        }
-        console.log(new_lst)
-        setmyjobs(new_lst)
-    }); }
+        const data = await getDocs(collection(db, 'jobs'));
+    
+        console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+        setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
   }
   const showJob=()=>{
-    return(myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job}/>))
+    if (myjobs !== ''){
+        return(myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job}/>))
+    } else{
+        return(<><p>NO jobs match this search</p></>)
+    }
+    
+   
   }
   const search = (e) => {
     e.preventDefault();
@@ -57,25 +57,19 @@ export default function Home() {
     
   };
  
-  const getTheseJobs=()=>{
+  const getTheseJobs=async()=>{
     if (keywords!==''){
-      const que=query(ref(db,'jobs'),orderByChild('job_description'),equalTo(keywords));
-    get(que)
-    .then((snapshot)=>{
-      let mun_jobs=[];
-      snapshot.forEach(childNsapshot=>{
-        mun_jobs.push(childNsapshot.val());
-      })
-      console.log(mun_jobs, 'hi')
-        setmyjobs(mun_jobs)
-        console.log('yo')
-    })
+      const que=query(collection(db,'jobs'),where("job_description","==",keywords));
+      const data = await getDocs(que);
+      
+      const new_lst=[]
+      data.forEach((doc) => {
+        new_lst.push(doc.data())
+        console.log(doc.id, " => ", doc.data());
+      });
+      setmyjobs(new_lst);
     }
-    else{
-      getJobs()
-    }
-    
-  }
+  };
   useEffect(() => {
     getTheseJobs();
   }, [keywords]);
@@ -127,12 +121,13 @@ export default function Home() {
         
           {showMap?<>
             <MDBContainer >
-          <Maps/>
+          <Maps myjobs={myjobs}/>
           </MDBContainer>
           </>:<>
           <MDBContainer>
         <MDBRow > 
-      {showJob()}
+            {myjobs? <>{showJob()}</>:<></>}
+      
       </MDBRow> </MDBContainer></>}
     
         

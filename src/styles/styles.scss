@@ -50,7 +50,7 @@ border: 0px solid #000000;
     text-decoration: none;
   }
   .park-logo1, .park-logo2{
-  
+
     max-width: 150px;
     height: auto;
   }
@@ -173,9 +173,13 @@ div.user-dropdown.dropdown-menu.show{
 .job-card-body{
   background-color: $purple-color;
   color: white;
+  border-radius: 0px 8px 8px 0px;
+  border: 1px solid $purple-color;
+  height: 18vh;
 }
 .job-card{
   border: 1px solid $purple-color;
+  height: 18vh;
 }
 @media only screen and (min-width: 992px) {
 
@@ -215,17 +219,22 @@ div.user-dropdown.dropdown-menu.show{
 .about-founder { 
   grid-area: about-founder; 
   text-align: center;
-  padding: 0 15%;
+  padding: 0 25%;
+
 }
 
 .about-img-left { 
   grid-area: about-img-left; 
    padding-left: 10%;
+   background-color: #f5e9fc;
+   padding-top: 30px;
 }
 
 .about-info-boxes { 
   grid-area: about-info-boxes; 
   padding: 0 7%;
+  background-color: #f5e9fc;
+  padding-top: 30px;
 
 }
 
@@ -252,6 +261,7 @@ div.user-dropdown.dropdown-menu.show{
   max-width: 18rem;
   height: auto;
   border: none;
+  background-color: #f8effd;
 }
 .card-title{
   height: 30px;
@@ -275,5 +285,19 @@ white-space: nowrap;
   .about-img-left { grid-area: about-img-left; padding-left: 0; display: flex; justify-content: center;}
   .about-info-boxes { grid-area: about-info-boxes; text-align: center;}
   
+}
+
+a.nav-link.profile-tab{
+  font-size: 1.3rem;
+  color: rgb(62, 62, 62);
+  border: none;
+
+}
+a.nav-link.active.profile-tab{
+    color: $purple-color;
+}
+
+.map-body{
+  min-width: 600px;
 }
 

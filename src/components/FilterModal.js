@@ -25,10 +25,10 @@ export default function FilterModal({handleClose, show}) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="outline-dark" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="dark" onClick={handleClose}>
             Save Changes
           </Button>
         </Modal.Footer>
