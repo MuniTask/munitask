@@ -6,12 +6,15 @@ import {Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
-
-
-
-import { MDBContainer, MDBRow, MDBInputGroup, MDBBtn, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBBtnGroup, MDBCol } from 'mdb-react-ui-kit';
+import { MDBContainer, MDBRow, MDBInputGroup } from 'mdb-react-ui-kit';
 import FilterModal from '../components/FilterModal';
 import Maps from '../components/Maps';
+import golf from '../images/golf-cart.png';
+import swimInstructor from '../images/swimmer.png';
+import lifeguard from '../images/life-saver.png';
+import poolMaint from '../images/swimming-pool.png';
+import campCounselor from '../images/tent.png';
+import parkMaint from '../images/under-maintenance.png';
 
 
 
@@ -32,14 +35,14 @@ export default function Home2() {
   const jobsRef = collection(db, 'jobs');
 
   const getJobs=async()=>{
-    if (keywords=='' && locations ==''){
+    if (keywords==='' && locations ===''){
         const data = await getDocs(collection(db, 'jobs'));
     
         console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
         setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
   }
   const showJob=()=>{
-    if (myjobs !== ''){
+    if (myjobs !==''){
         return(myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job}/>))
     } else{
         return(<><p>NO jobs match this search</p></>)
@@ -84,9 +87,17 @@ export default function Home2() {
 
 
       <div>
+      <div className='mt-4 d-flex flex-row justify-content-center'>
+        <img className='me-5 job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+        <img className='me-5 job-icon' src={swimInstructor} alt='...' style={{border:'4px solid purple',}}/>
+        <img className='me-5 job-icon' src={lifeguard} alt='...' style={{border:'4px solid red',}}/>
+        <img className='me-5 job-icon' src={poolMaint} alt='...' style={{border:'4px solid gold',}}/>
+        <img className='me-5 job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+        <img className='me-5 job-icon' src={parkMaint} alt='...' style={{border:'4px solid pink',}}/>
+        </div>
       <div className='container-fluid'>
         <form onSubmit={(e)=>search(e)}>
-        <MDBInputGroup   className='w-50 mx-auto mt-5 mb-4 '>
+        <MDBInputGroup   className='w-50 mx-auto mt-3 mb-4 '>
         <input type="text" name='keyword' aria-label="First name" className="form-control" placeholder='Job title, company name, keywords'/>
         <input type="text" name='location' aria-label="Last name" className="form-control" placeholder='City, state or zip code'/>
         <button className='btn btn-outline-dark' type="submit">Search</button>
@@ -119,16 +130,18 @@ export default function Home2() {
        
     </div>
         
-          {showMap?<>
+          {showMap?
+          <>
             <MDBContainer >
-          <Maps myjobs={myjobs}/>
-          </MDBContainer>
+              <Maps myjobs={myjobs}/>
+            </MDBContainer>
           </>:<>
           <MDBContainer>
-        <MDBRow > 
+            <MDBRow > 
             {myjobs? <>{showJob()}</>:<></>}
-      
-      </MDBRow> </MDBContainer></>}
+            </MDBRow>
+          </MDBContainer>
+          </>}
     
         
       </div>

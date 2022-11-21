@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { MDBInputGroup,
     MDBBtn, MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBBtnGroup, MDBRow, MDBCol } from 'mdb-react-ui-kit';
 export default function JobSearch() {
@@ -7,8 +8,8 @@ export default function JobSearch() {
     <div className='container-fluid'>
         
         <MDBInputGroup className='w-50 mx-auto mt-5 mb-4 '>
-        <input type="text" aria-label="First name" className="form-control" placeholder='Job title, company name, keywords'/>
-        <input type="text" aria-label="Last name" className="form-control" placeholder='City, state or zip code'/>
+        <input type="text" aria-label="search1" className="form-control" placeholder='Job title, company name, keywords'/>
+        <input type="text" aria-label="search2" className="form-control" placeholder='City, state or zip code'/>
         <button  className='btn btn-outline-dark' type="submit">Search</button>
         
         </MDBInputGroup>

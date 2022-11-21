@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import {
     MDBContainer,
     MDBCard,
@@ -14,27 +14,23 @@ import { Link } from 'react-router-dom';
 import {MapPin, Heart} from "phosphor-react";
 import logo from '../images/munitask-logo.png';
 
-// const titleCase=(str)=> {
-//   str = str.toLowerCase();
-//   str = str.split(' ');
-//   for (var i = 0; i < str.length; i++) {
-//     str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1); 
-//   }
-//   return str.join(' '); 
-// }
 
 export default function JobItem({job, myjobs}) {
+  const [currentJob, setCurrentJob]=useState([]);
  const [liked, setLiked]=useState(false)
  const handleLike = () => setLiked(true);
   const handleUnlike = () => setLiked(false);
+  useEffect (()=>{
+    setCurrentJob(job);
+  },[])
   return (
     <>
     {/* <MDBContainer>
         <MDBRow> */}
         
         <MDBCol lg='6' xl='4' md='6' sm='10'>
-            <Link className='job-card-link' job={job} to={`/${job.job_id}`} state={{job:job}}>
-            <MDBCard shadow='0' border='' background='white' className='mb-3 d-flex flex-row job-card'>
+            <Link className='job-card-link'  to={`/${job.id}`} state={{job:currentJob}}>
+            <MDBCard shadow='0' border=''  className='mb-3 d-flex flex-row job-card'>
                 <div className='d-flex align-self-center'>
                 {job.logo_url? <><MDBCardImage className='park-logo2'src={job.logo_url}/></>: <><MDBCardImage className='park-logo1 ' src={logo}/></>}
                 </div>

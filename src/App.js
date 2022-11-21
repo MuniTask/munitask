@@ -20,7 +20,15 @@ import Home2 from './views/Home2';
 
 
 function App() {
- const [user, setUser]=useState({})
+//  const [user, setUser]=useState({})
+const getUserFromLocalStorage = () => {
+  const foundUser = localStorage.getItem('user')
+  if (foundUser){
+    return JSON.parse(foundUser)
+  }
+  return {}
+};
+const [user, setUser] = useState(getUserFromLocalStorage())
  const auth = getAuth();
 
 
@@ -35,6 +43,7 @@ function App() {
     console.log('user',user)
     setUser(user);
     writeUserData(result);
+    localStorage.setItem('user', JSON.stringify(user));
     
   
   }
@@ -57,7 +66,8 @@ function App() {
     // An error happened.
     });
     setUser({});
-    console.log('User succesfully signed out')
+    console.log('User succesfully signed out');
+    localStorage.removeItem('user');
   }
 
  

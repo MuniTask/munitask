@@ -299,4 +299,11 @@ a.nav-link.active.profile-tab {
 
 .map-body {
   min-width: 600px;
+}
+
+.job-icon {
+  border: 4px solid #745cac;
+  width: 4rem;
+  padding: 8px;
+  border-radius: 50px;
 }/*# sourceMappingURL=styles.css.map */
