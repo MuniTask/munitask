@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ReactMapGL from 'react-map-gl';
 
 import {GeolocateControl, Map, Marker, NavigationControl, FullscreenControl} from 'react-map-gl';
 import {MapPin} from "phosphor-react";
+import {db} from '../firebase';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { MDBContainer,MDBCol, MDBTabs, MDBTabsLink, MDBTabsItem, MDBRow, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit';
 import JobItem from './JobItem';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 export default function Maps({myjobs}) {
     const [lat, setLat]=useState(41.88);
     const [lng, setLng]=useState(-87.62);
@@ -28,24 +30,58 @@ export default function Maps({myjobs}) {
         }
         setVerticalActive(value);
       };
-  
+  const findLat=async(mun)=>{
+        const que=query(collection(db,'parks'),where("municipality","==",mun));
+        const data = await getDocs(que);
+        
+        const new_lst=[]
+        data.forEach((doc) => {
+          new_lst.push(doc.data())
+          console.log(doc.id, " => ", doc.data());
+        });
+        
+        console.log(new_lst[0].latitude);
+        const mun_lat = new_lst[0].latitude;
+        return  mun_lat 
+        
+  }
+  const findLng=async(mun)=>{
+    const que=query(collection(db,'parks'),where("municipality","==",mun));
+        const data = await getDocs(que);
+        
+        const new_lst=[]
+        data.forEach((doc) => {
+          new_lst.push(doc.data())
+          console.log(doc.id, " => ", doc.data());
+        });
+        console.log( typeof new_lst[0].longitude)
+        const mun_lng = new_lst[0].longitude;
+        return  mun_lng;
+}
+useEffect(()=>{
+  findLat('Alsip');
+  findLng('Alsip');
+  console.log('hi')
+},[])
    
   return (
-    <div className='map-body d-flex flex-row justify-content-between'>
-        <div className='d-flex flex-column'>
-            {myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job}/>)}
+    <div className='map-body d-flex flex-row '>
+        <div className='d-flex flex-column map-scroll mx-auto align-items-center' style={{overflowY:"scroll"}}>
+            {myjobs.map((job, i)=> <JobItem className='' key={i} myjobs={myjobs} job={job}/>)}
         </div>
-    <div  className='map-div mx-auto' >
+    <div  className='map-div mx-auto ' >
       
         <Map doubleClickZoom={true} mapboxAccessToken='pk.eyJ1IjoibXVuaXRhc2siLCJhIjoiY2xhYjhmZ3ZpMDFudDNycHFlcDZnNnR2byJ9.XeCgoPpc2GvLlJdJMSqNfA' 
-        style={{width:"500px",height:"500px",borderRadius:"15px",border:"2px solid red"}}
+        style={{width:"600px",height:"800px",border:"1px solid white"}}
         initialViewState={{latitude:lat, longitude:lng, zoom: 6}}
         mapStyle="mapbox://styles/mapbox/streets-v9"
          >
         <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={26} weight="fill" /></Marker>
         {myjobs.map((job, i)=>
         <>
-        <Link to={`/${job.id}`} state={{job:job}}><Marker key={i} mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={job.longitude} latitude={job.latitude}>
+        
+        <Link to={`/${job.id}`} state={{job:job}}>
+          <Marker key={i} mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={job.longitude} latitude={job.latitude}>
         <OverlayTrigger 
             trigger={["hover", "focus"]}
             placement="right" 

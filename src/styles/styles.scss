@@ -42,12 +42,13 @@ border: 0px solid #000000;
     color: $dark-green-color;
   }
 
-  .scroll{
-    max-height: 100vh;
-    display: flex;
-  }
   .job-card-link{
     text-decoration: none;
+    color: white;
+    z-index: 1;
+  }
+  .like{
+    z-index: 3;
   }
   .park-logo1, .park-logo2{
 
@@ -306,4 +307,18 @@ a.nav-link.active.profile-tab{
   width: 4rem;
   padding: 8px;
   border-radius: 50px;
+}
+.map-scroll{
+  width: 30%;
+  height:'90vh';
+  
+  -webkit-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
+-moz-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
+box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
+ 
+}
+
+.mapboxgl-canvas{
+  height: 800px;
+  width: 600px;
 }

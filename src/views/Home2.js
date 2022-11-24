@@ -37,7 +37,7 @@ export default function Home2() {
   const getJobs=async()=>{
     if (keywords==='' && locations ===''){
         const data = await getDocs(collection(db, 'jobs'));
-    
+        
         console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
         setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
   }
@@ -137,9 +137,11 @@ export default function Home2() {
             </MDBContainer>
           </>:<>
           <MDBContainer>
-            <MDBRow > 
+            {/* <MDBRow >  */}
+            <div className='d-flex flex-row flex-wrap'>
             {myjobs? <>{showJob()}</>:<></>}
-            </MDBRow>
+            </div>
+            {/* </MDBRow> */}
           </MDBContainer>
           </>}
     
