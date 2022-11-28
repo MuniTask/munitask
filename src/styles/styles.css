@@ -165,10 +165,8 @@ div.user-dropdown.dropdown-menu.show a {
 }
 
 .job-card-body {
-  background-color: #745cac;
   color: white;
   border-radius: 0px 8px 8px 0px;
-  border: 1px solid #745cac;
   height: 18vh;
 }
 
@@ -313,4 +311,9 @@ a.nav-link.active.profile-tab {
   width: 40%;
   height: "90vh";
   box-shadow: -11px -2px 14px 0px rgb(204, 204, 204);
+}
+
+.mapboxgl-canvas {
+  height: 800px;
+  width: 600px;
 }/*# sourceMappingURL=styles.css.map */

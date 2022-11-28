@@ -3,14 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {Bag, CalendarBlank, CaretLeft, Clock, CurrencyDollar, MapPin } from 'phosphor-react';
 import {db} from '../firebase';import JobViewMap from '../components/JobViewMap';
-;
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import InterestForm from '../components/InterestForm';
+
 export default function JobView() {
   const [jobs, setJobs]=useState({})
+  const [show, setShow] = useState(false);
   const location=useLocation();
-  
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const setJob=()=>{
     setJobs(location.state.job);
   }
+
+
   useEffect(()=>{
     setJob();
   },[])
@@ -35,7 +42,21 @@ export default function JobView() {
       <div className='ms-4 d-flex flex-row'><CurrencyDollar className='pt-1' size={22} weight="bold" color='#745cac'/><p>12-14/HR</p></div>
       <div className='ms-4 d-flex flex-row'><MapPin className='pt-1' size={22} weight="bold" color='#745cac'/><p>Location</p></div>
       </div>
-      <button className='me-4 btn btn-primary'>Submit Interest Form</button>
+      {/* <button className='me-4 btn btn-primary'>Submit Interest</button> */}
+            <Button variant="me-4 btn btn-primary" onClick={handleShow}>
+            Submit Interest
+            </Button>
+            <Modal  show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body><InterestForm/></Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
     </div>
     <div className='job-info-body'>
       <div className='qual'>

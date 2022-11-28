@@ -1,7 +1,7 @@
 import { MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
 import React, { useState } from "react";
 
-export default function InterestForm({ writeInterestForm }) {
+export default function PersonalInfo({ writePersonalInfo }) {
   const [startDate, setStartDate] = useState(new Date());
   const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
     "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
@@ -11,8 +11,8 @@ export default function InterestForm({ writeInterestForm }) {
 
   return (
     <MDBContainer fluid>
-      <form onSubmit={(e) => { writeInterestForm(e); }} >
-        {/* <div className="form-row mb-3">
+      <form onSubmit={(e) => {  writePersonalInfo(e); }} >
+        <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
               <label htmlFor="first_name">First Name</label>
@@ -31,9 +31,9 @@ export default function InterestForm({ writeInterestForm }) {
             <label htmlFor="birthday">Birthday</label>
             <input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" />
           </div>
-        </div> */}
+        </div>
 
-        {/* <div className="form-group d-flex flex-row mb-5">
+        <div className="form-group d-flex flex-row mb-5">
           <div className="w-25 me-4">
             <label htmlFor="inputState">State</label>
             <select name="state" id="inputState" className="form-control">
@@ -49,59 +49,9 @@ export default function InterestForm({ writeInterestForm }) {
             <label htmlFor="inputZip">Zip</label>
             <input name="zip" type="text" className="form-control" id="inputZip" />
           </div>
-        </div> */}
-          <div>
-            <h4>Choose top 3 job interests</h4>
-          </div>
-          <div className="d-flex flex-column mb-5">
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" />
-                <label htmlFor="lifeguard">lifeguard</label>
-                
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="swim_instructor" name="swim_instructor" />
-                <label htmlFor="swim_instructor">swim instructor</label>
-                
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="camp_counselor" name="camp_counselor" />
-                <label htmlFor="camp_counselor">camp counselor</label>
-                
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="park_field_maintenance" name="park_field_maintenance" />
-                <label htmlFor="park_field_maintenance">park/field maintenance</label>
-                
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="pool_maintenance" name="pool_maintenance" />
-                <label htmlFor="pool_maintenance">pool maintenance</label>
-                
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="golf_ranger" name="golf_ranger" />
-                <label htmlFor="golf_ranger">golf ranger</label>
-                
-              <br />
-              </div>
-          </div>
-          <div className="d-flex flex-column mb-4">
-            <div className="form-group mb-3">
-              <label htmlFor="inputZip">Preferred job location zip code</label>
-              <input name="job_zip" type="text" className="form-control" id="inputZip" />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="start">Job start date:</label>
-              <input type="date" id="start" className="form-control" name="job_start" min="2022-01-01" max="2024-01-01" />
-            </div>
-            <div className="form-group ">
-              <label htmlFor="end">Job end date:</label>
-              <input type="date" id="end" className="form-control" name="job_end"
-                min="2022-01-01"
-                max="2024-01-01" />
-            </div>
-          </div>
+        </div>
+
+         
           <div className="mb-3">
             <label htmlFor="certifications">
               Do you have any direct training, certifications, or experience in
@@ -109,7 +59,7 @@ export default function InterestForm({ writeInterestForm }) {
             </label>
             <textarea name="certifications" className="form-control"  id="certifications" rows="5" cols="50" ></textarea>
           </div>
-          {/* <div className="d-flex flex-row">
+          <div className="d-flex flex-row">
             <p className="m-2">
               Do you want to learn more about park and recreation seasonal jobs
               and how to get hired?{" "}
@@ -129,8 +79,8 @@ export default function InterestForm({ writeInterestForm }) {
             </label>
             <input className="m-2" type="checkbox" id="maybe" name="maybe" />
             <br />
-          </div> */}
-          {/* <div className="d-flex flex-row mb-3">
+          </div>
+          <div className="d-flex flex-row mb-3">
             <p className="m-2">
               What's the best way for us to follow up with you?
             </p>
@@ -149,13 +99,13 @@ export default function InterestForm({ writeInterestForm }) {
             </label>
             <input className="m-2" type="checkbox" id="email" name="email" />
             <br />
-          </div> */}
-          {/* <div className="form-group col-md-6 mb-3">
+          </div>
+          <div className="form-group col-md-6 mb-3">
             <label htmlFor="social">
               Share your fav social media and handle/username.
             </label>
             <input name="social" type="text" className="form-control" id="social" placeholder="..." />
-          </div> */}
+          </div>
           <div>
             <label htmlFor="other-info">Any else you'd like us to know? </label>
             <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea>

@@ -13,7 +13,7 @@ import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
 import { getAuth, signInWithPopup,GoogleAuthProvider, signOut } from "firebase/auth";
-import { collection, addDoc, getDocs} from "firebase/firestore";
+import { collection, addDoc, getDocs, setDoc, doc, getDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import Addtodb2 from './views/Addtodb2';
 import Home2 from './views/Home2';
@@ -36,13 +36,28 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     const auth=getAuth()
     const provider=new GoogleAuthProvider()
     const result=await signInWithPopup(auth, provider)
+
+
+    // this is not working
+    const existingUserDoc = await getDoc(doc(db,"users",result.user.uid));
+    console.log('this', existingUserDoc.name)
+    if (existingUserDoc.exists()){
+      console.log('existing user signed in');
+      console.log(existingUserDoc.data())
+    } else{
+      console.log('new user signed in')
+      writeUserData(result);
+    }
+    ////////
+
+
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     // The signed-in user info.
     const user = result.user;
     console.log('user',user)
     setUser(user);
-    writeUserData(result);
+    
     localStorage.setItem('user', JSON.stringify(user));
     
   
@@ -50,11 +65,12 @@ const [user, setUser] = useState(getUserFromLocalStorage())
 
   const writeUserData = async(result)=> {
   
-    await addDoc(collection(db, "users/"), {
+    await setDoc(doc(db, `users`, `${result.user.uid}`), {
       uid:result.user.uid,
       name:result.user.displayName,
-      email: result.user.email
-    });
+      email: result.user.email,
+      saved_jobs:[],
+    }, {merge:true});
   }
  
 
@@ -81,7 +97,7 @@ const [user, setUser] = useState(getUserFromLocalStorage())
      <Navigation user={user} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
 
-      <Route path='/' element={<Home2 />}/>
+      <Route path='/' element={<Home2 user={user}/>}/>
       <Route path='/home2' element={<Home2 />}/>
       <Route path='/:jobTitle' element={<JobView />}/>
       <Route path='/about' element={<About />}/>

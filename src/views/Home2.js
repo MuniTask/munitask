@@ -5,7 +5,7 @@ import '../styles/styles.css';
 import {Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
-import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, limit} from "firebase/firestore";
 import { MDBContainer, MDBRow, MDBInputGroup } from 'mdb-react-ui-kit';
 import FilterModal from '../components/FilterModal';
 import Maps from '../components/Maps';
@@ -19,7 +19,7 @@ import parkMaint from '../images/under-maintenance.png';
 
 
    
-export default function Home2() {
+export default function Home2({user}) {
   const  [myjobs, setmyjobs]=useState([])
   const [keywords, setKeywords]=useState('')
   const [locations, setLocations]=useState('')
@@ -37,13 +37,42 @@ export default function Home2() {
   const getJobs=async()=>{
     if (keywords==='' && locations ===''){
         const data = await getDocs(collection(db, 'jobs'));
-        
         console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
         setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
   }
+  //   const getJobs=async()=>{
+//     const data = await getDocs(collection(db, 'jobs'));
+//     console.log(data)
+//     console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id, latitude:getLat(doc.data().municipality),longitude:getLng(doc.data().municipality),zip_code:getZip(doc.data().municipality)}))); 
+//     setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id, latitude:getLat(doc.data().municipality),longitude:getLng(doc.data().municipality),zip_code:getZip(doc.data().municipality)}))); 
+// }
+
+const getZip=async(mun)=>{
+  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const data2 = await getDocs(que);
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}))
+  const mun_zip=data_lst[0].zip_code
+  return mun_zip
+  };
+  const getLng=async(mun)=>{
+  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const data2 = await getDocs(que);
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}))
+  const mun_lng=data_lst[0].longitude
+  return mun_lng
+  };
+  const getLat=async(mun)=>{
+  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const data2 = await getDocs(que);
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}))
+  const mun_lat=data_lst[0].latitude
+  return mun_lat
+  };
+  
+
   const showJob=()=>{
     if (myjobs !==''){
-        return(myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job}/>))
+        return(myjobs.map((job, i)=> <JobItem key={i} myjobs={myjobs} job={job} user={user}/>))
     } else{
         return(<><p>NO jobs match this search</p></>)
     }
@@ -60,21 +89,21 @@ export default function Home2() {
     
   };
  
-  const getTheseJobs=async()=>{
+  const getSearchedJobs=async()=>{
     if (keywords!==''){
-      const que=query(collection(db,'jobs'),where("job_description","==",keywords));
+      const que=query(collection(db,'jobs'),where("title","==",keywords));
       const data = await getDocs(que);
-      
       const new_lst=[]
-      data.forEach((doc) => {
-        new_lst.push(doc.data())
-        console.log(doc.id, " => ", doc.data());
-      });
-      setmyjobs(new_lst);
+      console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+        setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); 
     }
   };
+
+
+
   useEffect(() => {
-    getTheseJobs();
+    getSearchedJobs();
+    getLat('Alsip');
   }, [keywords]);
   useEffect(()=>{
     getJobs();
