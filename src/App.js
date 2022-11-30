@@ -2,13 +2,12 @@ import './styles/styles.css';
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Navigation from './components/Navigation';
 import FooterBottom from './components/FooterBottom';
-import Home from './views/Home';
+// import Home from './views/Home';
 import About from './views/About';
 import HowItWorks from './views/HowItWorks';
 import FAQs from './views/FAQs';
 import JobView from './views/JobView';
 import AddToDb from './views/AddToDb';
-import Test from './views/Test';
 import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
@@ -99,11 +98,10 @@ const [user, setUser] = useState(getUserFromLocalStorage())
 
       <Route path='/' element={<Home2 user={user}/>}/>
       <Route path='/home2' element={<Home2 />}/>
-      <Route path='/:jobTitle' element={<JobView />}/>
+      <Route path='/:jobTitle' element={<JobView user={user}/>}/>
       <Route path='/about' element={<About />}/>
       <Route path='/howitworks' element={<HowItWorks />}/>
       <Route path='/faqs' element={<FAQs />}/>
-      <Route path='/test' element={<Test />}/>
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
       {/* <Route path='/maps' element={<Maps />}/> */}

@@ -4,6 +4,77 @@
     background-color: red;
   }
 }
+.card {
+  height: 8rem;
+}
+
+.job-card-body {
+  color: white;
+  border-radius: 0px 8px 8px 0px;
+  height: 8rem;
+  padding-top: 20px;
+}
+
+.job-card-link {
+  text-decoration: none;
+  color: white;
+  z-index: 1;
+}
+.job-card-link:hover {
+  color: white;
+}
+
+.like {
+  z-index: 3;
+}
+
+.park-logo1, .park-logo2 {
+  max-width: 150px;
+  height: auto;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  height: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 1px;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  margin-bottom: 7px;
+}
+
+.map-body {
+  min-width: 600px;
+}
+
+.map-scroll {
+  width: 40%;
+  height: "90vh";
+  box-shadow: -11px -2px 14px 0px rgb(204, 204, 204);
+}
+
+.map-1 > .mapboxgl-canvas {
+  height: 800px;
+  width: 600px;
+}
+
+.map-2 > .mapboxgl-canvas {
+  height: 500px;
+  width: 500px;
+}
+
+.mapdiv {
+  height: 100vh;
+}
+
+.map-body {
+  height: 100vh;
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }
@@ -36,21 +107,6 @@
   -webkit-border-radius: 0px 0px 158px 69px;
   border: 0px solid #000000;
   color: #217961;
-}
-
-.job-card-link {
-  text-decoration: none;
-  color: white;
-  z-index: 1;
-}
-
-.like {
-  z-index: 3;
-}
-
-.park-logo1, .park-logo2 {
-  max-width: 150px;
-  height: auto;
 }
 
 div.accordion.faq-accordion {
@@ -164,17 +220,6 @@ div.user-dropdown.dropdown-menu.show a {
   margin: 0;
 }
 
-.job-card-body {
-  color: white;
-  border-radius: 0px 8px 8px 0px;
-  height: 18vh;
-}
-
-.job-card {
-  border: 1px solid #745cac;
-  height: 18vh;
-}
-
 @media only screen and (min-width: 992px) {
   nav.navbar.navbar-expand-lg {
     height: 10vh;
@@ -191,14 +236,6 @@ div.user-dropdown.dropdown-menu.show a {
     width: 90px;
   }
 }
-.mapdiv {
-  height: 100vh;
-}
-
-.map-body {
-  height: 100vh;
-}
-
 .about-container {
   display: grid;
   grid-template-columns: 1fr 1.3fr;
@@ -256,12 +293,6 @@ div.user-dropdown.dropdown-menu.show a {
   background-color: #f8effd;
 }
 
-.card-title {
-  height: 30px;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 @media only screen and (max-width: 1140px) {
   .about-container {
     display: grid;
@@ -287,33 +318,36 @@ div.user-dropdown.dropdown-menu.show a {
   }
 }
 a.nav-link.profile-tab {
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: rgb(62, 62, 62);
   border: none;
+  border-radius: 0px;
 }
 
 a.nav-link.active.profile-tab {
   color: #745cac;
 }
 
-.map-body {
-  min-width: 600px;
-}
-
 .job-icon {
   border: 4px solid #745cac;
   width: 4rem;
+  height: 4rem;
   padding: 8px;
   border-radius: 50px;
 }
 
-.map-scroll {
-  width: 40%;
-  height: "90vh";
-  box-shadow: -11px -2px 14px 0px rgb(204, 204, 204);
+.job-icon-text {
+  font-size: 0.8rem;
 }
 
-.mapboxgl-canvas {
-  height: 800px;
-  width: 600px;
+.interest-btn {
+  border-radius: 20px;
+  background-color: #745cac;
+  color: white;
+  border: 3px solid #c3db74;
+}
+
+.sidenav-div {
+  padding: 0px;
+  min-height: 100vh;
 }/*# sourceMappingURL=styles.css.map */

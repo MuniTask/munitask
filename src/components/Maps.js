@@ -69,7 +69,7 @@ useEffect(()=>{
         <div className='d-flex flex-column map-scroll mx-auto align-items-center' style={{overflowY:"scroll"}}>
             {myjobs.map((job, i)=> <JobItem className='' key={i} myjobs={myjobs} job={job}/>)}
         </div>
-    <div  className='map-div mx-auto ' >
+    <div  className='map-div mx-auto map-1' >
       
         <Map doubleClickZoom={true} mapboxAccessToken='pk.eyJ1IjoibXVuaXRhc2siLCJhIjoiY2xhYjhmZ3ZpMDFudDNycHFlcDZnNnR2byJ9.XeCgoPpc2GvLlJdJMSqNfA' 
         style={{width:"600px",height:"800px",border:"1px solid white"}}

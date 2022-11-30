@@ -1,0 +1,28 @@
+.map-body{
+    min-width: 600px;
+  }
+  .map-scroll{
+    width: 40%;
+    height:'90vh';
+    
+    -webkit-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
+  -moz-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
+  box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
+   
+  }
+
+.map-1 > .mapboxgl-canvas{
+    height: 800px;
+    width: 600px;
+  }
+  .map-2 > .mapboxgl-canvas{
+    height: 500px;
+    width: 500px;
+    
+  }
+  .mapdiv{
+    height:100vh;
+  }
+  .map-body{
+    height:100vh;
+  }

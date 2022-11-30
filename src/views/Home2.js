@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import JobItem from '../components/JobItem';
 import '../styles/styles.css';
-import {Sliders, SlidersHorizontal} from "phosphor-react";
+import {DotsThreeOutline, Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import { collection, query, where, getDocs, limit} from "firebase/firestore";
@@ -30,45 +30,77 @@ export default function Home2({user}) {
   const handleShowModal = () => setShowModal(true);
   const handleCloseMap = () => setShowMap(false);
   const handleShowMap = () => setShowMap(true);
-
+  const handleFilter = (search) => setKeywords(search)
 
   const jobsRef = collection(db, 'jobs');
 
+  // const getJobs=async()=>{
+  //   if (keywords==='' && locations ===''){
+  //       const data = await getDocs(collection(db, 'jobs'));
+  //       console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+  //       setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
+  // }
   const getJobs=async()=>{
-    if (keywords==='' && locations ===''){
-        const data = await getDocs(collection(db, 'jobs'));
-        console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
-        setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
-  }
-  //   const getJobs=async()=>{
-//     const data = await getDocs(collection(db, 'jobs'));
-//     console.log(data)
-//     console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id, latitude:getLat(doc.data().municipality),longitude:getLng(doc.data().municipality),zip_code:getZip(doc.data().municipality)}))); 
-//     setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id, latitude:getLat(doc.data().municipality),longitude:getLng(doc.data().municipality),zip_code:getZip(doc.data().municipality)}))); 
-// }
+    const data = await getDocs(collection(db, 'jobs'));
+    const newJobsList=[];
+    for (let doc of data.docs){
+      const zip_code=await getZip(doc.data().municipality)
+      const latitude=await getLat(doc.data().municipality)
+      const longitude=await getLng(doc.data().municipality)
+      const logo_url=await getLogo(doc.data().municipality)
+      const skip=await getLng(doc.data().municipality).then( 
+        newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+      )
+    };
+    console.log(newJobsList)
+    setmyjobs(newJobsList)
+};
+
 
 const getZip=async(mun)=>{
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
-  const data_lst=data2.docs.map((doc)=>({...doc.data()}))
-  const mun_zip=data_lst[0].zip_code
-  return mun_zip
-  };
-  const getLng=async(mun)=>{
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+  if (data_lst == null || data_lst.length==0){
+    return 0
+  }
+  const mun_zip=data_lst[0].zip_code;
+  return mun_zip;
+};  
+
+const getLogo=async(mun)=>{
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
-  const data_lst=data2.docs.map((doc)=>({...doc.data()}))
-  const mun_lng=data_lst[0].longitude
-  return mun_lng
-  };
-  const getLat=async(mun)=>{
-  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
-  const data2 = await getDocs(que);
-  const data_lst=data2.docs.map((doc)=>({...doc.data()}))
-  const mun_lat=data_lst[0].latitude
-  return mun_lat
-  };
-  
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+  if (data_lst == null || data_lst.length==0){
+    return 0
+  }
+  const mun_logo=data_lst[0].logo_url;
+  return mun_logo;
+};  
+
+const getLng=async(mun)=>{
+const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+const data2 = await getDocs(que);
+const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+if (data_lst == null || data_lst.length==0){
+  return 0
+}
+const mun_lng=data_lst[0].longitude;
+return mun_lng;
+};
+const getLat=async(mun)=>{
+const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+const data2 = await getDocs(que);
+const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+if (data_lst == null || data_lst.length==0){
+  return 0
+}
+const mun_lat=data_lst[0].latitude;
+return mun_lat;
+};
+
+
 
   const showJob=()=>{
     if (myjobs !==''){
@@ -88,15 +120,44 @@ const getZip=async(mun)=>{
     setLocations(location);
     
   };
+  // const searchZip = async (city) => {
+  
+  //   const res = await fetch(
+  //     `https://service.zipapi.us/zipcode/zips?X-API-KEY=js-f90d241093df0ded10c2960aaa9533d1&city=${city}&state=IL`
+  //   );
+  //   const data = await res.json();
+  //   console.log('zipcodes',data);
+   
+  // };
  
   const getSearchedJobs=async()=>{
-    if (keywords!==''){
+    if (keywords!=='' && locations === ''){
       const que=query(collection(db,'jobs'),where("title","==",keywords));
       const data = await getDocs(que);
       const new_lst=[]
-      console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
-        setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); 
+      // console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+      //   setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); 
+        const newJobsList=[];
+        for (let doc of data.docs){
+          const zip_code=await getZip(doc.data().municipality)
+          const latitude=await getLat(doc.data().municipality)
+          const longitude=await getLng(doc.data().municipality)
+          const logo_url=await getLogo(doc.data().municipality)
+          const skip=await getLng(doc.data().municipality).then( 
+            newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+          )
+        };
+        console.log(newJobsList)
+        setmyjobs(newJobsList)
     }
+    // else if (locations !=='' && keywords ===''){
+    //   const que=query(collection(db,'jobs'),where("","==",keywords));
+    //   const data = await getDocs(que);
+    //   const new_lst=[]
+    //   console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+    //     setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); 
+
+    // } else if (locations !== '' && keywords !== ''){}
   };
 
 
@@ -104,6 +165,7 @@ const getZip=async(mun)=>{
   useEffect(() => {
     getSearchedJobs();
     getLat('Alsip');
+    
   }, [keywords]);
   useEffect(()=>{
     getJobs();
@@ -115,20 +177,43 @@ const getZip=async(mun)=>{
 
 
 
-      <div>
-      <div className='mt-4 d-flex flex-row justify-content-center'>
-        <img className='me-5 job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
-        <img className='me-5 job-icon' src={swimInstructor} alt='...' style={{border:'4px solid purple',}}/>
-        <img className='me-5 job-icon' src={lifeguard} alt='...' style={{border:'4px solid red',}}/>
-        <img className='me-5 job-icon' src={poolMaint} alt='...' style={{border:'4px solid gold',}}/>
-        <img className='me-5 job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
-        <img className='me-5 job-icon' src={parkMaint} alt='...' style={{border:'4px solid pink',}}/>
+      <div >
+      <div className='mt-4 d-flex flex-row justify-content-center search-container'>
+      <div className='d-flex flex-column me-3'>
+        <h5 onClick={()=>handleFilter('')} className='mx-auto d-flex justify-content-center align-items-center job-icon p-0 m-0' alt='...' style={{border:'4px solid gray',}}><DotsThreeOutline size={40} /></h5>
+         <p className='job-icon-text text-center'>All</p>
+         </div>
+        <div className='d-flex flex-column me-3'>
+        <img onClick={()=>handleFilter('golf ranger')} className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+        <p className='job-icon-text text-center'>Golf Ranger</p>
+        </div>
+        <div className='d-flex flex-column me-3'>
+        <img onClick={()=>handleFilter('swim instructor')}className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
+         <p className='job-icon-text text-center'>Swim Instructor</p>
+         </div>
+        <div className='d-flex flex-column me-3'>
+        <img onClick={()=>handleFilter('lifeguard')}className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid red',}}/>
+         <p className='job-icon-text text-center'>Lifeguard</p>
+         </div>
+        <div className='d-flex flex-column me-3'>
+        <img onClick={()=>handleFilter('pool maintenance')}className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid gold',}}/>
+         <p className='job-icon-text text-center'>Pool Maintenance</p>
+         </div>
+        <div className='d-flex flex-column me-3'>
+        <img onClick={()=>handleFilter('camp counselor')}className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+         <p className='job-icon-text text-center'>Golf Ranger</p>
+         </div>
+        <div className='d-flex flex-column'>
+        <img onClick={()=>handleFilter('park maintenance')}className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid pink',}}/>
+         <p className='job-icon-text text-center'>Park Maintenance</p>
+         </div>
+        
         </div>
       <div className='container-fluid'>
         <form onSubmit={(e)=>search(e)}>
         <MDBInputGroup   className='w-50 mx-auto mt-3 mb-4 '>
-        <input type="text" name='keyword' aria-label="First name" className="form-control" placeholder='Job title, company name, keywords'/>
-        <input type="text" name='location' aria-label="Last name" className="form-control" placeholder='City, state or zip code'/>
+        <input type="text" name='keyword' aria-label="Job title" className="form-control" placeholder='Job title, municipality, or keywords'/>
+        <input type="text" name='location' aria-label="Zip code" className="form-control" placeholder='City, state or zip code'/>
         <button className='btn btn-outline-dark' type="submit">Search</button>
         
         </MDBInputGroup>
@@ -165,13 +250,13 @@ const getZip=async(mun)=>{
               <Maps myjobs={myjobs}/>
             </MDBContainer>
           </>:<>
-          <MDBContainer>
+        
             {/* <MDBRow >  */}
-            <div className='d-flex flex-row flex-wrap'>
+            <div className='d-flex flex-row flex-wrap justify-content-center'>
             {myjobs? <>{showJob()}</>:<></>}
             </div>
             {/* </MDBRow> */}
-          </MDBContainer>
+         
           </>}
     
         

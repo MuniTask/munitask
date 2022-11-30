@@ -59,6 +59,43 @@ export default function PersonalInfo({ writePersonalInfo }) {
             </label>
             <textarea name="certifications" className="form-control"  id="certifications" rows="5" cols="50" ></textarea>
           </div>
+
+           <div className='mb-2'>
+                <input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" />
+                <label htmlFor="lifeguard">lifeguard</label>
+               
+                
+              </div>
+              <div className='mb-2'>
+                <input className="job_pref me-2" type="checkbox" id="swim_instructor" name="swim_instructor" />
+                <label htmlFor="swim_instructor">swim instructor</label>
+                
+              </div>
+              <div className='mb-2'>
+                <input className="job_pref me-2" type="checkbox" id="camp_counselor" name="camp_counselor" />
+                <label htmlFor="camp_counselor">camp counselor</label>
+                
+              </div>
+              <div className='mb-2'>
+                <input className="job_pref me-2" type="checkbox" id="park_field_maintenance" name="park_field_maintenance" />
+                <label htmlFor="park_field_maintenance">park/field maintenance</label>
+                
+              </div>
+              <div className='mb-2'>
+                <input className="job_pref me-2" type="checkbox" id="pool_maintenance" name="pool_maintenance" />
+                <label htmlFor="pool_maintenance">pool maintenance</label>
+                
+              </div>
+              <div className='mb-2'>
+                <input className="job_pref me-2" type="checkbox" id="golf_ranger" name="golf_ranger" />
+                <label htmlFor="golf_ranger">golf ranger</label>
+                
+              <br />
+              </div>
+               <div className="form-group mb-3 w-50 my-4">
+              <label htmlFor="inputZip">Preferred job location zip code</label>
+              <input name="job_zip" type="text" className="form-control" id="inputZip" />
+            </div>
           <div className="d-flex flex-row">
             <p className="m-2">
               Do you want to learn more about park and recreation seasonal jobs
