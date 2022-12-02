@@ -93,14 +93,13 @@ const getLat=async(mun)=>{
 const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
 const data2 = await getDocs(que);
 const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+
 if (data_lst == null || data_lst.length==0){
   return 0
 }
 const mun_lat=data_lst[0].latitude;
 return mun_lat;
 };
-
-
 
   const showJob=()=>{
     if (myjobs !==''){
@@ -134,9 +133,7 @@ return mun_lat;
     if (keywords!=='' && locations === ''){
       const que=query(collection(db,'jobs'),where("title","==",keywords));
       const data = await getDocs(que);
-      const new_lst=[]
-      // console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
-      //   setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); 
+      const new_lst=[];
         const newJobsList=[];
         for (let doc of data.docs){
           const zip_code=await getZip(doc.data().municipality)
@@ -150,14 +147,6 @@ return mun_lat;
         console.log(newJobsList)
         setmyjobs(newJobsList)
     }
-    // else if (locations !=='' && keywords ===''){
-    //   const que=query(collection(db,'jobs'),where("","==",keywords));
-    //   const data = await getDocs(que);
-    //   const new_lst=[]
-    //   console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
-    //     setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); 
-
-    // } else if (locations !== '' && keywords !== ''){}
   };
 
 
@@ -192,11 +181,11 @@ return mun_lat;
          <p className='job-icon-text text-center'>Swim Instructor</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('lifeguard')}className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid red',}}/>
+        <img onClick={()=>handleFilter('lifeguard')}className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
          <p className='job-icon-text text-center'>Lifeguard</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('pool maintenance')}className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid gold',}}/>
+        <img onClick={()=>handleFilter('pool maintenance')}className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
         <div className='d-flex flex-column me-3'>
@@ -204,7 +193,7 @@ return mun_lat;
          <p className='job-icon-text text-center'>Golf Ranger</p>
          </div>
         <div className='d-flex flex-column'>
-        <img onClick={()=>handleFilter('park maintenance')}className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid pink',}}/>
+        <img onClick={()=>handleFilter('park maintenance')}className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
          <p className='job-icon-text text-center'>Park Maintenance</p>
          </div>
         

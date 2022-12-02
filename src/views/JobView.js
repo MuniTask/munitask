@@ -34,15 +34,19 @@ export default function JobView({user}) {
   },[])
   return (
   <div className='page-container me-5 ms-5 mt-2'>
-    <Link to='/' className='btn btn-outline-dark mb-5'><CaretLeft size={24} weight="bold" />Back to jobs</Link>
+    <Link to='/' className='btn mb-3 mt-2'><CaretLeft size={20} weight="bold" />Back to jobs</Link>
+    <div className='jobview-container'>
     <div className='d-flex flex-row justify-content-between mb-5'>
       <div className='job-info-header'>
-        <h4 className='display-5'>{jobs.title}</h4>
+        <div className='d-flex flex-row align-items-baseline'>
+          <h4 className='display-5'>{jobs.title}</h4>
+          <p className='interest-btn ms-3 ' onClick={handleShow}>
+            Submit Interest
+          </p>
+        </div>
         <p>{jobs.municipality} Park Disctrict</p>
         <a href={jobs.park_url} className='mb-4'>{jobs.park_url}</a>
-        <Button variant=" btn interest-btn" onClick={handleShow}>
-            Submit Interest
-        </Button>
+        
       </div>
       <div>
         <img style={{width:'9rem'}} src={jobs.logo_url}/>
@@ -91,8 +95,9 @@ export default function JobView({user}) {
         </ul>
       </div>
     </div>
-    <div>
+    <div className='jobview-map-container'>
       <JobViewMap job={jobs}/>
+    </div>
     </div>
   </div>
   )

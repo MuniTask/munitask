@@ -342,12 +342,22 @@ a.nav-link.active.profile-tab {
 
 .interest-btn {
   border-radius: 20px;
-  background-color: #745cac;
-  color: white;
-  border: 3px solid #c3db74;
+  color: #745cac;
+  cursor: pointer;
 }
 
 .sidenav-div {
   padding: 0px;
   min-height: 100vh;
+}
+
+div.jobview-container {
+  box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.26);
+  -webkit-box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.26);
+  -moz-box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.26);
+  padding: 10px;
+}
+
+.jobview-map-container {
+  height: 510px;
 }/*# sourceMappingURL=styles.css.map */

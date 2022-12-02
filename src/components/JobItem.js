@@ -9,17 +9,22 @@ import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebas
 
 
 export default function JobItem({job, myjobs, user}) {
-  const [currentJob, setCurrentJob]=useState([]);
+  const [currentJob, setCurrentJob]=useState(job);
  const [liked, setLiked]=useState(false)
  const  [savedJobs,setSavedJobs]=useState([]);
     
-      const getJobs=async()=>{
+      const getSavedJobs=async()=>{
         const docRef=doc(db,'users',user.uid)
         const docSnap = await getDoc(docRef);
         console.log(docSnap.data().saved_jobs)
-        setSavedJobs(docSnap.data().saved_jobs);
+        const saved_lst=docSnap.data().saved_jobs
+        if (saved_lst.includes(currentJob)){
+          setLiked(true)
+        }
+        // setSavedJobs(docSnap.data().saved_jobs);
         
       }
+
  const handleLike = (job) => {
   setLiked(true);
   saveJob(job);
@@ -44,40 +49,37 @@ export default function JobItem({job, myjobs, user}) {
     console.log('succesfully unsaved job')
   }
   
+  const likedJob=(job)=>{
+    if (savedJobs.includes(job)){
+      setLiked(true);
+      console.log('saved job')
+    }
+  }
   const cardColor=(title)=>{
     switch(title){
       case "lifeguard":
-        return "maroon";
+        return "#DB2118";
       case "camp counselor":
         return "blue";
       case "swim instructor":
         return "#745cac";
       case "pool maintenance":
-        return "gold";
+        return "#33DDFF";
       case "park maintenance":
-        return "pink";
+        return "#ee7600";
       case "golf ranger":
         return "green";
     }
   }
-  // const showWage=(job)=>{
-  //   if (job.wage <= 9.25){
-  //     return <MapPin className='pb-1' size={20} weight='bold' />
-  //   }
-  //   else if (job.wage > 9.25 && job.wage <= 11){
-  //     return (<><MapPin className='pb-1' size={20} weight='bold' /><MapPin className='pb-1' size={20} weight='bold' /></>)
-  //   }
-  //   else if (job.wage > 11 && job.wage <= 14){
-  //     return (<><MapPin className='pb-1' size={20} weight='bold' /><MapPin className='pb-1' size={20} weight='bold' /><MapPin className='pb-1' size={20} weight='bold' /></>)
-  //   }
-  //   else if (job.wage > 14){
-  //     return (<><MapPin className='pb-1' size={20} weight='bold' /><MapPin className='pb-1' size={20} weight='bold' /><MapPin className='pb-1' size={20} weight='bold' /><MapPin className='pb-1' size={20} weight='bold' /></>)
-  //   }
-  // }
+
   useEffect (()=>{
     setCurrentJob(job);
-    getJobs();
-    },[liked])
+    getSavedJobs();
+    },[liked, job])
+
+    useEffect (()=>{
+      likedJob(job);
+      },[])
   return (
     <>
    
@@ -97,16 +99,16 @@ export default function JobItem({job, myjobs, user}) {
     <Link className='job-card-link '  to={`/${job._id}`} state={{job:currentJob}}>
         <Card.Text className='d-flex flex-row justify-content-between'>
           {job.municipality}  
-          <div className=''>
+          <p className='m-0 p-0'>
             <MapPin className='pb-1' size={20} weight='bold' />
           {job.zip_code}
-          </div>
+          </p>
         </Card.Text >
         <Card.Title>{job.title}</Card.Title>
       </Link>
         <Card.Text className='d-flex flex-row justify-content-between job-description'>
         <CurrencyDollar size={18} weight='bold'/>{job.wage}
-       
+    
         {liked?<><Heart onClick={()=>handleUnlike(job)} weight='fill' size={20} className='ms-auto like'/></>:<><Heart onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}
         
         </Card.Text>

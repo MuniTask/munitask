@@ -1,35 +1,69 @@
+import { doc, getDoc } from "firebase/firestore";
 import { MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
-import React, { useState } from "react";
-
-export default function PersonalInfo({ writePersonalInfo }) {
+import React, { useEffect, useState } from "react";
+import {db} from '../firebase';
+export default function PersonalInfo({ writePersonalInfo, user }) {
   const [startDate, setStartDate] = useState(new Date());
-  const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
-    "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
-    "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
-    "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
+  const [currentUser, setCurrentUser]=useState({})
   const illinois_cities = [];
 
+  const [data, setData]=useState({
+    first_name:currentUser.first_name,
+    email:currentUser.email,
+    city:currentUser.city,
+    zip:currentUser.zip,
+    social: currentUser.social,
+    birthday:currentUser.birthday
+  })
+  const getUser=async()=>{
+        const docRef=doc(db,'users',user.uid)
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap.data())
+        setCurrentUser(docSnap.data())
+       
+        
+      }
+  // handle on change according to input name and setState
+  const handleChange = (e) => {
+    setData({ ...currentUser, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // take data to submit
+  };
+useEffect(()=>{
+  getUser()
+},[])
   return (
     <MDBContainer fluid>
-      <form onSubmit={(e) => {  writePersonalInfo(e); }} >
+      <form onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
         <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
               <label htmlFor="first_name">First Name</label>
-              <input name="first_name" type="text" className="form-control " id="first_name" placeholder="First Name" />
+              {currentUser.first_name?<> <input name="first_name" type="text" defaultValue={currentUser.first_name} onChange={handleChange} className="form-control " id="first_name"  /></>
+              :<> <input name="first_name" type="text" placeholder="First Name" onChange={handleChange} className="form-control " id="first_name"  /></>}
+             
             </div>
             <div className="w-25 me-4">
               <label htmlFor="last_name">Last Name</label>
-              <input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" />
+              {currentUser.last_name?<><input name="last_name" type="text" className="form-control " id="last_name" defaultValue={currentUser.last_name} onChange={handleChange}/></>
+              :<><input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
+              
             </div>
             <div className="w-25">
               <label htmlFor="inputEmail4">Email</label>
-              <input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" />
+              {currentUser.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} onChange={handleChange}/></>
+              :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
+             
             </div>
           </div>
           <div className="form-group col-md-2 mt-3">
             <label htmlFor="birthday">Birthday</label>
-            <input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" />
+            {currentUser.birthday?<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={currentUser.birthday} onChange={handleChange}/></>
+            :<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" /></>}
+           
           </div>
         </div>
 

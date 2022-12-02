@@ -4,7 +4,7 @@ import { getDatabase } from 'firebase/database';
 import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDd9JE4_F9Nf012Bpj_RgE9Qh6G1farz7U",
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
     authDomain: "munitask-994ce.firebaseapp.com",
     projectId: "munitask-994ce",
     storageBucket: "munitask-994ce.appspot.com",
