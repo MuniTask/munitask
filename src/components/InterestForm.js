@@ -14,13 +14,13 @@ export default function InterestForm({ writeInterestForm,job,user }) {
       <form onSubmit={(e) => { writeInterestForm(e); }} >
           <div className="d-flex flex-column mb-4">
             <div className="form-group mb-3">
-              <label htmlFor="start">Job start date:</label>
+              <label htmlFor="start">Ideal job start date:</label>
               <input type="date" id="start" className="form-control" name="job_start" min="2022-01-01" max="2024-01-01" />
               {job._id? <><input value={job._id} type='hidden' name='job_id'/></>:<></>}
               {user.uid?<><input value={user.uid} type='hidden' name='user_uid'/></>:<></>}
             </div>
             <div className="form-group ">
-              <label htmlFor="end">Job end date:</label>
+              <label htmlFor="end">Ideal job end date:</label>
               <input type="date" id="end" className="form-control" name="job_end"
                 min="2022-01-01"
                 max="2024-01-01" />

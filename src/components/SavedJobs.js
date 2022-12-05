@@ -5,6 +5,7 @@ import JobItem from './JobItem';
 
 export default function SavedJobs({user}) {
     const  [savedJobs,setSavedJobs]=useState([]);
+    const [savedJobIds, setSavedJobIds]=useState([]);
     // const getJobs=async()=>{
     //   const docRef=doc(db,'users',user.uid)
     //   const docSnap = await getDoc(docRef);
@@ -14,9 +15,20 @@ export default function SavedJobs({user}) {
     // }
        const getJobs=async()=>{
       const data = await getDoc(doc(db,'users',user.uid));
-      console.log(data.data())
       const newJobsList=[];
+      const queryJobsList=[]
+      const job_ids=[]
+     
       for (let doc of data.data().saved_jobs){
+        job_ids.push(doc);
+        const data2=query(collection(db,'jobs'),where("_id", "==", doc));
+        const querySnapshot = await getDocs(data2);
+        querySnapshot.forEach((doc) => {
+          queryJobsList.push(doc.data())
+          });
+      };
+      console.log('queryJobsList',queryJobsList)
+      for (let doc of queryJobsList){
         const zip_code=await getZip(doc.municipality)
         const latitude=await getLat(doc.municipality)
         const longitude=await getLng(doc.municipality)
@@ -27,6 +39,7 @@ export default function SavedJobs({user}) {
       };
       console.log(newJobsList)
       setSavedJobs(newJobsList)
+      setSavedJobIds(job_ids)
   };
   
   //   const getJobs=async()=>{
@@ -91,7 +104,7 @@ export default function SavedJobs({user}) {
   
     const showJob=()=>{
         if (savedJobs !==''){
-            return(savedJobs.map((job, i)=> <JobItem key={i} savedJobs={savedJobs} job={job} user={user}/>))
+            return(savedJobs.map((job, i)=> <JobItem key={i} savedJobs={savedJobIds} job={job} user={user}/>))
         } else{
             return(<><p>NO jobs match this search</p></>)
         }

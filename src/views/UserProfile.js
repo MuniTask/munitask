@@ -7,8 +7,9 @@ import { collection, addDoc, getDocs, updateDoc, doc} from "firebase/firestore";
 
 import SavedJobs from '../components/SavedJobs';
 import PersonalInfo from '../components/PersonalInfo';
-import { GearSix, Heart, User } from 'phosphor-react';
+import { GearSix, Heart, ListChecks, User } from 'phosphor-react';
 import Settings from '../components/Settings';
+import SubmittedInterests from '../components/SubmittedInterests';
 
 
 export default function UserProfile({user}) {
@@ -38,15 +39,17 @@ export default function UserProfile({user}) {
           state:e.target.state.value,
           city:e.target.city.value,
           zip:e.target.zip.value,
+          phone_number:e.target.phone_number.value,
           contact_by:contact[0],
+          job_zip:e.target.job_zip.value,
           social: e.target.social.value,
           other_info:e.target.other_info.value,
-           lifeguard:e.target.lifeguard.checked,
-        swim_instructor:e.target.swim_instructor.checked,
-        camp_counselor:e.target.camp_counselor.checked,
-        park_field_maintenance:e.target.park_field_maintenance.checked,
-        pool_maintenance:e.target.pool_maintenance.checked,
-        golf_ranger:e.target.golf_ranger.checked,
+          lifeguard:e.target.lifeguard.checked,
+          swim_instructor:e.target.swim_instructor.checked,
+          camp_counselor:e.target.camp_counselor.checked,
+          park_field_maintenance:e.target.park_field_maintenance.checked,
+          pool_maintenance:e.target.pool_maintenance.checked,
+          golf_ranger:e.target.golf_ranger.checked,
       }, {merge:true})
       console.log('succesfully added personal info')
      
@@ -81,6 +84,12 @@ export default function UserProfile({user}) {
               <Heart size={20} className='me-2'/>Saved Jobs
               </MDBTabsLink>
             </MDBTabsItem>
+
+            <MDBTabsItem>
+              <MDBTabsLink className='profile-tab mt-2' onClick={() => handleVerticalClick('tab4')} active={verticalActive === 'tab4'}>
+              <ListChecks size={20} className='me-2'/>Submitted Interest Forms
+              </MDBTabsLink>
+            </MDBTabsItem>
           </MDBTabs>
           
         </MDBCol>
@@ -97,6 +106,10 @@ export default function UserProfile({user}) {
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab3'}>
             <h4 className='display-5 mb-5'>Saved Jobs</h4>
             <SavedJobs user={user}/>
+            </MDBTabsPane>
+            <MDBTabsPane className='ms-5' show={verticalActive === 'tab4'}>
+            <h4 className='display-5 mb-5'>Submitted Interests</h4>
+            <SubmittedInterests user={user}/>
             </MDBTabsPane>
           
             

@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InterestForm from '../components/InterestForm';
 
-export default function JobView({user}) {
+export default function JobView({user, createPopUp}) {
   const [jobs, setJobs]=useState({})
   const [show, setShow] = useState(false);
   const location=useLocation();
@@ -40,9 +40,13 @@ export default function JobView({user}) {
       <div className='job-info-header'>
         <div className='d-flex flex-row align-items-baseline'>
           <h4 className='display-5'>{jobs.title}</h4>
-          <p className='interest-btn ms-3 ' onClick={handleShow}>
+          {user.uid?<><p className='interest-btn ms-3 ' onClick={handleShow}>
             Submit Interest
-          </p>
+          </p></>
+          :<><p className='interest-btn ms-3 ' onClick={()=>{createPopUp()}}>
+          Submit Interest
+        </p></>}
+          
         </div>
         <p>{jobs.municipality} Park Disctrict</p>
         <a href={jobs.park_url} className='mb-4'>{jobs.park_url}</a>

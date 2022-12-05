@@ -16,6 +16,7 @@ import { collection, addDoc, getDocs, setDoc, doc, getDoc} from "firebase/firest
 import {db} from "./firebase";
 import Addtodb2 from './views/Addtodb2';
 import Home2 from './views/Home2';
+import JobItem from './components/JobItem';
 
 
 function App() {
@@ -96,14 +97,15 @@ const [user, setUser] = useState(getUserFromLocalStorage())
      <Navigation user={user} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
 
-      <Route path='/' element={<Home2 user={user}/>}/>
+      <Route path='/' element={<Home2 createPopUp={createPopUp}  user={user}/>}/>
       <Route path='/home2' element={<Home2 />}/>
-      <Route path='/:jobTitle' element={<JobView user={user}/>}/>
+      <Route path='/:jobTitle' element={<JobView createPopUp={createPopUp} user={user}/>}/>
       <Route path='/about' element={<About />}/>
       <Route path='/howitworks' element={<HowItWorks />}/>
       <Route path='/faqs' element={<FAQs />}/>
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
+      
       {/* <Route path='/maps' element={<Maps />}/> */}
       <Route path='/userprofile' element={<UserProfile user={user}/>}/>
 

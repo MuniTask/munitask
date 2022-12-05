@@ -10,8 +10,10 @@ import Popover from 'react-bootstrap/Popover';
 import { MDBContainer,MDBCol, MDBTabs, MDBTabsLink, MDBTabsItem, MDBRow, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit';
 import JobItem from './JobItem';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-export default function Maps({myjobs}) {
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+
+
+export default function Maps({myjobs, user, savedJobs, createPopUp}) {
     const [lat, setLat]=useState(41.88);
     const [lng, setLng]=useState(-87.62);
 
@@ -58,6 +60,7 @@ export default function Maps({myjobs}) {
         const mun_lng = new_lst[0].longitude;
         return  mun_lng;
 }
+  
 useEffect(()=>{
   findLat('Alsip');
   findLng('Alsip');
@@ -67,7 +70,7 @@ useEffect(()=>{
   return (
     <div className='map-body d-flex flex-row '>
         <div className='d-flex flex-column map-scroll mx-auto align-items-center' style={{overflowY:"scroll"}}>
-            {myjobs.map((job, i)=> <JobItem className='' key={i} myjobs={myjobs} job={job}/>)}
+            {myjobs.map((job, i)=> <JobItem className='' createPopup={createPopUp} savedJobs={savedJobs} key={i} myjobs={myjobs} job={job} user={user}/>)}
         </div>
     <div  className='map-div mx-auto map-1' >
       

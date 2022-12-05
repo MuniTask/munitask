@@ -326,3 +326,16 @@ div.jobview-container{
 .jobview-map-container{
   height: 510px;
 }
+
+.responses-list{
+  list-style: none;
+}
+.edit-btn{
+  color: #99c700;
+  text-decoration: underline;
+  font-size: 1.2rem;
+  display: inline-block;
+  &:hover{
+    color: #485e00;
+  }
+}
