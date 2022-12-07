@@ -22,9 +22,8 @@ useEffect(()=>{
     <div  className='map-div mx-auto map-2' >
        <Map doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
         style={{width:"500px",height:"500px",border:"1px solid white"}}
-        initialViewState={{latitude:lat, longitude:lng, zoom:5}}
+        initialViewState={{latitude:41.00, longitude:-88.00, zoom:6}}
         mapStyle="mapbox://styles/mapbox/streets-v9" 
-        
          >
         <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={20} weight="fill" /></Marker>
         <>

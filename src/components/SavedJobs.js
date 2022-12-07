@@ -18,28 +18,29 @@ export default function SavedJobs({user}) {
       const newJobsList=[];
       const queryJobsList=[]
       const job_ids=[]
-     
-      for (let doc of data.data().saved_jobs){
-        job_ids.push(doc);
-        const data2=query(collection(db,'jobs'),where("_id", "==", doc));
-        const querySnapshot = await getDocs(data2);
-        querySnapshot.forEach((doc) => {
-          queryJobsList.push(doc.data())
-          });
-      };
-      console.log('queryJobsList',queryJobsList)
-      for (let doc of queryJobsList){
-        const zip_code=await getZip(doc.municipality)
-        const latitude=await getLat(doc.municipality)
-        const longitude=await getLng(doc.municipality)
-        const logo_url=await getLogo(doc.municipality)
-        const skip=await getLng(doc.municipality).then( 
-          newJobsList.push({...doc, latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
-        )
-      };
-      console.log(newJobsList)
-      setSavedJobs(newJobsList)
-      setSavedJobIds(job_ids)
+      if (data.data().saved_jobs !== undefined){
+          for (let doc of data.data().saved_jobs){
+            job_ids.push(doc);
+            const data2=query(collection(db,'jobs'),where("_id", "==", doc));
+            const querySnapshot = await getDocs(data2);
+            querySnapshot.forEach((doc) => {
+              queryJobsList.push(doc.data())
+              });
+          };
+          console.log('queryJobsList',queryJobsList)
+          for (let doc of queryJobsList){
+            const zip_code=await getZip(doc.municipality)
+            const latitude=await getLat(doc.municipality)
+            const longitude=await getLng(doc.municipality)
+            const logo_url=await getLogo(doc.municipality)
+            const skip=await getLng(doc.municipality).then( 
+              newJobsList.push({...doc, latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+            )
+          };
+          console.log(newJobsList)
+          setSavedJobs(newJobsList)
+          setSavedJobIds(job_ids)
+        }
   };
   
   //   const getJobs=async()=>{
@@ -103,10 +104,11 @@ export default function SavedJobs({user}) {
   };
   
     const showJob=()=>{
-        if (savedJobs !==''){
+        if (savedJobs !==[]){
             return(savedJobs.map((job, i)=> <JobItem key={i} savedJobs={savedJobIds} job={job} user={user}/>))
-        } else{
-            return(<><p>NO jobs match this search</p></>)
+        } else if (savedJobs ===[]){
+            // return(<><p>NO jobs match this search</p></>)
+            console.log('no saved jobs')
         }
         
        
@@ -115,6 +117,10 @@ export default function SavedJobs({user}) {
         getJobs()
       },[])
   return (
-    <div>{showJob()}</div>
+    <div>
+      <div className='d-flex flex-row flex-wrap'>
+      {showJob()}
+      </div>
+    </div>
   )
 }

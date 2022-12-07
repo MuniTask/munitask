@@ -30,23 +30,19 @@ export default function Home2({user, createPopUp}) {
   const handleShowModal = () => setShowModal(true);
   const handleCloseMap = () => setShowMap(false);
   const handleShowMap = () => setShowMap(true);
+
   const handleFilter = (search) => {
-    const keywordInput = document.getElementById('keyword_input');
-    keywordInput.value = '';
-    const locationInput = document.getElementById('location_input');
-    locationInput.value = '';
+    // -----BELOW IS FOR SEARCH BAR------ 
+    // const keywordInput = document.getElementById('keyword_input');
+    // keywordInput.value = '';
+    // const locationInput = document.getElementById('location_input');
+    // locationInput.value = '';
     setKeywords(search);
     setLocations([]);
   }
 
   const jobsRef = collection(db, 'jobs');
 
-  // const getJobs=async()=>{
-  //   if (keywords==='' && locations ===''){
-  //       const data = await getDocs(collection(db, 'jobs'));
-  //       console.log(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
-  //       setmyjobs(data.docs.map((doc)=>({...doc.data(), id:doc.id}))); }
-  // }
   const getJobs=async()=>{
     console.log('GET JOBS FUNCTION')
     const data = await getDocs(collection(db, 'jobs'));
@@ -119,86 +115,92 @@ return mun_lat;
     
    
   }
-  const search = async(e) => {
-    e.preventDefault();
-    const keyword = e.target.keyword.value;
-    const location=e.target.location.value;
-    const exact_location=await searchZip(location)
-    const location_lst=[]
-    for (let x of exact_location.features){
-      location_lst.push(x)
-    }
-    console.log('location',location_lst)
-    console.log('keyword',keyword)
-    setKeywords(keyword);
-    setLocations(location_lst);
+  // -------BELOW FOR SEARCH BAR--------
+  // const search = async(e) => {
+  //   e.preventDefault();
+  //   const keyword = e.target.keyword.value;
+  //   const location=e.target.location.value;
+  //   const exact_location=await searchZip(location)
+  //   const location_lst=[]
+  //   for (let x of exact_location.features){
+  //     location_lst.push(x)
+  //   }
+  //   console.log('location',location_lst)
+  //   console.log('keyword',keyword)
+  //   setKeywords(keyword);
+  //   setLocations(location_lst);
     
-  };
+  // };
+  // ------------------------------
+
+
   const searchZip = async (city) => {
     const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`);
     const data = await res.json();
     return data;
 };
 
- 
+//  ------------BELOW FOR SEARCH BAR--------------
   const getSearchedJobs=async()=>{
     if (keywords === "" && !locations[0]){
-      getJobs()
+      if (constJobs !== undefined){
+        setmyjobs([...constJobs])
+      } else {
+        getJobs();
+      }
     }
     else if (keywords!=="" && !locations[0]){
       const newJobsList=[];
-      const que=query(collection(db,'jobs'),where("title","==",keywords));
-      const data = await getDocs(que);
-      const new_lst=[];
-        for (let doc of data.docs){
-          const zip_code=await getZip(doc.data().municipality)
-          const latitude=await getLat(doc.data().municipality)
-          const longitude=await getLng(doc.data().municipality)
-          const logo_url=await getLogo(doc.data().municipality)
-          const skip=await getLng(doc.data().municipality).then( 
-            newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
-          )
-        };
+      for (let x of constJobs){
+          if (x.title == keywords){
+            newJobsList.push(x)
+          }
+          if (x.municipality===keywords){
+            newJobsList.push(x)
+          }
+      }
         console.log('keyword only search',newJobsList)
         setmyjobs([...newJobsList])
     }
-    else if (keywords==="" && locations !== []){
-      const newJobsList=[];
-      for (let x of constJobs){
-        if (x.longitude >= locations[0].bbox[0] && x.longitude <= locations[0].bbox[2] && x.latitude >= locations[0].bbox[1] && x.latitude <= locations[0].bbox[3]){
-          newJobsList.push(x)
-          console.log(x)
-          console.log(x.longitude, x.latitude)
-        } else{ console.log('job not in range')}
-      }
-      console.log('location only search:',newJobsList)
-      setmyjobs([...newJobsList])
-    }
-    else if (keywords!=="" && locations !== []){
-      const newJobsList=[];
-      const que=query(collection(db,'jobs'),where("title","==",keywords));
-      const data = await getDocs(que);
-      const new_lst=[];
-        for (let doc of data.docs){
-          const zip_code=await getZip(doc.data().municipality)
-          const latitude=await getLat(doc.data().municipality)
-          const longitude=await getLng(doc.data().municipality)
-          const logo_url=await getLogo(doc.data().municipality)
-          const skip=await getLng(doc.data().municipality).then( 
-            newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
-          )
-        } for (let x of newJobsList){
-          if (x.longitude >= locations[0].bbox[0] && x.longitude <= locations[0].bbox[2] && x.latitude >= locations[0].bbox[1] && x.latitude <= locations[0].bbox[3]){
-            new_lst.push(x)
-            console.log(x)
-            console.log(x.longitude, x.latitude)
-          } else{ console.log('job not in range')}
-        }
-        console.log('keyword and location search:',new_lst)
-        setmyjobs([...new_lst])
-    }
-   
+    // ----BELOW FOR SEARCH BAR---
+    // else if (keywords==="" && locations !== []){
+    //   const newJobsList=[];
+    //   for (let x of constJobs){
+    //     if (x.longitude >= locations[0].bbox[0] && x.longitude <= locations[0].bbox[2] && x.latitude >= locations[0].bbox[1] && x.latitude <= locations[0].bbox[3]){
+    //       newJobsList.push(x)
+    //       console.log(x)
+    //       console.log(x.longitude, x.latitude)
+    //     } else{ console.log('job not in range')}
+    //   }
+    //   console.log('location only search:',newJobsList)
+    //   setmyjobs([...newJobsList])
+    // }
+    // else if (keywords!=="" && locations !== []){
+    //   const newJobsList=[];
+    //   const que=query(collection(db,'jobs'),where("title","==",keywords));
+    //   const data = await getDocs(que);
+    //   const new_lst=[];
+    //     for (let doc of data.docs){
+    //       const zip_code=await getZip(doc.data().municipality)
+    //       const latitude=await getLat(doc.data().municipality)
+    //       const longitude=await getLng(doc.data().municipality)
+    //       const logo_url=await getLogo(doc.data().municipality)
+    //       const skip=await getLng(doc.data().municipality).then( 
+    //         newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+    //       )
+    //     } for (let x of newJobsList){
+    //       if (x.longitude >= locations[0].bbox[0] && x.longitude <= locations[0].bbox[2] && x.latitude >= locations[0].bbox[1] && x.latitude <= locations[0].bbox[3]){
+    //         new_lst.push(x)
+    //         console.log(x)
+    //         console.log(x.longitude, x.latitude)
+    //       } else{ console.log('job not in range')}
+    //     }
+    //     console.log('keyword and location search:',new_lst)
+    //     setmyjobs([...new_lst])
+    // }
+    // -------------------------------
   };
+ 
 
   const getSavedJobs=async()=>{
     const userRef=doc(db,"users",user.uid)
@@ -258,14 +260,18 @@ return mun_lat;
         
         </div>
       <div className='container-fluid'>
-        <form onSubmit={(e)=>search(e)}>
+
+        {/* -------BELOW FOR SEARCH BAR-------- */}
+        {/* <form onSubmit={(e)=>search(e)}>
         <MDBInputGroup   className='w-50 mx-auto mt-3 mb-4 '>
         <input type="text" id='keyword_input' name='keyword' aria-label="Job title" className="form-control" placeholder='Job title, municipality, or keywords'/>
         <input type="text" id='location_input' name='location' aria-label="Zip code" className="form-control" placeholder='City, state or zip code'/>
         <button className='btn btn-outline-dark' type="submit">Search</button>
         
         </MDBInputGroup>
-        </form>
+        </form> */}
+        {/* ------------------------ */}
+
         <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
           <Dropdown>
               <Dropdown.Toggle variant='link' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">

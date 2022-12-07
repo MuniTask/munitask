@@ -76,7 +76,7 @@ useEffect(()=>{
       
         <Map doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
         style={{width:"600px",height:"800px",border:"1px solid white"}}
-        initialViewState={{latitude:lat, longitude:lng, zoom: 6}}
+        initialViewState={{latitude:lat, longitude:lng, zoom: 8}}
         mapStyle="mapbox://styles/mapbox/streets-v9"
          >
         <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={26} weight="fill" /></Marker>

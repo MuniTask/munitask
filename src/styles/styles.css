@@ -335,6 +335,10 @@ a.nav-link.active.profile-tab {
   padding: 8px;
   border-radius: 50px;
 }
+.job-icon:hover {
+  width: 4.2rem;
+  height: 4.2rem;
+}
 
 .job-icon-text {
   font-size: 0.8rem;

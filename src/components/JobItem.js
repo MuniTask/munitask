@@ -19,10 +19,11 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
  const handleClosePopUp = () => setsignInPopUp(false);
  const handleShowPopUp = () => setsignInPopUp(true);
     const checkJobs=()=>{
+      if(savedJobs){
         if (savedJobs.includes(job._id)){
           console.log('saved job');
           setLiked(true)
-        }
+        }}
     }
 
  const handleLike = (job) => {

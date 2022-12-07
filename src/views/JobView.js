@@ -11,6 +11,10 @@ export default function JobView({user, createPopUp}) {
   const [jobs, setJobs]=useState({})
   const [show, setShow] = useState(false);
   const location=useLocation();
+  const [signInPopUp, setsignInPopUp] = useState(false);
+ 
+ const handleClosePopUp = () => setsignInPopUp(false);
+ const handleShowPopUp = () => setsignInPopUp(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const setJob=()=>{
@@ -43,10 +47,21 @@ export default function JobView({user, createPopUp}) {
           {user.uid?<><p className='interest-btn ms-3 ' onClick={handleShow}>
             Submit Interest
           </p></>
-          :<><p className='interest-btn ms-3 ' onClick={()=>{createPopUp()}}>
+          :<><p className='interest-btn ms-3 ' onClick={handleShowPopUp}>
           Submit Interest
         </p></>}
-          
+        <Modal  show={signInPopUp} onHide={handleClosePopUp}>
+              
+              <Modal.Body>Sign in or create an account to save listings.</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClosePopUp}>
+                  No, thanks
+                </Button>
+                <Button variant="success" onClick={()=>{createPopUp(); handleClosePopUp()}}>
+                  Sign in
+                </Button>
+              </Modal.Footer>
+        </Modal>
         </div>
         <p>{jobs.municipality} Park Disctrict</p>
         <a href={jobs.park_url} className='mb-4'>{jobs.park_url}</a>

@@ -11,7 +11,7 @@ import AddToDb from './views/AddToDb';
 import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup,GoogleAuthProvider, signOut } from "firebase/auth";
+import { getAuth, signInWithPopup,GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc, getDocs, setDoc, doc, getDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import Addtodb2 from './views/Addtodb2';
@@ -33,11 +33,9 @@ const [user, setUser] = useState(getUserFromLocalStorage())
 
 
   const createPopUp=async()=>{
-    const auth=getAuth()
+    const auth=getAuth();
     const provider=new GoogleAuthProvider()
     const result=await signInWithPopup(auth, provider)
-
-
     // this is not working
     const existingUserDoc = await getDoc(doc(db,"users",result.user.uid));
     console.log('this', existingUserDoc.name)
@@ -49,22 +47,49 @@ const [user, setUser] = useState(getUserFromLocalStorage())
       writeUserData(result);
     }
     ////////
-
-
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential.accessToken;
     // The signed-in user info.
     const user = result.user;
     console.log('user',user)
     setUser(user);
-    
     localStorage.setItem('user', JSON.stringify(user));
-    
-  
+  };
+
+  const logInWithEmail=(email, password)=>{
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    setUser(user)
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+  }
+  const signUpWithEmail=(email, password)=>{
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    setUser(user)
+    console.log(user)
+    // ...
+  })
+    .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
   }
 
+
   const writeUserData = async(result)=> {
-  
     await setDoc(doc(db, `users`, `${result.user.uid}`), {
       uid:result.user.uid,
       name:result.user.displayName,
@@ -96,16 +121,14 @@ const [user, setUser] = useState(getUserFromLocalStorage())
      <div className='content-wrap'>
      <Navigation user={user} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
-
       <Route path='/' element={<Home2 createPopUp={createPopUp}  user={user}/>}/>
       <Route path='/home2' element={<Home2 />}/>
       <Route path='/:jobTitle' element={<JobView createPopUp={createPopUp} user={user}/>}/>
       <Route path='/about' element={<About />}/>
-      <Route path='/howitworks' element={<HowItWorks />}/>
+      <Route path='/howitworks' element={<HowItWorks signUp={signUpWithEmail}/>}/>
       <Route path='/faqs' element={<FAQs />}/>
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
-      
       {/* <Route path='/maps' element={<Maps />}/> */}
       <Route path='/userprofile' element={<UserProfile user={user}/>}/>
 
