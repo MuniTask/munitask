@@ -162,16 +162,6 @@ a.navbar-brand {
   padding-top: 0;
 }
 
-.signin-btn {
-  font-size: 1rem;
-  background-color: #292b2c;
-  color: #c3db74;
-  font-weight: bold;
-  border: 2px solid #c3db74;
-  border-radius: 15px;
-  width: 9vw;
-}
-
 .filter-btn, .sort-btn {
   text-decoration: none;
   color: black;
@@ -182,7 +172,7 @@ a.navbar-brand {
   color: white;
 }
 
-.user-btn {
+.user-btn, .signin-btn {
   border-radius: 15px;
   font-size: 1rem;
   font-weight: bold;
@@ -190,7 +180,7 @@ a.navbar-brand {
   color: #e8f8b3;
   background-color: #292b2c;
 }
-.user-btn:hover {
+.user-btn:hover, .signin-btn:hover {
   border-radius: 15px;
   font-size: 1rem;
   font-weight: bold;
@@ -198,7 +188,7 @@ a.navbar-brand {
   color: #52417b;
   background-color: #c3db74;
 }
-.user-btn:first-child:active {
+.user-btn:first-child:active, .signin-btn:first-child:active {
   border-radius: 15px;
   font-size: 1rem;
   font-weight: bold;
@@ -231,9 +221,6 @@ div.user-dropdown.dropdown-menu.show a {
   }
   div.collapse.show.navbar-collapse {
     text-align: center;
-  }
-  .signin-btn {
-    width: 90px;
   }
 }
 .about-container {
@@ -378,4 +365,19 @@ div.jobview-container {
 }
 .edit-btn:hover {
   color: #485e00;
+}
+
+.google-btn {
+  height: 50px;
+}
+
+.password-recovery-container {
+  height: 38vh;
+}
+
+.password-recovery-form {
+  width: 280px;
+  border: 1px solid rgb(202, 202, 202);
+  padding: 20px;
+  border-radius: 5px;
 }/*# sourceMappingURL=styles.css.map */

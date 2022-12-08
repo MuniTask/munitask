@@ -105,16 +105,7 @@ a.navbar-brand{
 }
 
 
-.signin-btn{
-  font-size: 1rem;
-  background-color: $bootstrap-dark-color;
-  color: $green-color;
-  font-weight:bold;
-  border:2px solid $green-color;
-  border-radius: 15px;
-  width: 9vw;
- 
-}
+
 .filter-btn, .sort-btn{
   text-decoration: none;
   color: black;
@@ -125,7 +116,7 @@ a.navbar-brand{
     color: white;
   }
 }
-.user-btn{
+.user-btn, .signin-btn{
   border-radius: 15px;
   font-size: 1rem;
   font-weight:bold;
@@ -177,9 +168,7 @@ div.user-dropdown.dropdown-menu.show{
     div.collapse.show.navbar-collapse{
       text-align: center;
     }
-  .signin-btn{
-    width:90px;
-  }
+
 }
 // .mapdiv{
 //   height:100vh;
@@ -342,4 +331,18 @@ div.jobview-container{
   &:hover{
     color: #485e00;
   }
+}
+
+.google-btn{
+  height: 50px;
+}
+.password-recovery-container{
+  height: 38vh;
+}
+.password-recovery-form{
+  width: 280px;
+  border: 1px solid rgb(202, 202, 202);
+  padding: 20px;
+  border-radius: 5px;
+  
 }

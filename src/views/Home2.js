@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import JobItem from '../components/JobItem';
 import '../styles/styles.css';
 import {DotsThreeOutline, Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
-import { collection, query, where, getDocs, limit, doc, getDoc} from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc} from "firebase/firestore";
 import { MDBContainer, MDBRow, MDBInputGroup } from 'mdb-react-ui-kit';
 import FilterModal from '../components/FilterModal';
 import {Puff} from 'react-loader-spinner';
@@ -24,8 +24,8 @@ export default function Home2({user, createPopUp}) {
   const [locations, setLocations]=useState([])
   const [showModal, setShowModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const [savedJobs, setSavedJobs]=useState([])
-
+  const [savedJobs, setSavedJobs]=useState([]);
+  const [firstLogin, setFirstLogin]=useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseMap = () => setShowMap(false);
@@ -211,19 +211,44 @@ return mun_lat;
       console.log("No saved jobs!");
     }
     
-  }
-
+  };
+  const incrementLogin=async(user)=>{
+    const userRef=doc(db,'users', user.uid);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      const login_num=docSnap.data().user_logins + 1;
+      await updateDoc(userRef, {user_logins:login_num})
+    } else {
+      console.log("No such document in incrementLogin function");
+    }
+  };
+  const handleFirstLogin=async()=>{
+    if (user.uid){
+    const userRef=doc(db,'users', user.uid);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+     if (docSnap.data().user_logins===1){
+     console.log(false);
+     incrementLogin(user)
+     setFirstLogin(true)
+    }
+     
+    } else {
+      console.log("No such document in incrementLogin function");
+    }}
+  };
   useEffect(() => {
     getSearchedJobs();
-    
-  }, [keywords, locations]);
+    handleFirstLogin()
+  }, [keywords, locations, firstLogin]);
   useEffect(()=>{
     
     getSavedJobs();
 
   },[])
 
-  return (
+  return firstLogin? <Navigate to="/userprofile"/>:(<>
+    
     <div className='page-container'>
 
      
@@ -324,5 +349,6 @@ return mun_lat;
      
 
     </div>
-  )
+
+  </>)
 }

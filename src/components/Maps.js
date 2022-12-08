@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import ReactMapGL from 'react-map-gl';
 
@@ -70,7 +70,7 @@ useEffect(()=>{
   return (
     <div className='map-body d-flex flex-row '>
         <div className='d-flex flex-column map-scroll mx-auto align-items-center' style={{overflowY:"scroll"}}>
-            {myjobs.map((job, i)=> <JobItem className='' createPopup={createPopUp} savedJobs={savedJobs} key={i} myjobs={myjobs} job={job} user={user}/>)}
+            {myjobs.map((job, i)=> <JobItem className='' createPopUp={createPopUp} savedJobs={savedJobs} key={i} myjobs={myjobs} job={job} user={user}/>)}
         </div>
     <div  className='map-div mx-auto map-1' >
       
@@ -81,10 +81,10 @@ useEffect(()=>{
          >
         <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={26} weight="fill" /></Marker>
         {myjobs.map((job, i)=>
-        <>
+        <Fragment key={i}>
         
         <Link to={`/${job.id}`} state={{job:job}}>
-          <Marker key={i} mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={job.longitude} latitude={job.latitude}>
+          <Marker  mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={job.longitude} latitude={job.latitude}>
         <OverlayTrigger 
             trigger={["hover", "focus"]}
             placement="right" 
@@ -99,7 +99,7 @@ useEffect(()=>{
           </OverlayTrigger>
         </Marker>
         </Link>
-        </>
+        </Fragment>
         )}
         <NavigationControl/>
         <GeolocateControl/>

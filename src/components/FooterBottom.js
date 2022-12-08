@@ -1,5 +1,5 @@
 import { MDBCol, MDBContainer, MDBFooter, MDBIcon, MDBRow } from "mdb-react-ui-kit";
-import { FacebookLogo, InstagramLogo, LinkedinLogo, TwitterLogo } from "phosphor-react";
+import { FacebookLogo, InstagramLogo, LinkedinLogo, TiktokLogo, TwitterLogo } from "phosphor-react";
 import {Link} from 'react-router-dom';
 export default function FooterBottom() {
     return (
@@ -10,15 +10,15 @@ export default function FooterBottom() {
           </div>
   
           <div className="me-auto">
-            <a href='https://www.facebook.com/MuniTask/' className='me-4 text-reset '>
+            {/* <a href='https://www.facebook.com/MuniTask/' className='me-4 text-reset '>
             <FacebookLogo  size={32} />
+            </a> */}
+            <a href='' className='me-4 text-reset'>
+            <TiktokLogo size={32} /> 
             </a>
-            <a href='https://twitter.com/MuniTask' className='me-4 text-reset'>
-            <TwitterLogo size={32} />
-            </a>
-            <a href='https://www.instagram.com/muni_task/' className='me-4 text-reset'>
+            {/* <a href='https://www.instagram.com/muni_task/' className='me-4 text-reset'>
             <InstagramLogo size={32} />
-            </a>
+            </a> */}
             <a href='https://www.linkedin.com/company/munitask/about/' className='me-4 text-reset'>
             <LinkedinLogo size={32} />
             </a>

@@ -1,5 +1,5 @@
 import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Accordion } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {db} from '../firebase'
@@ -104,8 +104,8 @@ export default function SubmittedInterests({user}) {
   return (
    <>
    {forms?<>
-   {forms.map((form, i)=><>
-    <Accordion key={i}>
+   {forms.map((form, i)=><Fragment key={i}>
+    <Accordion >
       <Accordion.Item eventKey="0">
         <Accordion.Header>{form.title} - {form.municipality} Park District</Accordion.Header>
         <Accordion.Body>
@@ -128,7 +128,7 @@ export default function SubmittedInterests({user}) {
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-   </>)}
+   </Fragment>)}
     
    </>:<></>}
    
