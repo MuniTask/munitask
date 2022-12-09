@@ -15,21 +15,22 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
   const [call, setCall]=useState(false)
   const [email, setEmail]=useState(false)
   const illinois_cities = [];
-
   const [data, setData]=useState({})
 
   const handleEdit=()=>{
-    if (currentUser.birthday){
+ 
       setEdit(true);
       contactBy();
-    }
+    
   };
-  const handleCancelEdit=()=>{
-    if (currentUser.birthday){
+
+const handleCancelEdit=()=>{
+    
       setEdit(false);
-    }
+    
   };
-  const contactBy=()=>{
+
+const contactBy=()=>{
     if (currentUser.contact_by==='phone'){
       setCall(true)
     }
@@ -46,26 +47,27 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
         const docSnap = await getDoc(docRef);
         console.log(docSnap.data())
         setCurrentUser(docSnap.data())
-       
-        
       }
-  // handle on change according to input name and setState
+  
   const handleChange = (e) => {
-    setData({ ...currentUser, [e.target.name]: e.target.value });
-  };
+      setData({ ...currentUser, [e.target.name]: e.target.value });
+    };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setEdit(false);
-  };
+      e.preventDefault()
+      setEdit(false);
+    };
+
 useEffect(()=>{
-  getUser();
- 
+  getUser(); 
+  // if (currentUser.user_logins <2){
+  //   setEdit(true)
+  // }
 },[edit])
+
   return (
     <MDBContainer fluid>
       {!edit? <>
-      
         <div>
           <p className="edit-btn" onClick={handleEdit}>edit</p>
         <div className="form-row mb-3">
@@ -189,7 +191,7 @@ useEffect(()=>{
             :<><p>No response</p></>}
             </div>
          
-          <div className="">
+          <div className="d-flex flex-column">
           <h6>What is the best way for us to follow up with you?</h6>
             {currentUser.contact_by?<><p>{currentUser.contact_by}</p></>
             :<><p>No response</p></>}
@@ -273,7 +275,7 @@ useEffect(()=>{
           </div>
         </div>
 
-
+              <p className='mb-1'>Select jobs that interest you:</p>
               <div className='mb-2'>
                   {currentUser.lifeguard?<><input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" defaultChecked='checked' onChange={handleChange}/></>
                   :<><input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" /></>}
@@ -319,31 +321,34 @@ useEffect(()=>{
               
             </div>
           
-          <div className="d-flex flex-row mb-3">
-            <p className="m-2">
+          <div className="d-flex flex-column mb-3">
+            <p className="mb-1">
               What's the best way for us to follow up with you?
             </p>
-            <label className="m-2" htmlFor="phone">
-              Phone call
-            </label>
-            {currentUser.contact_by?<>
-            {call?<><input className="m-2" type="checkbox" id="phone" name="phone" onChange={handleChange} defaultChecked='checked'/></>:<><input className="m-2" type="checkbox" id="phone" name="phone" /></>}
-            </>:<><input className="m-2" type="checkbox" id="phone" name="phone" /></>}
-            <br />
-            <label className="m-2" htmlFor="text">
-              Text message
-            </label>
-            {currentUser.contact_by?<>
-            {text?<><input className="m-2" type="checkbox" id="text" name="text" onChange={handleChange} defaultChecked='checked'/></>:<><input className="m-2" type="checkbox" id="text" name="text" /></>}
-            </>:<><input className="m-2" type="checkbox" id="text" name="text" /></>}
-            <br />
-            <label className="m-2" htmlFor="email">
-              Email
-            </label>
-            {currentUser.contact_by?<>
-            {email?<><input className="m-2" type="checkbox" id="email" name="email" onChange={handleChange} defaultChecked='checked'/></>:<><input className="m-2" type="checkbox" id="email" name="email" /></>}
-            </>:<><input className="m-2" type="checkbox" id="email" name="email" /></>}
-            <br />
+            <div>
+                {currentUser.contact_by?<>
+                {call?<><input className="" type="checkbox" id="phone" name="phone" onChange={handleChange} defaultChecked='checked'/></>:<><input className="" type="checkbox" id="phone" name="phone" /></>}
+                </>:<><input className="" type="checkbox" id="phone" name="phone" /></>}
+                <label className="ms-2" htmlFor="phone">
+                  Phone call
+                </label>
+            </div>
+            <div>
+                {currentUser.contact_by?<>
+                {text?<><input className="" type="checkbox" id="text" name="text" onChange={handleChange} defaultChecked='checked'/></>:<><input className="" type="checkbox" id="text" name="text" /></>}
+                </>:<><input className="" type="checkbox" id="text" name="text" /></>}
+                <label className="ms-2" htmlFor="text">
+                  Text message
+                </label>
+            </div>
+            <div>
+                {currentUser.contact_by?<>
+                {email?<><input className="" type="checkbox" id="email" name="email" onChange={handleChange} defaultChecked='checked'/></>:<><input className="" type="checkbox" id="email" name="email" /></>}
+                </>:<><input className="" type="checkbox" id="email" name="email" /></>}
+                <label className="ms-2" htmlFor="email">
+                  Email
+                </label>
+            </div>
           </div>
           <div className="form-group col-md-6 mb-3">
             <label htmlFor="social">

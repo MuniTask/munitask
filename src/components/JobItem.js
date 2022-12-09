@@ -90,10 +90,10 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
     <Link className='job-card-link '  to={`/${job._id}`} state={{job:currentJob}}>
       {job.logo_url?<>
       <div className=''>
-      <img src={job.logo_url} width={'150rem'}/>
+      <img src={job.logo_url}alt={`${job.municipality} park district`} width={'150rem'}/>
       </div></>:<>
       <div>
-      <img variant="top" width={'150rem'} src={logo} />
+      <img alt={`${job.municipality} park district`} variant="top" width={'150rem'} src={logo} />
       </div></>}
       </Link>
       <Card.Body className='job-card-body'  style={{background:`${cardColor(job.title)}`, border: `1px solid ${cardColor(job.title)}`}}>

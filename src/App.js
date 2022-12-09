@@ -106,7 +106,7 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     }).catch((error) => {
       console.log('error updating user')
     });
-    console.log('this',auth.currentUser)
+    console.log('updated displayname',auth.currentUser)
     writeUserData(auth.currentUser);
     // setUser(userCred.user)
   })
