@@ -1,5 +1,5 @@
 import './styles/styles.css';
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation';
 import FooterBottom from './components/FooterBottom';
 // import Home from './views/Home';
@@ -19,6 +19,9 @@ import Home2 from './views/Home2';
 import JobItem from './components/JobItem';
 import { increment } from 'firebase/database';
 import ForgotPassword from './components/ForgotPassword';
+import Login from './components/Login';
+import { SignIn } from 'phosphor-react';
+import Signup from './components/Signup';
 
 
 function App() {
@@ -30,6 +33,7 @@ const getUserFromLocalStorage = () => {
   }
   return {}
 };
+const [redirect, setRedirect]=useState(false)
 const [user, setUser] = useState(getUserFromLocalStorage())
  const auth = getAuth();
 
@@ -68,6 +72,23 @@ const [user, setUser] = useState(getUserFromLocalStorage())
       console.log("No such document in incrementLogin function");
     }
   };
+
+  const handleFirstLogin=async(user_info)=>{
+    // if (user_info.uid){
+    const userRef=doc(db,'users', user_info.uid);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+     if (docSnap.data().user_logins<=1 || !docSnap.data().user_logins){
+     console.log(false);
+     setRedirect(true)
+     incrementLogin(user_info)
+    }
+     
+    // } else {
+    //   console.log("No such document in incrementLogin function");
+    // }
+  }
+  };
   const logInWithEmail= async(e)=>{
     e.preventDefault();
     const auth = getAuth();
@@ -80,6 +101,8 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     incrementLogin(user);
     setUser(user)
     console.log(user)
+    handleFirstLogin(user);
+    
     // ...
   })
   .catch((error) => {
@@ -89,7 +112,7 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     console.log('user does not exist', errorCode, errorMessage)
 
   });
-  }
+  };
   const signUpWithEmail=(e)=>{
     e.preventDefault();
     const email= e.target.email.value
@@ -108,6 +131,7 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     });
     console.log('updated displayname',auth.currentUser)
     writeUserData(auth.currentUser);
+    setRedirect(true)
     // setUser(userCred.user)
   })
     .catch((error) => {
@@ -152,10 +176,10 @@ const [user, setUser] = useState(getUserFromLocalStorage())
  
      <BrowserRouter >
      <div className='content-wrap'>
-     <Navigation user={user} signUp={signUpWithEmail} logIn={logInWithEmail} signUserOut={signUserOut} createPopUp={createPopUp}/>
+     <Navigation user={user} signUp={signUpWithEmail} handleFirstLogin={handleFirstLogin} logIn={logInWithEmail} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
       <Route path='/' element={<Home2 createPopUp={createPopUp}  user={user}/>}/>
-      <Route path='/home2' element={<Home2 incrementLogin={incrementLogin} user={user}/>}/>
+      <Route path='/home2' element={<Home2  incrementLogin={incrementLogin} user={user}/>}/>
       <Route path='/:jobTitle' element={<JobView createPopUp={createPopUp} user={user}/>}/>
       <Route path='/about' element={<About />}/>
       <Route path='/howitworks' element={<HowItWorks signUp={signUpWithEmail} logIn={logInWithEmail}/>}/>
@@ -163,7 +187,8 @@ const [user, setUser] = useState(getUserFromLocalStorage())
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>
-      
+      <Route path='/login' element={<Login setUser={setUser} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
+      <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} createPopUp={createPopUp}/>}/>
       {/* <Route path='/maps' element={<Maps />}/> */}
       <Route path='/userprofile' element={<UserProfile user={user}/>}/>
 

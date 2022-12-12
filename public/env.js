@@ -9,7 +9,7 @@ window.env = {
   "npm_config_global_prefix": "/usr/local",
   "CONDA_SHLVL": "1",
   "CONDA_PROMPT_MODIFIER": "",
-  "TERM_PROGRAM_VERSION": "1.73.1",
+  "TERM_PROGRAM_VERSION": "1.74.0",
   "ZDOTDIR": "/Users/sydneycdoemeldoemel",
   "ORIGINAL_XDG_CURRENT_DESKTOP": "undefined",
   "MallocNanoZone": "0",

@@ -10,7 +10,7 @@ import { NavItem, Dropdown, Modal, Button } from 'react-bootstrap';
 import {List} from 'phosphor-react';
 import Login from './Login';
 import Signup from './Signup';
-export default function Navigation({user, createPopUp, setUser, signUserOut, signUp, logIn}) {
+export default function Navigation({user, createPopUp, handleFirstLogin, signUserOut, signUp, logIn}) {
   const [showNavNoToggler, setShowNavNoToggler] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -97,8 +97,9 @@ export default function Navigation({user, createPopUp, setUser, signUserOut, sig
             Hello, Guest
           </Dropdown.Toggle>
 
-          <Dropdown.Menu variant='dark'>
-            <Dropdown.Item className='dropdown-btn-login' onClick={handleShowLogin}>Log in</Dropdown.Item>
+          <Dropdown.Menu className='user-dropdown' variant='dark'>
+          <Link to='signup'>Sign Up</Link>
+            {/* <Dropdown.Item className='dropdown-btn-login' onClick={handleShowLogin}>Log in</Dropdown.Item>
               <Modal show={showLogin} onHide={handleCloseLogin}>
                 <Modal.Header closeButton>
                   <Modal.Title className="login-header-cont d-flex flex-row align-items-baseline justify-content-center">
@@ -106,7 +107,7 @@ export default function Navigation({user, createPopUp, setUser, signUserOut, sig
                     <img height={27} loading='lazy' src={brand} alt='munitask brand'/>
                   </Modal.Title>
                 </Modal.Header>
-                <Modal.Body><Login user={user} logIn={logIn} handleCloseLogin={handleCloseLogin} createPopUp={createPopUp}/></Modal.Body>
+                <Modal.Body><Login user={user} logIn={logIn} handleFirstLogin={handleFirstLogin} handleCloseLogin={handleCloseLogin} createPopUp={createPopUp}/></Modal.Body>
                 <Modal.Footer className="mx-auto">
                   <p >
                     Don't have an account?{" "}</p>
@@ -115,8 +116,9 @@ export default function Navigation({user, createPopUp, setUser, signUserOut, sig
                     </p>
                   
                 </Modal.Footer>
-              </Modal>
-            <Dropdown.Item className='dropdown-btn-signup' onClick={handleShowSignup}>Sign up</Dropdown.Item>
+              </Modal> */}
+              <Link to='login'>Log in</Link>
+            {/* <Dropdown.Item className='dropdown-btn-signup' onClick={handleShowSignup}>Sign up</Dropdown.Item>
             <Modal show={showSignup} onHide={handleCloseSignup}>
                 <Modal.Header closeButton>
                 <Modal.Title className="login-header-cont d-flex flex-row align-items-baseline justify-content-center">
@@ -133,7 +135,7 @@ export default function Navigation({user, createPopUp, setUser, signUserOut, sig
                     </p>
                  
                 </Modal.Footer>
-              </Modal>
+              </Modal> */}
           </Dropdown.Menu>
         </Dropdown>
        

@@ -17,7 +17,7 @@ import poolMaint from '../images/swimming-pool.png';
 import campCounselor from '../images/tent.png';
 import parkMaint from '../images/under-maintenance.png';
    
-export default function Home2({user, createPopUp}) {
+export default function Home2({user, createPopUp, redirect}) {
   const  [myjobs, setmyjobs]=useState()
   const [constJobs, setConstJobs]=useState()
   const [keywords, setKeywords]=useState('')
@@ -25,7 +25,7 @@ export default function Home2({user, createPopUp}) {
   const [showModal, setShowModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [savedJobs, setSavedJobs]=useState([]);
-  const [firstLogin, setFirstLogin]=useState(false);
+  // const [firstLogin, setFirstLogin]=useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
   const handleCloseMap = () => setShowMap(false);
@@ -212,45 +212,45 @@ return mun_lat;
     }
     
   };
-  const incrementLogin=async(user)=>{
-    const userRef=doc(db,'users', user.uid);
-    const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) {
-      const login_num=docSnap.data().user_logins + 1;
-      await updateDoc(userRef, {user_logins:login_num})
-    } else {
-      console.log("No such document in incrementLogin function");
-    }
-  };
-  const handleFirstLogin=async()=>{
-    if (user.uid){
-    const userRef=doc(db,'users', user.uid);
-    const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) {
-     if (docSnap.data().user_logins===1){
-     console.log(false);
-     incrementLogin(user)
-     setFirstLogin(true)
-    }
+  // const incrementLogin=async(user)=>{
+  //   const userRef=doc(db,'users', user.uid);
+  //   const docSnap = await getDoc(userRef);
+  //   if (docSnap.exists()) {
+  //     const login_num=docSnap.data().user_logins + 1;
+  //     await updateDoc(userRef, {user_logins:login_num})
+  //   } else {
+  //     console.log("No such document in incrementLogin function");
+  //   }
+  // };
+  // const handleFirstLogin=async()=>{
+  //   if (user.uid){
+  //   const userRef=doc(db,'users', user.uid);
+  //   const docSnap = await getDoc(userRef);
+  //   if (docSnap.exists()) {
+  //    if (docSnap.data().user_logins===1){
+  //    console.log(false);
+  //    incrementLogin(user)
+  //    setFirstLogin(true)
+  //   }
      
-    } else {
-      console.log("No such document in incrementLogin function");
-    }}
-  };
+  //   } else {
+  //     console.log("No such document in incrementLogin function");
+  //   }}
+  // };
   useEffect(() => {
     getSearchedJobs();
-    handleFirstLogin()
-  }, [keywords, locations, firstLogin]);
+    // handleFirstLogin()
+  }, [keywords, locations]);
   useEffect(()=>{
-    
+   
     getSavedJobs();
 
   },[])
 
-  return firstLogin? <Navigate to="/userprofile"/>:(<>
+  return redirect? <Navigate to='/userprofile'/>:(<>
     
     <div className='page-container'>
-
+      <p>{redirect}</p>
      
       <div >
       <div className='mt-4 d-flex flex-row justify-content-center search-container'>
