@@ -139,11 +139,8 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     const errorMessage = error.message;
     // ..
   });
+  };
   
-  
-  }
-
-
   const writeUserData = async(result)=> {
     console.log('result displayname',result.displayName)
     await setDoc(doc(db, `users`, `${result.uid}`), {
@@ -154,7 +151,6 @@ const [user, setUser] = useState(getUserFromLocalStorage())
       user_logins:0
     }, {merge:true});
   }
- 
 
   const signUserOut=async()=>{
     const auth = getAuth();

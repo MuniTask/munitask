@@ -212,31 +212,7 @@ return mun_lat;
     }
     
   };
-  // const incrementLogin=async(user)=>{
-  //   const userRef=doc(db,'users', user.uid);
-  //   const docSnap = await getDoc(userRef);
-  //   if (docSnap.exists()) {
-  //     const login_num=docSnap.data().user_logins + 1;
-  //     await updateDoc(userRef, {user_logins:login_num})
-  //   } else {
-  //     console.log("No such document in incrementLogin function");
-  //   }
-  // };
-  // const handleFirstLogin=async()=>{
-  //   if (user.uid){
-  //   const userRef=doc(db,'users', user.uid);
-  //   const docSnap = await getDoc(userRef);
-  //   if (docSnap.exists()) {
-  //    if (docSnap.data().user_logins===1){
-  //    console.log(false);
-  //    incrementLogin(user)
-  //    setFirstLogin(true)
-  //   }
-     
-  //   } else {
-  //     console.log("No such document in incrementLogin function");
-  //   }}
-  // };
+ 
   useEffect(() => {
     getSearchedJobs();
     // handleFirstLogin()
@@ -247,7 +223,7 @@ return mun_lat;
 
   },[])
 
-  return redirect? <Navigate to='/userprofile'/>:(<>
+  return (<>
     
     <div className='page-container'>
       <p>{redirect}</p>

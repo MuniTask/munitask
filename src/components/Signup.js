@@ -27,7 +27,7 @@ export default function Signup({signUp, createPopUp,setUser}) {
         console.log('updated displayname',auth.currentUser)
         writeUserData(auth.currentUser);
         setRedirect(true)
-        setUser(userCred.user)
+        // setUser(userCred.user)
       })
         .catch((error) => {
         const errorCode = error.code;
