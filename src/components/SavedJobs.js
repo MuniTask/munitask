@@ -43,22 +43,7 @@ export default function SavedJobs({user}) {
         }
   };
   
-  //   const getJobs=async()=>{
-  //     const data = await getDocs(collection(db, 'jobs'));
-  //     const newJobsList=[];
-  //     for (let doc of data.docs){
-  //       const zip_code=await getZip(doc.data().municipality)
-  //       const latitude=await getLat(doc.data().municipality)
-  //       const longitude=await getLng(doc.data().municipality)
-  //       const logo_url=await getLogo(doc.data().municipality)
-  //       const skip=await getLng(doc.data().municipality).then( 
-  //         newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
-  //       )
-  //     };
-  //     console.log(newJobsList)
-  //     setSavedJobs(newJobsList)
-  // };
-  
+ 
   
   const getZip=async(mun)=>{
     const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));

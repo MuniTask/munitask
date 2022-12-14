@@ -32,38 +32,38 @@ export default function Maps({myjobs, user, savedJobs, createPopUp}) {
         }
         setVerticalActive(value);
       };
-  const findLat=async(mun)=>{
-        const que=query(collection(db,'parks'),where("municipality","==",mun));
-        const data = await getDocs(que);
+//   const findLat=async(mun)=>{
+//         const que=query(collection(db,'parks'),where("municipality","==",mun));
+//         const data = await getDocs(que);
         
-        const new_lst=[]
-        data.forEach((doc) => {
-          new_lst.push(doc.data())
-          console.log(doc.id, " => ", doc.data());
-        });
+//         const new_lst=[]
+//         data.forEach((doc) => {
+//           new_lst.push(doc.data())
+//           console.log(doc.id, " => ", doc.data());
+//         });
         
-        console.log(new_lst[0].latitude);
-        const mun_lat = new_lst[0].latitude;
-        return  mun_lat 
+//         console.log(new_lst[0].latitude);
+//         const mun_lat = new_lst[0].latitude;
+//         return  mun_lat 
         
-  }
-  const findLng=async(mun)=>{
-    const que=query(collection(db,'parks'),where("municipality","==",mun));
-        const data = await getDocs(que);
+//   }
+//   const findLng=async(mun)=>{
+//     const que=query(collection(db,'parks'),where("municipality","==",mun));
+//         const data = await getDocs(que);
         
-        const new_lst=[]
-        data.forEach((doc) => {
-          new_lst.push(doc.data())
-          console.log(doc.id, " => ", doc.data());
-        });
-        console.log( typeof new_lst[0].longitude)
-        const mun_lng = new_lst[0].longitude;
-        return  mun_lng;
-}
+//         const new_lst=[]
+//         data.forEach((doc) => {
+//           new_lst.push(doc.data())
+//           console.log(doc.id, " => ", doc.data());
+//         });
+//         console.log( typeof new_lst[0].longitude)
+//         const mun_lng = new_lst[0].longitude;
+//         return  mun_lng;
+// }
   
 useEffect(()=>{
-  findLat('Alsip');
-  findLng('Alsip');
+  // findLat('Alsip');
+  // findLng('Alsip');
   console.log('hi')
 },[])
    

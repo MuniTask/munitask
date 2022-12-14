@@ -1,111 +1,133 @@
 import React, { useEffect, useState } from 'react'
 import {db} from '../firebase';
-import { collection, query, where, getDocs, addDoc, limit } from "firebase/firestore";
+import { collection, query, doc, where, getDocs, addDoc, limit, getDoc, updateDoc, orderBy, startAfter, startAt, endAt } from "firebase/firestore";
 import JobItem from '../components/JobItem';
 import { getAuth, signInWithPopup,GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from 'react-router-dom';
+import { distanceBetween, geohashForLocation, geohashQueryBounds } from 'geofire-common';
 
-export default function HowItWorks({signUp, logIn}) {
-
-  const sendSignUpInfo = async (e) => {
-    e.preventDefault();
-    if (e.target.password.value !== e.target.confirmPassword.value){
-        return
+export default function HowItWorks({}) {
+  const  [myjobs, setmyjobs]=useState()
+  const [constJobs, setConstJobs]=useState()
+  const getJobs=async()=>{
+    const data = await getDocs(collection(db, 'jobs'));
+    const newJobsList=[];
+    const setList=[];
+    for (let document of data.docs){
+      try{
+      if (!document.data().zip_code){
+        const zip_code=await getZip(document.data().municipality)
+        const latitude=await getLat(document.data().municipality)
+        const longitude=await getLng(document.data().municipality)
+        let logo_url=''
+        const hash=geohashForLocation([latitude, longitude])
+        if (document.data().logo_url){
+          logo_url=await getLogo(document.data().municipality)
+        } else{
+          logo_url='https://softr-prod.imgix.net/applications/3bdd2066-32ff-463d-89d7-cd3c467341d3/assets/addfbe72-6b47-44fa-91fe-713256d4bfba.png'
+        }
+       
+        const skip=await getLng(document.data().municipality).then( 
+          await updateDoc(doc(db,'jobs',document.data()._id),{geohash:hash, latitude:latitude, longitude:longitude,logo_url:logo_url, zip_code:zip_code}).then(()=>{
+           console.log('docs updated')
+          })
+          // newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+        )
+      }
+      
+    }catch(error){
+      console.log('no upate')
     }
-    signUp(e.target.email.value,e.target.password.value)
+     
+    };
+    const data2 = await getDocs(collection(db, 'jobs'));
+    data2.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      setList.push(doc.data())
+    });
+    setmyjobs([...setList])
+    setConstJobs([...setList])
 };
 
-  useEffect(() => {
-  
-  }, []);
 
+const getZip=async(mun)=>{
+  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const data2 = await getDocs(que);
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+  if (data_lst == null || data_lst.length==0){
+    return 0
+  }
+  const mun_zip=data_lst[0].zip_code;
+  return mun_zip;
+};  
+
+const getLogo=async(mun)=>{
+  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const data2 = await getDocs(que);
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+  if (data_lst == null || data_lst.length==0){
+    return 0
+  }
+  const mun_logo=data_lst[0].logo_url;
+  return mun_logo;
+};  
+
+const getLng=async(mun)=>{
+const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+const data2 = await getDocs(que);
+const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+if (data_lst == null || data_lst.length==0){
+  return 0
+}
+const mun_lng=data_lst[0].longitude;
+return mun_lng;
+};
+const getLat=async(mun)=>{
+const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+const data2 = await getDocs(que);
+const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+
+if (data_lst == null || data_lst.length==0){
+  return 0
+}
+const mun_lat=data_lst[0].latitude;
+return mun_lat;
+};
+
+const getBounds=async(lat,lng,radius)=>{
+    const bounds= geohashQueryBounds([lat,lng],radius);
+    const promises=[]
+    const jobsRef=collection(db,'jobs')
+    for (const b of bounds){
+      const q = query(jobsRef, orderBy('geohash'), startAt(b[0]), endAt(b[1]));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data());
+      promises.push(doc.data())
+
+});
+  
+    }
+    console.log(promises)
+    const matchingDocs=[];
+    for (const snap of promises){
+      const snapLat = snap.latitude
+      const snapLng = snap.longitude
+      const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
+      const distanceInM = distanceInKm * 1000;
+      if (distanceInM <= radius) {
+        matchingDocs.push(snap);
+      }
+      console.log('matching docs',matchingDocs)
+    }
+}
+  
+useEffect(()=>{
+  getJobs();
+  // getBounds(41.9, -87.9, 5000)
+},[])
   return (
     <>
-    <div className='login-card'>
-            <div className="login-header-cont">
-            <h5 className="login-header">Signup For </h5>
-              <h5 className="brand-label">MuniTask </h5>
-            </div>
-            <form className='' onSubmit={(e)=>{signUp(e)}}>
-
-                <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
-                    <input type="text" className="form-control" name='username'/>
-                </div>
-
-
-                <div className="mb-3 login-form">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input type="email" className="form-control" name='email'/>
-                    
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" className="form-control" name='password'/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Confirm Password</label>
-                    <input type="password" className="form-control" name='confirmPassword'/>
-                </div>
-                
-                <button type="submit" className="btn btn-primary login-btn ">Sign Up<i className="fa-solid fa-arrow-right-long fa-lg"></i></button>
-                <p className="mt-3">
-                Already have an account?{" "}
-                <Link to='/login' className="login-link2" href="#">
-                  Log In
-                </Link>
-                .
-              </p>
-            </form>
-
-            </div>
-
-<div className="body">
-<div className="login-card ">
-  <div className="login-header-cont">
-    <h5 className="login-header">Login to </h5>
-    <h5 className="brand-label">Dispatched </h5>
-  </div>
-  <form
-    className=""
-    onSubmit={(e) => {
-      logIn(e);
-    }}
-  >
-    <div className="mb-3">
-      <label htmlFor="exampleInputEmail1" className="form-label">
-        Email
-      </label>
-      <input type="text" className="form-control" name="email" />
-    </div>
-
-    <div className="mb-3 login-form">
-      <label htmlFor="exampleInputPassword1" className="form-label">
-        Password
-      </label>
-      <input
-        type="password"
-        className="form-control"
-        name="password"
-      />
-      <a href="#" className="login-link1">
-        Forgot your password?
-      </a>
-    </div>
-
-    <button type="submit" className="btn btn-primary login-btn ">
-      Log In<i className="fa-solid fa-arrow-right-long fa-lg"></i>
-    </button>
-    <p className="mt-3">
-      Don't have an account?{" "}
-      <Link to='/login' className="login-link2" href="#">
-        Sign Up
-      </Link>
-      
-    </p>
-  </form>
-</div>
-</div>
-</>
+    </>
   )
 }

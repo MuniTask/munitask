@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import JobItem from '../components/JobItem';
 import '../styles/styles.css';
-import {DotsThreeOutline, Sliders, SlidersHorizontal} from "phosphor-react";
+import {ArrowsClockwise, DotsThreeOutline, Sliders, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc} from "firebase/firestore";
@@ -16,6 +16,7 @@ import lifeguard from '../images/life-saver.png';
 import poolMaint from '../images/swimming-pool.png';
 import campCounselor from '../images/tent.png';
 import parkMaint from '../images/under-maintenance.png';
+import { geohashForLocation } from 'geofire-common';
    
 export default function Home2({user, createPopUp, redirect}) {
   const  [myjobs, setmyjobs]=useState()
@@ -43,22 +44,51 @@ export default function Home2({user, createPopUp, redirect}) {
 
   const jobsRef = collection(db, 'jobs');
 
-  const getJobs=async()=>{
-    console.log('GET JOBS FUNCTION')
-    const data = await getDocs(collection(db, 'jobs'));
-    const newJobsList=[];
-    for (let doc of data.docs){
-      const zip_code=await getZip(doc.data().municipality)
-      const latitude=await getLat(doc.data().municipality)
-      const longitude=await getLng(doc.data().municipality)
-      const logo_url=await getLogo(doc.data().municipality)
-      const skip=await getLng(doc.data().municipality).then( 
-        newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+//   const getJobs=async()=>{
+//     console.log('GET JOBS FUNCTION')
+//     const data = await getDocs(collection(db, 'jobs'));
+//     const newJobsList=[];
+//     for (let doc of data.docs){
+//       const zip_code=await getZip(doc.data().municipality)
+//       const latitude=await getLat(doc.data().municipality)
+//       const longitude=await getLng(doc.data().municipality)
+//       const logo_url=await getLogo(doc.data().municipality)
+//       const skip=await getLng(doc.data().municipality).then( 
+//         newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
+//       )
+//     };
+//     console.log(newJobsList)
+//     setmyjobs([...newJobsList])
+//     setConstJobs([...newJobsList])
+// };
+const getJobs=async()=>{
+  const data = await getDocs(collection(db, 'jobs'));
+  const newJobsList=[];
+  const setList=[];
+  for (let document of data.docs){
+    try{
+      const zip_code=await getZip(document.data().municipality)
+      const latitude=await getLat(document.data().municipality)
+      const longitude=await getLng(document.data().municipality)
+      const logo_url=await getLogo(document.data().municipality)
+      const hash=geohashForLocation([latitude, longitude])
+      const skip=await getLng(document.data().municipality).then( 
+        await updateDoc(doc(db,'jobs',document.data()._id),{geohash:hash, latitude:latitude, longitude:longitude,logo_url:logo_url, zip_code:zip_code}).then(()=>{
+         console.log('docs updated')
+        })
+        // newJobsList.push({...doc.data(), latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
       )
-    };
-    console.log(newJobsList)
-    setmyjobs([...newJobsList])
-    setConstJobs([...newJobsList])
+  }catch(error){
+    console.log(error)
+  }};
+  const data2 = await getDocs(collection(db, 'jobs'));
+  data2.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    setList.push(doc.data())
+  });
+  setmyjobs([...setList])
+  setConstJobs([...setList])
+  console.log(setList)
 };
 
 
@@ -274,6 +304,10 @@ return mun_lat;
         {/* ------------------------ */}
 
         <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
+          <div className='d-flex justify-content-end me-2 ' onClick={()=>{handleFilter('')}}>
+            <p className='me-2' >Refresh</p>
+            <ArrowsClockwise size={24} />
+          </div>
           <Dropdown>
               <Dropdown.Toggle variant='link' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
                 Sort By
@@ -287,7 +321,7 @@ return mun_lat;
             
           <div>
           <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal}>Filter<SlidersHorizontal size={32}/></Button>
-          <FilterModal handleClose={handleCloseModal} show={showModal}/>
+          <FilterModal handleClose={handleCloseModal} constJobs={constJobs}  setmyjobs={setmyjobs} show={showModal}/>
             {/* // <Button className='filter-btn' variant='link' type="button" >Filters <SlidersHorizontal size={32} /></Button> */}
             </div>
             <ButtonGroup >

@@ -150,7 +150,12 @@ div.user-dropdown.dropdown-menu.show{
   a{
     text-decoration: none;
     color:  #e8f8b3;
-    margin: 0;
+    margin: 5px;
+    font-weight: bold;
+    &:hover{
+      color:  #a8b57f;
+
+    }
   }
 }
 
