@@ -57,9 +57,16 @@ export default function JobView({user, createPopUp}) {
                 <Button variant="secondary" onClick={handleClosePopUp}>
                   No, thanks
                 </Button>
-                <Button variant="success" onClick={()=>{createPopUp(); handleClosePopUp()}}>
-                  Sign in
-                </Button>
+                <Link to='/login'>
+                  <Button variant="success" >
+                    Log in
+                  </Button>
+                </Link>
+                <Link to='/signup'>
+                  <Button variant="success">
+                    Sign up
+                  </Button>
+                </Link>
               </Modal.Footer>
         </Modal>
         </div>

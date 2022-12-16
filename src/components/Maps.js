@@ -79,7 +79,7 @@ useEffect(()=>{
         initialViewState={{latitude:lat, longitude:lng, zoom: 8}}
         mapStyle="mapbox://styles/mapbox/streets-v9"
          >
-        <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={26} weight="fill" /></Marker>
+        {/* <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={26} weight="fill" /></Marker> */}
         {myjobs.map((job, i)=>
         <Fragment key={i}>
         

@@ -14,22 +14,22 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
     const data = await res.json();
     return data;
 };
+
   const getFilters=async(e)=>{
     e.preventDefault();
-    
     if (e.target.zip.value !=='' ){
       const zip=await searchZip(e.target.zip.value);
       console.log('searchZip center lat/lng',zip.features[0].center)
       const radiusInM=e.target.distance_range.value *1609.34;
-       await getBounds(zip.features[0].center[1],zip.features[0].center[0],radiusInM)
-       if (e.target['payFilter'].value !== 'all'){
-        const payFilter=e.target['payFilter'].value
-        setPay(payFilter)
-        console.log('radius in meters and pay checkboxes',radiusInM, payFilter)
-        }
-       else{
-        console.log('radius in meters and pay checkboxes',radiusInM)
-        }
+       await getBounds(zip.features[0].center[1],zip.features[0].center[0],radiusInM, e.target['payFilter'].value)
+      //  if (e.target['payFilter'].value !== 'all'){
+      //   const payFilter=e.target['payFilter'].value
+      //   setPay(payFilter)
+      //   console.log('radius in meters and pay checkboxes',radiusInM, payFilter)
+      //   }
+      //  else{
+      //   console.log('radius in meters and pay checkboxes',radiusInM)
+      //   }
     }
     else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
       const payFilter=e.target['payFilter'].value
@@ -46,9 +46,9 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
       setPay(payFilter)
       console.log(payFilter)
        }
-  }
+  };
 
-  const getBounds=async(lat,lng,radiusInM)=>{
+  const getBounds=async(lat,lng,radiusInM, wage)=>{
     console.log(lat, lng, radiusInM)
     const bounds= geohashQueryBounds([lat,lng],radiusInM);
     const promises=[]
@@ -69,9 +69,9 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
       const snapLng = snap.longitude
       const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
       const distanceInM = distanceInKm * 1000;
-      if (pay !=='all'){
-        console.log('typeof pay',typeof pay)
-        if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(pay)) {
+      if (wage !=='all'){
+        console.log('typeof pay',typeof wage)
+        if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(wage)) {
           matchingDocs.push(snap);
           }
         }
@@ -84,9 +84,7 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
     console.log('matching docs',matchingDocs)
     setmyjobs([...matchingDocs])
 }
-useEffect(()=>{
-  
-},[])
+
   return (
     <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

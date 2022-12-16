@@ -59,37 +59,7 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser}) {
 
   });
   };
-  // const incrementLogin=async(user)=>{
-  //   const userRef=doc(db,'users', user.uid);
-  //   const docSnap = await getDoc(userRef);
-  //   if (docSnap.exists()) {
-  //     const login_num=docSnap.data().user_logins + 1;
-  //     await updateDoc(userRef, {user_logins:login_num})
-  //   } else {
-  //     console.log("No such document in incrementLogin function");
-  //   }
-  // };
-  // const handleFirstLogin=async()=>{
-  //   if (user.uid){
-  //   const userRef=doc(db,'users', user.uid);
-  //   const docSnap = await getDoc(userRef);
-  //   if (docSnap.exists()) {
-  //    if (docSnap.data().user_logins<=1 || docSnap.data().user_logins===undefined){
-  //    console.log(false);
-  //    incrementLogin(user)
-  //    setFirstLogin(true)
-  //    return (<Navigate to="/userprofile"/>)
-  //   }
-     
-  //   } else {
-  //     console.log("No such document in incrementLogin function");
-  //   }}
-  // };
-
-  // useEffect(() => {
-   
-  //   handleFirstLogin()
-  // }, [firstLogin]);
+  
   return (
     <>
  {redirect?  <><Navigate to="/userprofile"/></>: <>
@@ -107,10 +77,10 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser}) {
         }}
       >
         <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
+          <label htmlFor="exampleInputEmail1" className="form-label" >
             Email
           </label>
-          <input type="text" className="form-control" name="email" />
+          <input type="text" className="form-control" name="email"  data-testid='login-email-input'/>
         </div>
     
         <div className="mb-3 login-form">
@@ -121,8 +91,9 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser}) {
             type="password"
             className="form-control"
             name="password"
+            data-testid='login-password-input'
           />
-          <a href="/passwordrecovery" className="login-link1">
+          <a href="/passwordrecovery" data-testid='forgot-pass-btn' className="login-link1">
             Forgot your password?
           </a>
         </div>
