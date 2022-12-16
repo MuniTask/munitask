@@ -16,6 +16,7 @@ import poolMaint from '../images/swimming-pool.png';
 import campCounselor from '../images/tent.png';
 import parkMaint from '../images/under-maintenance.png';
 import { geohashForLocation } from 'geofire-common';
+import ReactGA from 'react-ga';
    
 export default function Home2({user, createPopUp, redirect}) {
   const  [myjobs, setmyjobs]=useState()
@@ -251,7 +252,7 @@ return mun_lat;
     // handleFirstLogin()
   }, [keywords, locations]);
   useEffect(()=>{
-   
+   ReactGA.pageview(window.location.pathname)
     getSavedJobs();
 
   },[])
