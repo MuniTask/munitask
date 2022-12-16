@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Navigate } from 'react-router-dom';
 import JobItem from '../components/JobItem';
 import '../styles/styles.css';
-import {ArrowsClockwise, DotsThreeOutline, Sliders, SlidersHorizontal} from "phosphor-react";
+import {ArrowsClockwise, DotsThreeOutline, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import {Dropdown, Button, ButtonGroup} from "react-bootstrap";
 import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc} from "firebase/firestore";
-import { MDBContainer, MDBRow, MDBInputGroup } from 'mdb-react-ui-kit';
+import { MDBContainer } from 'mdb-react-ui-kit';
 import FilterModal from '../components/FilterModal';
 import {Puff} from 'react-loader-spinner';
 import Maps from '../components/Maps';
@@ -96,7 +95,7 @@ const getZip=async(mun)=>{
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-  if (data_lst == null || data_lst.length==0){
+  if (data_lst === null || data_lst.length===0){
     return 0
   }
   const mun_zip=data_lst[0].zip_code;
@@ -107,7 +106,7 @@ const getLogo=async(mun)=>{
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-  if (data_lst == null || data_lst.length==0){
+  if (data_lst === null || data_lst.length===0){
     return 0
   }
   const mun_logo=data_lst[0].logo_url;
@@ -118,7 +117,7 @@ const getLng=async(mun)=>{
 const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
 const data2 = await getDocs(que);
 const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-if (data_lst == null || data_lst.length==0){
+if (data_lst === null || data_lst.length===0){
   return 0
 }
 const mun_lng=data_lst[0].longitude;
@@ -129,7 +128,7 @@ const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1))
 const data2 = await getDocs(que);
 const data_lst=data2.docs.map((doc)=>({...doc.data()}));
 
-if (data_lst == null || data_lst.length==0){
+if (data_lst === null || data_lst.length===0){
   return 0
 }
 const mun_lat=data_lst[0].latitude;
@@ -164,11 +163,11 @@ return mun_lat;
   // ------------------------------
 
 
-  const searchZip = async (city) => {
-    const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`);
-    const data = await res.json();
-    return data;
-};
+//   const searchZip = async (city) => {
+//     const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`);
+//     const data = await res.json();
+//     return data;
+// };
 
 //  ------------BELOW FOR SEARCH BAR--------------
   const getSearchedJobs=async()=>{
@@ -182,7 +181,7 @@ return mun_lat;
     else if (keywords!=="" && !locations[0]){
       const newJobsList=[];
       for (let x of constJobs){
-          if (x.title == keywords){
+          if (x.title === keywords){
             newJobsList.push(x)
           }
           if (x.municipality===keywords){
@@ -230,7 +229,11 @@ return mun_lat;
     // }
     // -------------------------------
   };
- 
+  const sortByRecent =()=>{
+    const new_list=[...constJobs]
+    new_list.sort((a,b)=>b.date_added - a.date_added)
+    setmyjobs(new_list)
+  }
 
   const getSavedJobs=async()=>{
     const userRef=doc(db,"users",user.uid)
@@ -314,8 +317,8 @@ return mun_lat;
               </Dropdown.Toggle>
 
               <Dropdown.Menu >
-                <Dropdown.Item>Most Recent</Dropdown.Item>
-                <Dropdown.Item>Relevance</Dropdown.Item>
+                <Dropdown.Item onClick={sortByRecent}>Most Recent</Dropdown.Item>
+                <Dropdown.Item onClick={()=>{handleFilter('')}}>Relevance</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             

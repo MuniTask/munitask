@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { collection, endAt, getDocs, orderBy, query, startAt, where } from 'firebase/firestore';
+import { collection, endAt, getDocs, orderBy, query, startAt } from 'firebase/firestore';
 import {Modal,Form, Button, Col, Row} from 'react-bootstrap';
 import {db} from '../firebase';
 import { distanceBetween, geohashQueryBounds } from 'geofire-common';
 export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
-  const [ value, setValue ] = useState(25);
+  const [ value, setValue ] = useState(10);
   const [ pay, setPay ] = useState(0);
-  const [myjobs,]=useState(constJobs)
+ 
 
   
   const searchZip = async (city) => {
@@ -17,7 +17,7 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
   const getFilters=async(e)=>{
     e.preventDefault();
     
-    if (e.target.zip.value !=='' && e.target['payFilter'].value !== 'all'){
+    if (e.target.zip.value !=='' ){
       const zip=await searchZip(e.target.zip.value);
       console.log('searchZip center lat/lng',zip.features[0].center)
       const radiusInM=e.target.distance_range.value *1609.34;
@@ -33,11 +33,19 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
     }
     else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
       const payFilter=e.target['payFilter'].value
+      const matchingJobs=[]
+      for (let x of constJobs){
+        if (parseFloat(x.wage) >= parseFloat(payFilter)){
+          matchingJobs.push(x)
+        }
+        else if (payFilter === 'all'){
+          matchingJobs.push(...constJobs)
+        }
+      }
+      setmyjobs([...matchingJobs])
       setPay(payFilter)
       console.log(payFilter)
        }
-    
-    
   }
 
   const getBounds=async(lat,lng,radiusInM)=>{
@@ -61,8 +69,9 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
       const snapLng = snap.longitude
       const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
       const distanceInM = distanceInKm * 1000;
-      if (pay !==0){
-        if (distanceInM <= radiusInM && snap.wage >= pay) {
+      if (pay !=='all'){
+        console.log('typeof pay',typeof pay)
+        if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(pay)) {
           matchingDocs.push(snap);
           }
         }

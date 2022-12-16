@@ -18,7 +18,7 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
  
  const handleClosePopUp = () => setsignInPopUp(false);
  const handleShowPopUp = () => setsignInPopUp(true);
-    const checkJobs=()=>{
+  const checkJobs=()=>{
       if(savedJobs){
         if (savedJobs.includes(job._id)){
           console.log('saved job');
@@ -76,7 +76,7 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
   useEffect (()=>{
    checkJobs();
     // getSavedJobs();
-    },[liked])
+    },[])
 
     useEffect (()=>{
       // likedJob(job);

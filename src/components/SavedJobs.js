@@ -6,13 +6,7 @@ import JobItem from './JobItem';
 export default function SavedJobs({user}) {
     const  [savedJobs,setSavedJobs]=useState([]);
     const [savedJobIds, setSavedJobIds]=useState([]);
-    // const getJobs=async()=>{
-    //   const docRef=doc(db,'users',user.uid)
-    //   const docSnap = await getDoc(docRef);
-    //   console.log(docSnap.data().saved_jobs)
-    //   setSavedJobs(docSnap.data().saved_jobs);
-      
-    // }
+
        const getJobs=async()=>{
       const data = await getDoc(doc(db,'users',user.uid));
       const newJobsList=[];
