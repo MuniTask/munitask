@@ -62,5 +62,6 @@ window.env = {
   "npm_config_prefix": "/usr/local",
   "COLORTERM": "truecolor",
   "REACT_APP_MAPBOX_TOKEN": "pk.eyJ1IjoibXVuaXRhc2siLCJhIjoiY2xhYjhmZ3ZpMDFudDNycHFlcDZnNnR2byJ9.XeCgoPpc2GvLlJdJMSqNfA",
-  "REACT_APP_FIREBASE_API_KEY": "AIzaSyDd9JE4_F9Nf012Bpj_RgE9Qh6G1farz7U"
+  "REACT_APP_FIREBASE_API_KEY": "AIzaSyDd9JE4_F9Nf012Bpj_RgE9Qh6G1farz7U",
+  "REACT_APP_GA_ID": "G-X48F0CEJ6Y"
 };

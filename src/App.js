@@ -26,7 +26,7 @@ import Signup from './components/Signup';
 
 
 function App() {
-  ReactGA.initialize(REACT_APP_GA_ID);
+  ReactGA.initialize(process.env.REACT_APP_GA_ID);
 //  const [user, setUser]=useState({})
 const getUserFromLocalStorage = () => {
   const foundUser = localStorage.getItem('user')
