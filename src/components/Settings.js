@@ -7,6 +7,7 @@ export default function Settings({user}) {
         
     })
   return (
+    // if user signed in through google, then show 'no settings to edit'. otherwise, show change, email, password, username? 
     <div>Settings</div>
   )
 }

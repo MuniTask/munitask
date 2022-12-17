@@ -15,13 +15,13 @@ export default function InterestForm({ writeInterestForm,job,user }) {
           <div className="d-flex flex-column mb-4">
             <div className="form-group mb-3">
               <label htmlFor="start">Ideal job start date:</label>
-              <input type="date" id="start" className="form-control" name="job_start" min="2022-01-01" max="2024-01-01" />
+              <input type="date" data-testid='int-form-job-start-input' id="start" className="form-control" name="job_start" min="2022-01-01" max="2024-01-01" />
               {job._id? <><input value={job._id} type='hidden' name='job_id'/></>:<></>}
               {user.uid?<><input value={user.uid} type='hidden' name='user_uid'/></>:<></>}
             </div>
             <div className="form-group ">
               <label htmlFor="end">Ideal job end date:</label>
-              <input type="date" id="end" className="form-control" name="job_end"
+              <input type="date" data-testid='int-form-job-end-input' id="end" className="form-control" name="job_end"
                 min="2022-01-01"
                 max="2024-01-01" />
             </div>
@@ -31,16 +31,16 @@ export default function InterestForm({ writeInterestForm,job,user }) {
               Do you have any direct training, certifications, or experience in
               the job you're interested in?
             </label>
-            <textarea name="certifications" className="form-control"  id="certifications" rows="5" cols="50" ></textarea>
+            <textarea name="certifications" data-testid='int-form-certifications-input' className="form-control"  id="certifications" rows="5" cols="50" ></textarea>
           </div>
           
           <div>
             <label htmlFor="other-info">Is there anything else you'd like us to know? </label>
-            <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea>
+            <textarea name="other_info" className="form-control" data-testid='int-form-other-info-input' id="other_info" rows="5" cols="50" ></textarea>
           </div>
       
 
-        <button type="submit" className="btn btn-primary mt-4">
+        <button type="submit" data-testid='int-form-submit-btn' className="btn btn-primary mt-4">
           Submit
         </button>
       </form>

@@ -6,8 +6,8 @@ import Modal from 'react-bootstrap/Modal';
 import { Link } from 'react-router-dom';
 import {MapPin, Heart, CurrencyDollar} from "phosphor-react";
 import logo from '../images/munitask-logo.png';
-import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc, where } from 'firebase/firestore';
-import { query } from 'firebase/database';
+import { arrayRemove, arrayUnion, doc, updateDoc,  } from 'firebase/firestore';
+
 
 
 export default function JobItem({job, savedJobs, user, createPopUp}) {
@@ -87,7 +87,7 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
     <div className='m-2'>
     
     <Card style={{ width: '24rem' }} className='d-flex flex-row align-items-center'>
-    <Link className='job-card-link '  to={`/${job._id}`} state={{job:currentJob}}>
+    <Link className='job-card-link' data-testid='job-item-link-to-job1'  to={`/${job._id}`} state={{job:currentJob}}>
       {job.logo_url?<>
       <div className=''>
       <img src={job.logo_url}alt={`${job.municipality} park district`} width={'150rem'}/>
@@ -97,7 +97,7 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
       </div></>}
       </Link>
       <Card.Body className='job-card-body'  style={{background:`${cardColor(job.title)}`, border: `1px solid ${cardColor(job.title)}`}}>
-    <Link className='job-card-link '  to={`/${job._id}`} state={{job:currentJob}}>
+    <Link className='job-card-link' data-testid='job-item-link-to-job2' to={`/${job._id}`} state={{job:currentJob}}>
         <Card.Text className='d-flex flex-row justify-content-between'>
           {job.municipality}  
           <span className='m-0 p-0'>
@@ -110,8 +110,8 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
         <Card.Text className='d-flex flex-row justify-content-between job-description'>
         <CurrencyDollar size={18} weight='bold'/>{job.wage}
         {user.uid?<>
-        {liked?<><Heart onClick={()=>handleUnlike(job)} weight='fill' size={20} className='ms-auto like'/></>:<><Heart onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}</>
-          :<><Heart onClick={handleShowPopUp} size={20} className='ms-auto'/></>}
+        {liked?<><Heart onClick={()=>handleUnlike(job)} data-testid='unlike-job-btn' weight='fill' size={20} className='ms-auto like'/></>:<><Heart data-testid='like-job-btn' onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}</>
+          :<><Heart data-testid='guest-like-job-redirect-btn' onClick={handleShowPopUp} size={20} className='ms-auto'/></>}
         </Card.Text>
       </Card.Body>
     </Card>

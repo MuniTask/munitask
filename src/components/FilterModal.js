@@ -93,11 +93,11 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
         <Modal.Body>
           <Form onSubmit={(e)=>{getFilters(e)}}>
           <label  className='mb-1' htmlFor='zip'>Location</label><br></br>
-          <input className='location-input mb-3' type='text' name='zip'/><br></br>
+          <input data-testid='filter-location-btn' className='location-input mb-3' type='text' name='zip'/><br></br>
           <Form.Label>Distance</Form.Label>
           <Row>
             <Col xs='9'>
-              <Form.Range defaultValue={value} onChange={e => setValue(e.target.value)}/>
+              <Form.Range data-testid='filter-location-range-slider' defaultValue={value} onChange={e => setValue(e.target.value)}/>
             </Col>
             <Col xs='3' className='d-flex flex-row align-items-baseline'>
               <Form.Control className='me-2' name='distance_range' readOnly value={value}/>
@@ -105,12 +105,12 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
             </Col>
           </Row>
           <Form.Label>Compensation</Form.Label>
-          <Form.Check name='payFilter' type='radio' defaultChecked value='all' label='all'/>
-          <Form.Check name='payFilter' type='radio' value='10' label='$10/hr & up'/>
-          <Form.Check name='payFilter' type='radio' value='15' label='$15/hr & up'/>
-          <Form.Check name='payFilter' type='radio' value='20' label='$20/hr & up'/>
+          <Form.Check name='payFilter' data-testid='filter-wage-all-radio' type='radio' defaultChecked value='all' label='all'/>
+          <Form.Check name='payFilter' data-testid='filter-wage-10up-radio' type='radio' value='10' label='$10/hr & up'/>
+          <Form.Check name='payFilter' data-testid='filter-wage-15up-radio' type='radio' value='15' label='$15/hr & up'/>
+          <Form.Check name='payFilter' data-testid='filter-wage-20up-radio' type='radio' value='20' label='$20/hr & up'/>
 
-          <Button className='mt-2' variant="dark" type='submit'>
+          <Button className='mt-2' data-testid='save-filter-options-btn' variant="dark" type='submit'>
             Save Changes
           </Button>
           </Form>

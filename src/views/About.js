@@ -2,6 +2,13 @@ import React from 'react'
 import {GearSix, Handshake, Money, PaintRoller} from 'phosphor-react';
 
 export default function About() {
+  useEffect(()=>{
+    window.dataLayer.push({
+      event: 'pageview',
+      page:{
+        title:'about'
+      }
+  })},[])
   return (
     <div className='about-container'>
       <div className='about-founder'>

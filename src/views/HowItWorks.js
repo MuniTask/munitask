@@ -126,6 +126,13 @@ useEffect(()=>{
   getJobs();
   // getBounds(41.9, -87.9, 5000)
 },[])
+useEffect(()=>{
+  window.dataLayer.push({
+    event: 'pageview',
+    page:{
+      title:'howItWorks'
+    }
+})},[])
   return (
     <>
     </>

@@ -10,16 +10,10 @@ export default function FooterBottom() {
           </div>
   
           <div className="me-auto">
-            {/* <a href='https://www.facebook.com/MuniTask/' className='me-4 text-reset '>
-            <FacebookLogo  size={32} />
-            </a> */}
-            <a href='' className='me-4 text-reset'>
+            <a href='' className='me-4 text-reset'data-testid='footer-tiktok-link' >
             <TiktokLogo size={32} /> 
             </a>
-            {/* <a href='https://www.instagram.com/muni_task/' className='me-4 text-reset'>
-            <InstagramLogo size={32} />
-            </a> */}
-            <a href='https://www.linkedin.com/company/munitask/about/' className='me-4 text-reset'>
+            <a href='https://www.linkedin.com/company/munitask/about/' data-testid='footer-linkedin-link' className='me-4 text-reset'>
             <LinkedinLogo size={32} />
             </a>
           </div>
@@ -44,12 +38,12 @@ export default function FooterBottom() {
               <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                 <p>
-                  <Link to='/' className='text-reset'>
+                  <Link to='/' data-testid='footer-jobs-link' className='text-reset'>
                     Jobs
                   </Link>
                 </p>
                 <p>
-                  <Link to='/about' className='text-reset'>
+                  <Link to='/about' data-testid='footer-about-link' className='text-reset'>
                     About
                   </Link>
                 </p>

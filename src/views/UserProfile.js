@@ -1,15 +1,13 @@
 import { MDBCol, MDBTabs, MDBTabsLink, MDBTabsItem, MDBRow, MDBContainer, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit'
 import React, { useEffect, useState } from 'react';
 import {db} from '../firebase';
-// import { getDatabase, ref, onValue, set} from "firebase/database";
-import { collection, addDoc, getDocs, updateDoc, doc} from "firebase/firestore";
-
-
+import { collection,  updateDoc, doc} from "firebase/firestore";
 import SavedJobs from '../components/SavedJobs';
 import PersonalInfo from '../components/PersonalInfo';
 import { GearSix, Heart, ListChecks, User } from 'phosphor-react';
 import Settings from '../components/Settings';
 import SubmittedInterests from '../components/SubmittedInterests';
+// import ReactGA from 'react-ga';
 
 
 export default function UserProfile({user}) {
@@ -62,6 +60,16 @@ export default function UserProfile({user}) {
         }
         setVerticalActive(value);
       };
+      useEffect(()=>{
+        // ReactGA.pageview(window.location.pathname)
+      },[])
+      useEffect(()=>{
+        window.dataLayer.push({
+          event: 'pageview',
+          page:{
+            title:'userProfile'
+          }
+      })},[])
     
   return (
     <MDBContainer className='p-0 profile-container ' fluid>
@@ -69,24 +77,24 @@ export default function UserProfile({user}) {
         <MDBCol size='3' className='sidenav-div'>
           <MDBTabs className='flex-column mt-5'>
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
+              <MDBTabsLink className='profile-tab' data-testid='settings-tab' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
               <GearSix size={20} className='me-2'/>Settings
               </MDBTabsLink>
             </MDBTabsItem>
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab mt-2' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
+              <MDBTabsLink data-testid='personal-info-tab' className='profile-tab mt-2' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
               <User size={20} className='me-2'/>Personal Information
               </MDBTabsLink>
             </MDBTabsItem>
          
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab mt-2' onClick={() => handleVerticalClick('tab3')} active={verticalActive === 'tab3'}>
+              <MDBTabsLink className='profile-tab mt-2' data-testid='saved-jobs-tab' onClick={() => handleVerticalClick('tab3')} active={verticalActive === 'tab3'}>
               <Heart size={20} className='me-2'/>Saved Jobs
               </MDBTabsLink>
             </MDBTabsItem>
 
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab mt-2' onClick={() => handleVerticalClick('tab4')} active={verticalActive === 'tab4'}>
+              <MDBTabsLink className='profile-tab mt-2' data-testid='submitted-forms-tab' onClick={() => handleVerticalClick('tab4')} active={verticalActive === 'tab4'}>
               <ListChecks size={20} className='me-2'/>Submitted Interest Forms
               </MDBTabsLink>
             </MDBTabsItem>

@@ -13,7 +13,13 @@ import {
 import logo from '../images/munitask-logo.png';
   
 export default function FAQs() {
-  
+  useEffect(()=>{
+    window.dataLayer.push({
+      event: 'pageview',
+      page:{
+        title:'FAQs'
+      }
+  })},[])
   return (
     <>
     <MDBContainer fluid className='p-0 faq-body'>

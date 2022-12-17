@@ -21,12 +21,12 @@ import { increment } from 'firebase/database';
 import ForgotPassword from './components/ForgotPassword';
 import Login from './components/Login';
 import { SignIn } from 'phosphor-react';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
 import Signup from './components/Signup';
 
 
 function App() {
-  ReactGA.initialize(process.env.REACT_APP_GA_ID);
+  // ReactGA.initialize(process.env.REACT_APP_GA_ID);
 //  const [user, setUser]=useState({})
 const getUserFromLocalStorage = () => {
   const foundUser = localStorage.getItem('user')

@@ -16,7 +16,7 @@ import poolMaint from '../images/swimming-pool.png';
 import campCounselor from '../images/tent.png';
 import parkMaint from '../images/under-maintenance.png';
 import { geohashForLocation } from 'geofire-common';
-import ReactGA from 'react-ga';
+// import ReactGA from 'react-ga';
    
 export default function Home2({user, createPopUp, redirect}) {
   const  [myjobs, setmyjobs]=useState()
@@ -252,7 +252,13 @@ return mun_lat;
     // handleFirstLogin()
   }, [keywords, locations]);
   useEffect(()=>{
-   ReactGA.pageview(window.location.pathname)
+    window.dataLayer.push({
+      event: 'pageview',
+      page:{
+        title:'home'
+      }
+    })
+  //  ReactGA.pageview(window.location.pathname)
     getSavedJobs();
 
   },[])
@@ -265,31 +271,31 @@ return mun_lat;
       <div >
       <div className='mt-4 d-flex flex-row justify-content-center search-container'>
       <div className='d-flex flex-column me-3'>
-        <h5 onClick={()=>{handleFilter('')}} className='mx-auto d-flex justify-content-center align-items-center job-icon p-0 m-0' alt='...' style={{border:'4px solid gray',}}><DotsThreeOutline size={40} /></h5>
+        <h5 onClick={()=>{handleFilter('')}} data-testid='all-filter-btn'  className='mx-auto d-flex justify-content-center align-items-center job-icon p-0 m-0' alt='...' style={{border:'4px solid gray',}}><DotsThreeOutline size={40} /></h5>
          <p className='job-icon-text text-center'>All</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('golf ranger')} className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+        <img onClick={()=>handleFilter('golf ranger')} data-testid='golf-ranger-filter-btn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
         <p className='job-icon-text text-center'>Golf Ranger</p>
         </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('swim instructor')}className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
+        <img onClick={()=>handleFilter('swim instructor')} data-testid='swim-instructor-filter-btn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
          <p className='job-icon-text text-center'>Swim Instructor</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('lifeguard')}className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
+        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguard-filter-btn' className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
          <p className='job-icon-text text-center'>Lifeguard</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('pool maintenance')}className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
+        <img onClick={()=>handleFilter('pool maintenance')} data-testid='pool-maintenance-filter-btn' className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('camp counselor')}className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+        <img onClick={()=>handleFilter('camp counselor')} data-testid='golf-ranger-filter-btn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
          <p className='job-icon-text text-center'>Golf Ranger</p>
          </div>
         <div className='d-flex flex-column'>
-        <img onClick={()=>handleFilter('park maintenance')}className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
+        <img onClick={()=>handleFilter('park maintenance')} data-testid='park-maintenance-filter-btn' className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
          <p className='job-icon-text text-center'>Park Maintenance</p>
          </div>
         
@@ -308,29 +314,29 @@ return mun_lat;
         {/* ------------------------ */}
 
         <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
-          <div className='d-flex justify-content-end me-2 ' onClick={()=>{handleFilter('')}}>
+          <div className='d-flex justify-content-end me-2 ' data-testid='refresh-jobs-btn'onClick={()=>{handleFilter('')}}>
             <p className='me-2' >Refresh</p>
             <ArrowsClockwise size={24} />
           </div>
           <Dropdown>
-              <Dropdown.Toggle variant='link' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
+              <Dropdown.Toggle variant='link' data-testid='sortby-dropdown' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
                 Sort By
               </Dropdown.Toggle>
 
               <Dropdown.Menu >
-                <Dropdown.Item onClick={sortByRecent}>Most Recent</Dropdown.Item>
-                <Dropdown.Item onClick={()=>{handleFilter('')}}>Relevance</Dropdown.Item>
+                <Dropdown.Item data-testid='sortby-recent-btn' onClick={sortByRecent}>Most Recent</Dropdown.Item>
+                <Dropdown.Item data-testid='sortby-relevant-btn' onClick={()=>{handleFilter('')}}>Relevance</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             
           <div>
-          <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal}>Filter<SlidersHorizontal size={32}/></Button>
+          <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal} data-testid='show-filter-modal-btn'>Filter<SlidersHorizontal size={32}/></Button>
           <FilterModal handleClose={handleCloseModal} constJobs={constJobs}  setmyjobs={setmyjobs} show={showModal}/>
             {/* // <Button className='filter-btn' variant='link' type="button" >Filters <SlidersHorizontal size={32} /></Button> */}
             </div>
             <ButtonGroup >
-                <Button variant='outline-dark' className='list-btn' onClick={handleCloseMap}>List</Button>
-                <Button variant='outline-dark' className='map-btn' onClick={handleShowMap}>Map</Button>
+                <Button variant='outline-dark' className='list-btn' data-testid='list-view-btn' onClick={handleCloseMap}>List</Button>
+                <Button variant='outline-dark' className='map-btn' data-testid='map-view-btn' onClick={handleShowMap}>Map</Button>
             </ButtonGroup>
               
         </div>
