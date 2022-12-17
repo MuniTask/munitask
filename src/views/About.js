@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {GearSix, Handshake, Money, PaintRoller} from 'phosphor-react';
 
 export default function About() {
