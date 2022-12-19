@@ -24,6 +24,7 @@ export default function JobView({user, createPopUp}) {
     e.preventDefault()
     
       await addDoc(collection(db,"interestForms"),{
+        
         user_uid:user.uid,
         job_id:e.target.job_id.value,
         job_start:e.target.job_start.value,

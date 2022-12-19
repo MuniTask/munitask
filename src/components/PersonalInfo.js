@@ -2,6 +2,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
 import { Check, X } from "phosphor-react";
 import React, { useEffect, useState } from "react";
+import { Fragment } from "react";
+import { Button, Modal } from "react-bootstrap";
 import {db} from '../firebase';
 export default function PersonalInfo({ writePersonalInfo, user }) {
   const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
@@ -9,25 +11,31 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
     "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
     "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
   const [startDate, setStartDate] = useState(new Date());
-  const [currentUser, setCurrentUser]=useState({})
-  const [edit, setEdit]=useState(false)
-  const [text, setText]=useState(false)
-  const [call, setCall]=useState(false)
-  const [email, setEmail]=useState(false)
+  const [currentUser, setCurrentUser]=useState({});
+  const [edit, setEdit]=useState(true);
+  const [text, setText]=useState(false);
+  const [call, setCall]=useState(false);
+  const [email, setEmail]=useState(false);
+  const age_array=Array.from({length: 85}, (x, i) => i);
+  const parent_or_child_array=['the parent of a job seeker.', 'a job seeker.']
   const illinois_cities = [];
-  const [data, setData]=useState({})
+  const [data, setData]=useState({});
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleEdit=()=>{
  
       setEdit(true);
       contactBy();
-    
-  };
+        
+      };
+   
+  
 
 const handleCancelEdit=()=>{
-    
       setEdit(false);
-    
   };
 
 const contactBy=()=>{
@@ -42,13 +50,13 @@ const contactBy=()=>{
     }
   };
 
-  const getUser=async()=>{
+  const getUser=async(user)=>{
         const docRef=doc(db,'users',user.uid)
         const docSnap = await getDoc(docRef);
         console.log(docSnap.data())
         setCurrentUser(docSnap.data())
-      }
-  
+      };
+
   const handleChange = (e) => {
       setData({ ...currentUser, [e.target.name]: e.target.value });
     };
@@ -58,16 +66,16 @@ const contactBy=()=>{
       setEdit(false);
     };
 
-useEffect(()=>{
-  getUser(); 
-  // if (currentUser.user_logins <2){
-  //   setEdit(true)
-  // }
-},[edit])
+  useEffect(()=>{
+    getUser(user); 
+    if (user.user_logins >2){
+      setEdit(false)
+    }
+  },[])
 
   return (
     <MDBContainer fluid>
-      {!edit? <>
+      {/* {!edit? <>
         <div>
           <p className="edit-btn" onClick={handleEdit}>edit</p>
         <div className="form-row mb-3">
@@ -86,24 +94,23 @@ useEffect(()=>{
             </div>
             <div className="w-25">
             <h6>Email</h6>
-            {currentUser.email?<><p>{currentUser.email}</p></>
-              :<><p>No response</p></>}
-             
+            {currentUser.email?<><p>{currentUser.email}</p></>:<><p>No response</p></>}
             </div>
           </div>
           <div className="d-flex flex-row">
-              <div className="w-25 mt-3">
+              <div className="w-25 mt-3 me-4">
                 <h6>Phone number</h6>
-                {currentUser.phone_number?<><p>{currentUser.phone_number}</p></>
-                  :<><p>No response</p></>}
-                
+                {currentUser.phone_number?<><p>{currentUser.phone_number}</p></>:<><p>No response</p></>}
                 </div>
-              <div className="form-group col-md-2 mt-3">
+              <div className="form-group col-md-2 mt-3 me-4">
               <h6>Birthday</h6>
-              {currentUser.birthday?<><p>{currentUser.birthday}</p></>
-                :<><p>No response</p></>}
-              
+              {currentUser.birthday?<><p>{currentUser.birthday}</p></>:<><p>No response</p></>}
               </div>
+              <div className="w-25 mt-3 ms-5">
+              <h6>Age of job seeker</h6>
+              {currentUser.age?<><p>{currentUser.age}</p></>:<><p>No response</p></>}
+              </div>
+            
           </div>
         </div>
 
@@ -114,7 +121,7 @@ useEffect(()=>{
             :<><p>No response</p></>}
           </div>
           <div className="w-25 me-4">
-          <h6>city</h6>
+          <h6>City</h6>
             {currentUser.city?<><p>{currentUser.city}</p></>
             :<><p>No response</p></>}
           </div>
@@ -126,7 +133,7 @@ useEffect(()=>{
         </div>
 
          
-        
+        <h6>Job interests</h6>
            <div className='mb-2'>
                {currentUser.lifeguard?<>
                 <Check size={24} className='me-2'/>
@@ -190,7 +197,11 @@ useEffect(()=>{
             {currentUser.job_zip?<><p>{currentUser.job_zip}</p></>
             :<><p>No response</p></>}
             </div>
-         
+            <div className="form-group mb-3 w-50 my-4">
+              <h6>I am...</h6>
+            {currentUser.parent_or_child?<><p>{currentUser.parent_or_child}</p></>
+            :<><p>No response</p></>}
+            </div>
           <div className="d-flex flex-column">
           <h6>What is the best way for us to follow up with you?</h6>
             {currentUser.contact_by?<><p>{currentUser.contact_by}</p></>
@@ -209,9 +220,9 @@ useEffect(()=>{
       </div>
 
       
-      </>:<>
+      </>:<> */}
       <form onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
-      <p className="edit-btn" onClick={handleCancelEdit}>cancel</p>
+      {/* <p className="edit-btn" onClick={handleCancelEdit}>cancel</p> */}
         <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
@@ -239,10 +250,23 @@ useEffect(()=>{
                 {currentUser.phone_number?<><input name="phone_number" type="tel" className="form-control" id="inputTel4" defaultValue={currentUser.phone_number} onChange={handleChange}/></>
                 :<><input name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" /></>}
               </div>
-            <div className="form-group w-25 mt-3 ">
+            <div className="form-group w-25 mt-3 me-4 ">
               <label htmlFor="birthday">Birthday</label>
               {currentUser.birthday?<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={currentUser.birthday} onChange={handleChange}/></>
               :<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" /></>}
+            </div>
+            <div className="form-group w-25 mt-3">
+            <label htmlFor="age">Age of job seeker</label>
+            <select name="age" id="inputAge" className="form-control w-50">
+              {currentUser.age?<>
+                <option>{currentUser.age}</option>
+                {age_array.map((age,i)=><Fragment key={i}>
+              <option>{age}</option>
+              </Fragment>)}</>
+              :<>{age_array.map((age,i)=><Fragment key={i}>
+                <option>{age}</option>
+                </Fragment>)}</>}
+            </select>
             </div>
             </div>
         </div>
@@ -253,12 +277,12 @@ useEffect(()=>{
             <select name="state" id="inputState" className="form-control">
               {currentUser.state?<>
                 <option>{currentUser.state}</option>
-                {states.map((state,i)=><>
+                {states.map((state,i)=><Fragment key={i}>
               <option>{state}</option>
-              </>)}</>
-              :<>{states.map((state,i)=><>
+              </Fragment>)}</>
+              :<>{states.map((state,i)=><Fragment key={i}>
                 <option>{state}</option>
-                </>)}</>}
+                </Fragment>)}</>}
             </select>
           </div>
           <div className="w-25 me-4">
@@ -320,7 +344,25 @@ useEffect(()=>{
               :<><input name="job_zip" type="text" className="form-control" id="inputZip" /></>}
               
             </div>
-          
+          <div className="d-flex flex-column mb-3">
+            <p className="mb-1">
+             I am...
+            </p>
+            <div>
+            <select name="parent_or_child" id="inputParentorChild" className="form-control w-50">
+              {currentUser.parent_or_child?<>
+                <option>{currentUser.parent_or_child}</option>
+                {parent_or_child_array.map((PorC,i)=><Fragment key={i}>
+              <option>{PorC}</option>
+              </Fragment>)}</>
+              :<>
+              <option>Select one...</option>
+              {parent_or_child_array.map((PorC,i)=><Fragment key={i}>
+                <option>{PorC}</option>
+                </Fragment>)}</>}
+            </select>
+            </div>
+          </div>
           <div className="d-flex flex-column mb-3">
             <p className="mb-1">
               What's the best way for us to follow up with you?
@@ -367,11 +409,23 @@ useEffect(()=>{
           </div>
       
 
-        <button type="submit" className="btn btn-primary mt-4">
+        {/* <button type="submit" className="btn btn-primary mt-4">
           Submit
-        </button>
+        </button> */}
+        <Button variant="success" className='mt-4' type="submit" onClick={handleShow}>
+        Save Changes
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Body>Your personal information has been succesfully updated!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </form>
-      </>}
+      {/* </>} */}
      
     </MDBContainer>
   );

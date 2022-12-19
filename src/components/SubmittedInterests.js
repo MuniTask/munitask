@@ -1,19 +1,25 @@
-import { collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
 import React, { Fragment, useEffect, useState } from 'react'
-import { Accordion } from 'react-bootstrap';
+import { Accordion, Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {db} from '../firebase'
 export default function SubmittedInterests({user}) {
-    const [forms, setForms]=useState([])
+    const [forms, setForms]=useState();
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const getForms=async()=>{
         const forms_lst=[]
         const forms_lst2=[]
         const data2=query(collection(db,'interestForms'),where("user_uid", "==", user.uid));
         const querySnapshot = await getDocs(data2);
         querySnapshot.forEach((doc) => {
-          forms_lst.push(doc.data())
+          const x = doc.id;
+          forms_lst.push({...doc.data(), id:x})
+        
           });
           for (let x of forms_lst){
+            
             let job_title=await(getJob(x.job_id))
             // let job_mun=await(getJob(x.job_id))
             let test=await(getJob(x.job_id)).then(
@@ -21,8 +27,24 @@ export default function SubmittedInterests({user}) {
             )
           }
           console.log('forms:',forms_lst2);
-          setForms(forms_lst2)
+          if(forms_lst2.length >0){
+            setForms([...forms_lst2])
+          }
+         
     };
+    const unsubmit_form=async(form_id)=>{
+      await deleteDoc(doc(db, "interestForms", form_id));
+      console.log(`succesfully deleted ${form_id}`);
+      handleClose();
+      getForms();
+      // const new_list=[];
+      // for (let x of forms){
+      //   if (x.id!==form_id){
+      //     new_list.append(x)
+      //   }
+      // }
+      // setForms(new_list)
+    }
     // const getJob=async(job_id)=>{
     //   const docRef = doc(db, "jobs", job_id);
     //   const docSnap = await getDoc(docRef);
@@ -58,7 +80,7 @@ export default function SubmittedInterests({user}) {
     const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-    if (data_lst == null || data_lst.length==0){
+    if (data_lst === null || data_lst.length===0){
       return 0
     }
     const mun_zip=data_lst[0].zip_code;
@@ -69,7 +91,7 @@ export default function SubmittedInterests({user}) {
     const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-    if (data_lst == null || data_lst.length==0){
+    if (data_lst === null || data_lst.length===0){
       return 0
     }
     const mun_logo=data_lst[0].logo_url;
@@ -80,7 +102,7 @@ export default function SubmittedInterests({user}) {
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-  if (data_lst == null || data_lst.length==0){
+  if (data_lst === null || data_lst.length===0){
     return 0
   }
   const mun_lng=data_lst[0].longitude;
@@ -91,7 +113,7 @@ export default function SubmittedInterests({user}) {
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
   
-  if (data_lst == null || data_lst.length==0){
+  if (data_lst === null || data_lst.length===0){
     return 0
   }
   const mun_lat=data_lst[0].latitude;
@@ -99,15 +121,16 @@ export default function SubmittedInterests({user}) {
   };
     useEffect(()=>{
         getForms();
-        getJob('Dh86FoaB6t64i61IgAu3')
-    },[])
+        
+    },[]);
+  
   return (
    <>
    {forms?<>
    {forms.map((form, i)=><Fragment key={i}>
     <Accordion >
       <Accordion.Item eventKey="0">
-        <Accordion.Header>{form.title} - {form.municipality} Park District</Accordion.Header>
+        <Accordion.Header>{form[0].title} - {form[0].municipality} Park District</Accordion.Header>
         <Accordion.Body>
          <ul className='responses-list'>
             <li><b>Ideal job start:</b></li>
@@ -125,13 +148,36 @@ export default function SubmittedInterests({user}) {
          </ul>
          {/* FIX STATE!! */}
          <Link  to={`/${form.job_id}`} state={{job:form[0]}}>View job listing</Link>
+         
+        
+         <Button variant="outline-danger" onClick={handleShow}>
+        Delete
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{form[0].title} - {form[0].municipality} Park District</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to unsubmit this interest form? You can't undo this action.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="outline-danger" onClick={()=>unsubmit_form(form.id)}>
+            Delete form
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
    </Fragment>)}
     
-   </>:<></>}
+   </>:<>
+   <h6>You have not submitted any interests. <Link to='/'>Browse jobs</Link></h6>
+   </>}
    
     </>
   )
 }
+// DELETE BY FORM ID - FIXT HIS.. NOT REGISTERING FORM ID

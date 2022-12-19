@@ -6,8 +6,9 @@ import googlebtn from '../images/btn_google_signin_light_pressed_web@2x.png';
 import brand from '../images/munitask-brand.png';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-export default function Login({logIn, createPopUp, handleCloseLogin, setUser}) {
+export default function Login({logIn, createPopUp, handleCloseLogin, setUser, user}) {
   const [redirect, setRedirect]=useState(false);
+  const [goTo, setGoTo]=useState('/');
   const incrementLogin=async(user)=>{
     const userRef=doc(db,'users', user.uid);
     const docSnap = await getDoc(userRef);
@@ -26,43 +27,51 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser}) {
     if (docSnap.exists()) {
      if (docSnap.data().user_logins<=1 || !docSnap.data().user_logins){
      console.log(false);
+     const go_to='/userprofile'
+     setGoTo(go_to);
      setRedirect(true);
      incrementLogin(user_info)
     }
-     
+     else{
+      setRedirect(true);
+     }
     // } else {
     //   console.log("No such document in incrementLogin function");
     // }
   }
   };
-  const logInWithEmail= async(e)=>{
-    e.preventDefault();
-    const auth = getAuth();
-    const email= e.target.email.value
-    const password= e.target.password.value
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    incrementLogin(user);
-    setUser(user)
-    console.log(user)
-    handleFirstLogin(user);
+  // const logInWithEmail= async(e)=>{
+  //   e.preventDefault();
+  //   const auth = getAuth();
+  //   const email= e.target.email.value
+  //   const password= e.target.password.value
+  //   signInWithEmailAndPassword(auth, email, password)
+  //   .then((userCredential) => {
+  //   // Signed in 
+  //   const user = userCredential.user;
+  //   incrementLogin(user);
+  //   setUser(user)
+  //   console.log(user)
+  //   handleFirstLogin(user);
     
-    // ...
-  })
-  .catch((error) => {
-    console.log('user does not exist')
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log('user does not exist', errorCode, errorMessage)
+  //   // ...
+  // })
+  // .catch((error) => {
+  //   console.log('user does not exist')
+  //   const errorCode = error.code;
+  //   const errorMessage = error.message;
+  //   console.log('user does not exist', errorCode, errorMessage)
 
-  });
-  };
+  // });
+  // };
+  useEffect(()=>{
+    
+  },[])
   
   return (
     <>
- {redirect?  <><Navigate to="/userprofile"/></>: <>
+ {redirect?  <><Navigate to={goTo}/></>: <>
+ 
     <div className="body">
     <div className="login-card ">
     <div className="login-header-cont d-flex flex-row align-items-baseline justify-content-center mb-4">
@@ -72,7 +81,7 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser}) {
       <form
         className=""
         onSubmit={(e) => {
-          logInWithEmail(e);
+          logIn(e);handleFirstLogin(user)
           
         }}
       >

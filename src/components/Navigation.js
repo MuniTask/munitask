@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
@@ -14,8 +14,7 @@ export default function Navigation({user, signUserOut}) {
   const [showNavNoToggler, setShowNavNoToggler] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-
-
+ 
   return (
     <MDBNavbar expand='lg' className='navigation'  dark bgColor='dark'  >
     <MDBContainer fluid>
@@ -59,9 +58,9 @@ export default function Navigation({user, signUserOut}) {
         </MDBNavbarNav>
         {user.uid? <>
       <Dropdown>
-      <Dropdown.Toggle data-testid='user-dropdown' focusfirstitemonshow='false' className='user-btn' id="dropdown-basic">
-        Hello, {user.displayName}
-      </Dropdown.Toggle>
+        <Dropdown.Toggle data-testid='user-dropdown' focusfirstitemonshow='false' className='user-btn' id="dropdown-basic">
+          Hello {`, ${user.displayName}`}
+        </Dropdown.Toggle>
       <Dropdown.Menu className='user-dropdown'>
         <Link onClick={()=>{signUserOut()}} data-testid='signout-link' to='/'>Sign Out</Link><br/>
         <Link to='/userprofile' data-testid='profile-link'>Profile</Link>

@@ -1,7 +1,7 @@
 import { MDBCol, MDBTabs, MDBTabsLink, MDBTabsItem, MDBRow, MDBContainer, MDBTabsContent, MDBTabsPane } from 'mdb-react-ui-kit'
 import React, { useEffect, useState } from 'react';
 import {db} from '../firebase';
-import { collection,  updateDoc, doc} from "firebase/firestore";
+import { collection,  updateDoc, doc, getDoc} from "firebase/firestore";
 import SavedJobs from '../components/SavedJobs';
 import PersonalInfo from '../components/PersonalInfo';
 import { GearSix, Heart, ListChecks, User } from 'phosphor-react';
@@ -10,9 +10,10 @@ import SubmittedInterests from '../components/SubmittedInterests';
 // import ReactGA from 'react-ga';
 
 
-export default function UserProfile({user}) {
+export default function UserProfile({user, incrementLogin}) {
     const [verticalActive, setVerticalActive] = useState('tab1');
-    const [forms, setForms]=useState([])
+    const [forms, setForms]=useState([]);
+    const [redirect, setRedirect]=useState(false);
 
     const parksRef = collection(db, 'interestForms');
    
@@ -27,6 +28,9 @@ export default function UserProfile({user}) {
         } if(e.target.email.checked===true){
           contact.push('email')
         };
+        if (!e.target.email.checked && !e.target.phone.checked && !e.target.text.checked){
+          contact.push('No response')
+        }
       e.preventDefault();
       const userRef=doc(db,"users",user.uid)
       await updateDoc(userRef,{
@@ -48,12 +52,24 @@ export default function UserProfile({user}) {
           park_field_maintenance:e.target.park_field_maintenance.checked,
           pool_maintenance:e.target.pool_maintenance.checked,
           golf_ranger:e.target.golf_ranger.checked,
+          age:e.target.age.value,
+          parent_or_child: e.target.parent_or_child.value,
       }, {merge:true})
       console.log('succesfully added personal info')
      
     }
    
-    
+    const handleFirstLogin=async(user)=>{
+      // if (user_info.uid){
+      const userRef=doc(db,'users', user.uid);
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+       if (docSnap.data().user_logins<=1 || !docSnap.data().user_logins){
+        console.log(docSnap.data().user_logins)
+       console.log(false);
+       setRedirect(true);
+      }}};
+
     const handleVerticalClick = (value) => {
         if (value === verticalActive) {
           return;
@@ -62,6 +78,7 @@ export default function UserProfile({user}) {
       };
       useEffect(()=>{
         // ReactGA.pageview(window.location.pathname)
+        handleFirstLogin(user);
       },[])
       useEffect(()=>{
         window.dataLayer.push({
@@ -76,6 +93,22 @@ export default function UserProfile({user}) {
         <MDBRow>
         <MDBCol size='3' className='sidenav-div'>
           <MDBTabs className='flex-column mt-5'>
+            {redirect? 
+            <>
+            <MDBTabsItem>
+              <MDBTabsLink className='profile-tab' data-testid='settings-tab' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
+              <GearSix size={20} className='me-2'/>Settings
+              </MDBTabsLink>
+            </MDBTabsItem>
+            <MDBTabsItem>
+              <MDBTabsLink data-testid='personal-info-tab' className='profile-tab mt-2' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
+              <User size={20} className='me-2'/>Personal Information
+              </MDBTabsLink>
+            </MDBTabsItem>
+
+            </>
+            :
+            <>
             <MDBTabsItem>
               <MDBTabsLink className='profile-tab' data-testid='settings-tab' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
               <GearSix size={20} className='me-2'/>Settings
@@ -86,6 +119,8 @@ export default function UserProfile({user}) {
               <User size={20} className='me-2'/>Personal Information
               </MDBTabsLink>
             </MDBTabsItem>
+            </>}
+            
          
             <MDBTabsItem>
               <MDBTabsLink className='profile-tab mt-2' data-testid='saved-jobs-tab' onClick={() => handleVerticalClick('tab3')} active={verticalActive === 'tab3'}>
@@ -103,6 +138,19 @@ export default function UserProfile({user}) {
         </MDBCol>
         <MDBCol size='9'>
           <MDBTabsContent className='mt-5 '>
+            {redirect?
+            <>
+            <MDBTabsPane className='ms-5' show={verticalActive === 'tab2'}>
+            <h4 className='display-5 mb-5 ms-5'>Settings</h4>
+            <Settings user={user}/>
+            </MDBTabsPane>
+            <MDBTabsPane className='ms-5' show={verticalActive === 'tab1'}>
+                <h4 className='display-5 mb-5'>Personal Info</h4>
+                <PersonalInfo user={user} writePersonalInfo={writePersonalInfo}/>
+            </MDBTabsPane>
+            </>
+            :
+            <>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab1'}>
             <h4 className='display-5 mb-5 ms-5'>Settings</h4>
             <Settings user={user}/>
@@ -111,6 +159,8 @@ export default function UserProfile({user}) {
                 <h4 className='display-5 mb-5'>Personal Info</h4>
                 <PersonalInfo user={user} writePersonalInfo={writePersonalInfo}/>
             </MDBTabsPane>
+            </>}
+            
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab3'}>
             <h4 className='display-5 mb-5'>Saved Jobs</h4>
             <SavedJobs user={user}/>

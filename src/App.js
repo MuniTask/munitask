@@ -11,7 +11,7 @@ import AddToDb from './views/AddToDb';
 import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
-import { getAuth, signInWithPopup,GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithPopup,GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import { collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc} from "firebase/firestore";
 import {db} from "./firebase";
 import Addtodb2 from './views/Addtodb2';
@@ -38,6 +38,7 @@ const getUserFromLocalStorage = () => {
 const [redirect, setRedirect]=useState(false)
 const [user, setUser] = useState(getUserFromLocalStorage())
  const auth = getAuth();
+ const [signedIn, setSignedIn]=useState(false)
 
 
   const createPopUp=async()=>{
@@ -103,8 +104,10 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     incrementLogin(user);
     setUser(user)
     console.log(user)
-    handleFirstLogin(user);
-    
+    // handleFirstLogin(user);
+     localStorage.setItem('user', JSON.stringify(auth.currentUser));
+  
+    setSignedIn(true)
     // ...
   })
   .catch((error) => {
@@ -114,6 +117,7 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     console.log('user does not exist', errorCode, errorMessage)
 
   });
+
   };
   const signUpWithEmail=(e)=>{
     e.preventDefault();
@@ -161,11 +165,19 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     }).catch((error) => {
     // An error happened.
     });
+    
     setUser({});
     console.log('User succesfully signed out');
-    localStorage.removeItem('user');
+    localStorage.removeItem(user);
   }
-
+useEffect(()=>{
+  auth.onAuthStateChanged(user=>{
+    if (user) {
+        // store the user on local storage
+        localStorage.setItem('user', true);
+        setUser(user)
+    };})
+},[])
  
   return (
     <div className="App">
@@ -185,10 +197,10 @@ const [user, setUser] = useState(getUserFromLocalStorage())
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>
-      <Route path='/login' element={<Login setUser={setUser} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
+      <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
       <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} createPopUp={createPopUp}/>}/>
       {/* <Route path='/maps' element={<Maps />}/> */}
-      <Route path='/userprofile' element={<UserProfile user={user}/>}/>
+      <Route path='/userprofile' element={<UserProfile incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
 
      </Routes>
      </div>

@@ -2,9 +2,10 @@ import { arrayRemove, collection, doc, getDoc, getDocs, limit, query, updateDoc,
 import {db} from '../firebase';
 import React, { useEffect, useState } from 'react'
 import JobItem from './JobItem';
+import { Link } from 'react-router-dom';
 
 export default function SavedJobs({user}) {
-    const  [savedJobs,setSavedJobs]=useState([]);
+    const  [savedJobs,setSavedJobs]=useState();
     const [savedJobIds, setSavedJobIds]=useState([]);
 
        const getJobs=async()=>{
@@ -32,7 +33,7 @@ export default function SavedJobs({user}) {
             )
           };
           console.log(newJobsList)
-          setSavedJobs(newJobsList)
+          setSavedJobs([...newJobsList])
           setSavedJobIds(job_ids)
         }
   };
@@ -83,12 +84,12 @@ export default function SavedJobs({user}) {
   };
   
     const showJob=()=>{
-        if (savedJobs !==[]){
+        // if (savedJobs !==[]){
             return(savedJobs.map((job, i)=> <JobItem key={i} savedJobs={savedJobIds} job={job} user={user}/>))
-        } else if (savedJobs ===[]){
-            // return(<><p>NO jobs match this search</p></>)
-            console.log('no saved jobs')
-        }
+        // } else if (savedJobs ===[]){
+        //     // return(<><p>NO jobs match this search</p></>)
+        //     console.log('no saved jobs')
+        // }
         
        
       }
@@ -98,7 +99,11 @@ export default function SavedJobs({user}) {
   return (
     <div>
       <div className='d-flex flex-row flex-wrap'>
-      {showJob()}
+        {savedJobs? <>
+          {showJob()}
+        </>:<>
+        <h6>You have not submitted any interests. <Link to='/'>Browse jobs</Link></h6></>}
+      
       </div>
     </div>
   )
