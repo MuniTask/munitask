@@ -22,15 +22,21 @@ export default function JobView({user, createPopUp}) {
   }
   const writeInterestForm = async(e)=> {
     e.preventDefault()
-    
       await addDoc(collection(db,"interestForms"),{
-        
         user_uid:user.uid,
         job_id:e.target.job_id.value,
         job_start:e.target.job_start.value,
         job_end:e.target.job_end.value,
         training: e.target.certifications.value,
         other_info:e.target.other_info.value
+      })
+      window.dataLayer.push({
+        event: 'submitted_interest',
+        eventProps:{
+          category:'category',
+          action:'action',
+          label:'label'
+        }
       })
   }
 

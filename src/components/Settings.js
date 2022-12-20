@@ -1,9 +1,11 @@
-import { deleteUser, EmailAuthCredential, getAuth, reauthenticateWithCredential, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
+import { deleteUser, EmailAuthCredential, EmailAuthProvider, getAuth, reauthenticateWithCredential, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore';
+import { Password } from 'phosphor-react';
 import React, { useEffect, useState } from 'react'
 import { Button, ButtonGroup, Form, Modal } from 'react-bootstrap';
 import {db} from "../firebase";
 import google_logo from '../images/google_logo.png';
+import ReAuthUser from './ReAuthUser';
 export default function Settings({user}) {
     const auth=getAuth();
     const [canSubmit, setCanSubmit]=useState(false)
@@ -34,21 +36,36 @@ export default function Settings({user}) {
         // ...
       });
     };
+    // const reAuthUser=(e)=>{
+    //   e.preventDefault();
+    //   const auth = getAuth();
+    //   const user = auth.currentUser;
+    //   // TODO(you): prompt the user to re-provide their sign-in credentials
+    //   const email= auth.currentUser.email
+    //   const password= e.target.password.value
+    //   const credential = new EmailAuthCredential(email, password)
+    //   reauthenticateWithCredential(user, credential).then(() => {
+    //     console.log(user)
+    //     setCanSubmit(true)
+    //   }).catch((error) => {
+    //     console.log(error)
+    //     // ...
+    //   });
+    // };
     const reAuthUser=(e)=>{
       e.preventDefault();
       const auth = getAuth();
-      const user = auth.currentUser;
       // TODO(you): prompt the user to re-provide their sign-in credentials
-      const email= e.target.email.value
+      try{
       const password= e.target.password.value
-      const credential = new EmailAuthCredential(email, password)
-      reauthenticateWithCredential(user, credential).then(() => {
-        setCanSubmit(true)
-      }).catch((error) => {
-        // An error ocurred
-        // ...
-      });
+      const credential = new EmailAuthCredential( auth.currentUser.email, password)
+      const result= reauthenticateWithCredential(auth.currentUser, credential);
+      console.log('new id tokens for user should be valid');
+      setCanSubmit(true)}catch(error){
+        console.log(error)
+      }
     }
+    
     const google_or_email=()=>{
       const auth=getAuth();
       if (auth.currentUser){
@@ -70,11 +87,11 @@ export default function Settings({user}) {
   
     const update_info=async(e)=>{
       e.preventDefault();
-      if (e.target.new_password.value){
+      if (e.target.new_password.value!==''){
         const password=e.target.new_password.value;
         update_pass(password);
       }
-      if(e.target.new_username.value){
+      if(e.target.new_username.value!==''){
         const username=e.target.new_username.value;
       
         updateProfile(auth.currentUser, {
@@ -83,7 +100,7 @@ export default function Settings({user}) {
         }).catch((error) => {
         });
       };
-      if (e.target.new_email.value){
+      if (e.target.new_email.value!==''){
         const email=e.target.new_email.value;    
         await setDoc(doc(db, `users`, `${auth.currentUser.uid}`), {
           email: email
@@ -104,12 +121,19 @@ export default function Settings({user}) {
     // if user signed in through google, then show 'no settings to edit'. otherwise, show change, email, password, username? 
     <div>
       {provider? <>
+      
         <div className='d-flex flex-row align-items-center'>
           <h5 className='me-2 pt-2'>You are signed in with</h5>
           <img style={{height:'1.8rem'}} src={google_logo} alt='google-logo'/>
         </div>
       </>:<>
+      {!canSubmit?<>
+      <Button variant="primary" onClick={handleShow}>
+       edit
+      </Button>
+        <ReAuthUser reAuthUser={reAuthUser} handleClose={handleClose} show={show} setShow={setShow} handleShow={handleShow}/>
       <h4>Account Information</h4>
+      </>:<><h4>Account Information</h4>
       <Form onSubmit={(e)=>update_info(e)}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
@@ -125,49 +149,18 @@ export default function Settings({user}) {
       </Form.Group>
       <div className='d-flex flex-row align-items-baseline'>
         <p className='me-3'>Cancel</p>
-        {canSubmit? <>
+       
         <Button variant="success" type="submit">
           Save Changes
         </Button>
-        </>:<>
-        <Button variant="primary" onClick={handleShow}>
-       Save Changes
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Please confirm email and password to update settings</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={(e)=>reAuthUser(e)}>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label" >
-              Email
-            </label>
-            <input type="text" className="form-control" name="email"  data-testid='login-email-input'/>
-          </div>
-          <div className="mb-3 login-form">
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
-            </label>
-            <input type="password" className="form-control" name="password" data-testid='login-password-input'/>
-            </div>
-            <Button variant="primary" type='submit' onClick={handleClose}>
-            Save Changes
-          </Button>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-         
-        </Modal.Footer>
-      </Modal>
-      </>}
+     
+       
+      {/* <ReAuthUser reAuthUser={reAuthUser} handleClose={handleClose} show={show} setShow={setShow} handleShow={handleShow}/> */}
+      
       </div>
      
     </Form>
+    </>}
     </>}
     <div className='mt-5'>
       <h5>Delete Account</h5>

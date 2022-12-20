@@ -33,6 +33,9 @@ export default function SavedJobs({user}) {
             )
           };
           console.log(newJobsList)
+          if (newJobsList.length>0){
+            setSavedJobs([...newJobsList])
+          }
           setSavedJobs([...newJobsList])
           setSavedJobIds(job_ids)
         }
