@@ -86,17 +86,17 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
    
     <div className='m-2'>
     
-    <Card style={{ width: '24rem' }} className='d-flex flex-row align-items-center'>
+    <Card style={{ width: '24rem',  borderTop: `4px solid ${cardColor(job.title)}`, borderLeft:`4px solid ${cardColor(job.title)}`, borderBottom:`4px solid ${cardColor(job.title)}`}} className='job-card d-flex flex-row align-items-center'>
     <Link className='job-card-link' data-testid='job-item-link-to-job1'  to={`/${job._id}`} state={{job:currentJob}}>
       {job.logo_url?<>
       <div className=''>
-      <img src={job.logo_url}alt={`${job.municipality} park district`} width={'150rem'}/>
+      <img className='job-img p-2' src={job.logo_url} alt={`${job.municipality} park district`} width={'150rem'}/>
       </div></>:<>
       <div>
       <img alt={`${job.municipality} park district`} variant="top" width={'150rem'} src={logo} />
       </div></>}
       </Link>
-      <Card.Body className='job-card-body'  style={{background:`${cardColor(job.title)}`, border: `1px solid ${cardColor(job.title)}`}}>
+      <Card.Body className='job-card-body'  style={{ borderTop: `4px solid ${cardColor(job.title)}`, borderRight:`4px solid ${cardColor(job.title)}`, borderBottom:`4px solid ${cardColor(job.title)}`}}>
     <Link className='job-card-link' data-testid='job-item-link-to-job2' to={`/${job._id}`} state={{job:currentJob}}>
         <Card.Text className='d-flex flex-row justify-content-between'>
           {job.municipality}  

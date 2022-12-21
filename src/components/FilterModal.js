@@ -19,9 +19,20 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
     e.preventDefault();
     if (e.target.zip.value !=='' ){
       const zip=await searchZip(e.target.zip.value);
-      console.log('searchZip center lat/lng',zip.features[0].center)
+      let feature_index=0
+      if (zip.features[0].place_name.includes('Illinois')){
+        feature_index=0
+      }
+      else if (zip.features[1].place_name.includes('Illinois')){
+        feature_index=1
+      } else if (!zip.features[2].place_name.includes('Illinois')){
+        feature_index=2
+      }else{
+        feature_index=3
+      }
+      const center=zip.features[feature_index].center
       const radiusInM=e.target.distance_range.value *1609.34;
-       await getBounds(zip.features[0].center[1],zip.features[0].center[0],radiusInM, e.target['payFilter'].value)
+       await getBounds(center[1],center[0],radiusInM, e.target['payFilter'].value)
       //  if (e.target['payFilter'].value !== 'all'){
       //   const payFilter=e.target['payFilter'].value
       //   setPay(payFilter)
@@ -91,7 +102,7 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
           <Modal.Title>Filter Your Search</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={(e)=>{getFilters(e)}}>
+          <Form onSubmit={(e)=>{getFilters(e); handleClose()}}>
           <label  className='mb-1' htmlFor='zip'>Location</label><br></br>
           <input data-testid='filter-location-btn' className='location-input mb-3' type='text' name='zip'/><br></br>
           <Form.Label>Distance</Form.Label>

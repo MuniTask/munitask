@@ -41,7 +41,7 @@ export default function InterestForm({ writeInterestForm,job,user }) {
       
 
         <button type="submit" data-testid='int-form-submit-btn' className="btn btn-primary mt-4">
-          Submit
+          Declare Interest
         </button>
       </form>
     </MDBContainer>

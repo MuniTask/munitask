@@ -13,13 +13,14 @@ export default function JobView({user, createPopUp}) {
   const location=useLocation();
   const [signInPopUp, setsignInPopUp] = useState(false);
  
- const handleClosePopUp = () => setsignInPopUp(false);
- const handleShowPopUp = () => setsignInPopUp(true);
+  const handleClosePopUp = () => setsignInPopUp(false);
+  const handleShowPopUp = () => setsignInPopUp(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const setJob=()=>{
     setJobs(location.state.job);
-  }
+  };
+  
   const writeInterestForm = async(e)=> {
     e.preventDefault()
       await addDoc(collection(db,"interestForms"),{
@@ -33,11 +34,13 @@ export default function JobView({user, createPopUp}) {
       window.dataLayer.push({
         event: 'submitted_interest',
         eventProps:{
-          category:'category',
-          action:'action',
-          label:'label'
+          category:'form submit',
+          action:'click',
+          label:'submit interest form'
         }
       })
+      console.log('interest Submitted')
+      handleClose();
   }
 
   useEffect(()=>{

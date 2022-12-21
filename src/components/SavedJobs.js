@@ -13,6 +13,7 @@ export default function SavedJobs({user}) {
       const newJobsList=[];
       const queryJobsList=[]
       const job_ids=[]
+     
       if (data.data().saved_jobs !== undefined){
           for (let doc of data.data().saved_jobs){
             job_ids.push(doc);
@@ -36,7 +37,6 @@ export default function SavedJobs({user}) {
           if (newJobsList.length>0){
             setSavedJobs([...newJobsList])
           }
-          setSavedJobs([...newJobsList])
           setSavedJobIds(job_ids)
         }
   };

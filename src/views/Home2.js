@@ -137,10 +137,10 @@ return mun_lat;
 };
 
   const showJob=()=>{
-    if (myjobs !==''){
+    if (myjobs !=='' && myjobs !==[]){
         return(myjobs.map((job, i)=> <JobItem key={i} createPopUp={createPopUp} savedJobs={savedJobs} myjobs={myjobs} job={job} user={user}/>))
     } else{
-        return(<><p>No jobs match this search</p></>)
+        return(<><h5>No jobs match this search</h5></>)
     }
     
    
@@ -231,7 +231,7 @@ return mun_lat;
     // -------------------------------
   };
   const sortByRecent =()=>{
-    const new_list=[...constJobs]
+    const new_list=[...myjobs]
     new_list.sort((a,b)=>b.date_added - a.date_added)
     setmyjobs(new_list)
   }
@@ -352,7 +352,8 @@ return mun_lat;
         
             {/* <MDBRow >  */}
             <div className='d-flex flex-row flex-wrap justify-content-center'>
-            {myjobs? <>{showJob()}</>:<></>}
+            {myjobs? <>{showJob()}</>:<>
+            <h5>No jobs match this search</h5></>}
             </div>
             {/* </MDBRow> */}
          

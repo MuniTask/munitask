@@ -63,6 +63,7 @@ const [user, setUser] = useState(getUserFromLocalStorage())
     console.log('user',user)
     setUser(user);
     incrementLogin(user);
+    handleFirstLogin(user);
     localStorage.setItem('user', JSON.stringify(user));
   };
   const incrementLogin=async(user)=>{
@@ -197,10 +198,10 @@ useEffect(()=>{
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>
-      <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
+      <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} writeUserData={writeUserData} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
       <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} createPopUp={createPopUp}/>}/>
       {/* <Route path='/maps' element={<Maps />}/> */}
-      <Route path='/userprofile' element={<UserProfile incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
+      <Route path='/userprofile' element={<UserProfile signUserOut={signUserOut} incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
 
      </Routes>
      </div>

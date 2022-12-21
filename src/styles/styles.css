@@ -4,24 +4,31 @@
     background-color: red;
   }
 }
-.card {
+div.job-card {
   height: 8rem;
+  z-index: 1;
+  overflow: hidden;
 }
 
 .job-card-body {
-  color: white;
+  color: black;
   border-radius: 0px 8px 8px 0px;
   height: 8rem;
   padding-top: 20px;
 }
 
+img.job-img {
+  z-index: -99;
+  overflow: hidden;
+}
+
 .job-card-link {
   text-decoration: none;
-  color: white;
+  color: black;
   z-index: 1;
 }
 .job-card-link:hover {
-  color: white;
+  color: rgb(99, 99, 99);
 }
 
 .like {

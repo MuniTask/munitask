@@ -10,7 +10,7 @@ import SubmittedInterests from '../components/SubmittedInterests';
 // import ReactGA from 'react-ga';
 
 
-export default function UserProfile({user, incrementLogin}) {
+export default function UserProfile({user, incrementLogin, signUserOut}) {
     const [verticalActive, setVerticalActive] = useState('tab1');
     const [forms, setForms]=useState([]);
     const [redirect, setRedirect]=useState(false);
@@ -142,7 +142,7 @@ export default function UserProfile({user, incrementLogin}) {
             <>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab2'}>
             <h4 className='display-5 mb-5 ms-5'>Settings</h4>
-            <Settings user={user}/>
+            <Settings signUserOut={signUserOut} user={user}/>
             </MDBTabsPane>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab1'}>
                 <h4 className='display-5 mb-5'>Personal Info</h4>

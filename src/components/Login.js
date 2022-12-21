@@ -4,14 +4,16 @@ import {db} from "../firebase";
 import { Link, Navigate } from 'react-router-dom';
 import googlebtn from '../images/btn_google_signin_light_pressed_web@2x.png';
 import brand from '../images/munitask-brand.png';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
-export default function Login({logIn, createPopUp, handleCloseLogin, setUser, user}) {
+export default function Login({logIn, createPopUp, writeUserData, setUser, user}) {
   const [redirect, setRedirect]=useState(false);
+  const handleRedirect=()=>{setRedirect(true)};
   const [goTo, setGoTo]=useState('/');
   const incrementLogin=async(user)=>{
     const userRef=doc(db,'users', user.uid);
     const docSnap = await getDoc(userRef);
+    
     if (docSnap.exists()) {
       const login_num=docSnap.data().user_logins + 1;
       await updateDoc(userRef, {user_logins:login_num})
@@ -25,45 +27,43 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser, us
     const userRef=doc(db,'users', user_info.uid);
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
+      console.log('exists')
      if (docSnap.data().user_logins<=1 || !docSnap.data().user_logins){
      console.log(false);
      const go_to='/userprofile'
      setGoTo(go_to);
+     incrementLogin(user_info);
      setRedirect(true);
-     incrementLogin(user_info)
     }
      else{
       setRedirect(true);
      }
-    // } else {
-    //   console.log("No such document in incrementLogin function");
-    // }
   }
   };
-  // const logInWithEmail= async(e)=>{
-  //   e.preventDefault();
-  //   const auth = getAuth();
-  //   const email= e.target.email.value
-  //   const password= e.target.password.value
-  //   signInWithEmailAndPassword(auth, email, password)
-  //   .then((userCredential) => {
-  //   // Signed in 
-  //   const user = userCredential.user;
-  //   incrementLogin(user);
-  //   setUser(user)
-  //   console.log(user)
-  //   handleFirstLogin(user);
-    
-  //   // ...
-  // })
-  // .catch((error) => {
-  //   console.log('user does not exist')
-  //   const errorCode = error.code;
-  //   const errorMessage = error.message;
-  //   console.log('user does not exist', errorCode, errorMessage)
-
-  // });
-  // };
+  const createLoginPopUp=async()=>{
+    const auth=getAuth();
+    const provider=new GoogleAuthProvider()
+    const result=await signInWithPopup(auth, provider);
+    const existingUserDoc = await getDoc(doc(db,"users",result.user.uid));
+    if (existingUserDoc.exists()){
+      console.log('existing user signed in');
+      console.log(existingUserDoc.data())
+    } else{
+      console.log('new user signed in')
+      writeUserData(result.user);
+    }
+    ////////
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    console.log('user',user)
+    setUser(user);
+    incrementLogin(user);
+    localStorage.setItem('user', JSON.stringify(user));
+    handleFirstLogin(user);
+  };
+  
   useEffect(()=>{
     
   },[])
@@ -114,7 +114,7 @@ export default function Login({logIn, createPopUp, handleCloseLogin, setUser, us
       </form>
       <p className='my-4 text-center'><b>OR</b></p>
       <div className='d-flex justify-content-center'>
-      <img src={googlebtn} alt='...' className='google-btn' onClick={()=>{createPopUp()}}/>
+      <img src={googlebtn} alt='...' className='google-btn' onClick={()=>{createLoginPopUp()}}/>
       </div>
 
       <div className='d-flex flex-row justify-content-center mt-3'>
