@@ -1,10 +1,5 @@
 import React, { useEffect } from 'react'
 import {
-    MDBCard,
-    MDBCardTitle,
-    MDBCardText,
-    MDBCardBody,
-    MDBCardImage,
     MDBContainer,
     MDBRow,
     MDBCol,

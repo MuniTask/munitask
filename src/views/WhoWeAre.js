@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import {GearSix, Handshake, Money, PaintRoller} from 'phosphor-react';
 
-export default function About() {
+export default function WhoWeAre() {
   useEffect(()=>{
     window.dataLayer.push({
       event: 'pageview',

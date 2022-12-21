@@ -35,30 +35,26 @@ export default function Navigation({user, signUserOut}) {
         
         <MDBNavbarNav  className='mr-auto mb-2 mb-lg-0'>
           <MDBNavbarItem>
-            <Link data-testid='home-nav-item' className='nav-link' to='/'>
+            <Link data-testid='homeNavItem' className='nav-link' to='/'>
             Home
             </Link>
           </MDBNavbarItem>
 
           <MDBNavbarItem>
-            <Link data-testid='how-itworks-nav-item' className='nav-link'  to="/howitworks" >
+            <Link data-testid='howItWorksNavItem' className='nav-link'  to="/howitworks" >
             How It Works
             </Link>
           </MDBNavbarItem>
           <MDBNavbarItem>
-            <Link  data-testid='about-nav-item' className='nav-link' to="/about" >
-            About
+            <Link  data-testid='whoWeAreNavItem' className='nav-link' to="/about" >
+            Who We Are
             </Link>
           </MDBNavbarItem >
-          <MDBNavbarItem>
-            <Link data-testid='faq-nav-item' className='nav-link'  to="/faqs" >
-            FAQs
-            </Link>
-          </MDBNavbarItem>
+     
         </MDBNavbarNav>
         {user.uid? <>
       <Dropdown>
-        <Dropdown.Toggle data-testid='user-dropdown' focusfirstitemonshow='false' className='user-btn' id="dropdown-basic">
+        <Dropdown.Toggle data-testid='userDropdown' focusfirstitemonshow='false' className='user-btn' id="dropdown-basic">
           Hello {`, ${user.displayName}`}
         </Dropdown.Toggle>
       <Dropdown.Menu className='user-dropdown'>
@@ -70,12 +66,12 @@ export default function Navigation({user, signUserOut}) {
         :
         <>
          <Dropdown >
-          <Dropdown.Toggle  data-testid='guestuser-dropdown' className='btn btn-light signin-btn' variant="success" id="dropdown-basic">
+          <Dropdown.Toggle  data-testid='guestUserDropdown' className='btn btn-light signin-btn' variant="success" id="dropdown-basic">
             Hello, Guest
           </Dropdown.Toggle>
           <Dropdown.Menu className='user-dropdown' variant='dark'>
-          <Link to='signup' data-testid='signup-link'>Sign Up</Link>
-              <Link to='login' data-testid='login-link'>Log in</Link>
+          <Link to='signup' data-testid='signUpLink'>Sign Up</Link>
+              <Link to='login' data-testid='logInLink'>Log in</Link>
           </Dropdown.Menu>
         </Dropdown>
         </>}

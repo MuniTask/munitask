@@ -3,9 +3,8 @@ import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation';
 import FooterBottom from './components/FooterBottom';
 // import Home from './views/Home';
-import About from './views/About';
+
 import HowItWorks from './views/HowItWorks';
-import FAQs from './views/FAQs';
 import JobView from './views/JobView';
 import AddToDb from './views/AddToDb';
 import Maps from './components/Maps';
@@ -23,6 +22,7 @@ import Login from './components/Login';
 import { SignIn } from 'phosphor-react';
 // import ReactGA from 'react-ga';
 import Signup from './components/Signup';
+import WhoWeAre from './views/WhoWeAre';
 
 
 function App() {
@@ -192,9 +192,8 @@ useEffect(()=>{
       <Route path='/' element={<Home2 createPopUp={createPopUp}  user={user}/>}/>
       <Route path='/home2' element={<Home2  incrementLogin={incrementLogin} user={user}/>}/>
       <Route path='/:jobTitle' element={<JobView createPopUp={createPopUp} user={user}/>}/>
-      <Route path='/about' element={<About />}/>
+      <Route path='/whoweare' element={<WhoWeAre />}/>
       <Route path='/howitworks' element={<HowItWorks signUp={signUpWithEmail} logIn={logInWithEmail}/>}/>
-      <Route path='/faqs' element={<FAQs />}/>
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>

@@ -12,7 +12,6 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
     "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
   const [startDate, setStartDate] = useState(new Date());
   const [currentUser, setCurrentUser]=useState({});
-  const [edit, setEdit]=useState(true);
   const [text, setText]=useState(false);
   const [call, setCall]=useState(false);
   const [email, setEmail]=useState(false);
@@ -25,18 +24,7 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleEdit=()=>{
- 
-      setEdit(true);
-      contactBy();
-        
-      };
-   
-  
 
-const handleCancelEdit=()=>{
-      setEdit(false);
-  };
 
 const contactBy=()=>{
     if (currentUser.contact_by==='phone'){
@@ -62,167 +50,69 @@ const contactBy=()=>{
     };
 
   const handleSubmit = (e) => {
-      e.preventDefault()
-      setEdit(false);
+      e.preventDefault();
+        let complete=true;
+        let percent_complete=0;
+        const contact=[];
+          if (e.target.phone.checked===true){
+            contact.push('phone')
+          } 
+          if (e.target.text.checked===true){
+            contact.push('text')
+          } if(e.target.email.checked===true){
+            contact.push('email')
+          };
+          if (!e.target.email.checked && !e.target.phone.checked && !e.target.text.checked){
+            contact.push('')
+          };
+          const job_pref_list=[e.target.lifeguard.checked, 
+            e.target.swim_instructor.checked, 
+            e.target.camp_counselor.checked, 
+            e.target.park_field_maintenance.checked,
+            e.target.pool_maintenance.checked,
+            e.target.golf_ranger.checked];
+          if (job_pref_list.includes(true)){
+            percent_complete++
+          }
+         
+          const datalayer_list=[e.target.first_name.value,
+            e.target.last_name.value,
+            e.target.birthday.value,
+            e.target.email.value,
+            e.target.state.value,
+            e.target.city.value,
+            e.target.zip.value,
+            e.target.phone_number.value,
+            contact[0],
+            e.target.job_zip.value,
+            e.target.social.value,
+            e.target.other_info.value,
+            e.target.age.value,
+            e.target.parent_or_child.value
+          ]
+        for (let x of datalayer_list){
+          if (x !=='' && x!== null && x!== undefined){
+            percent_complete++
+          }
+        }
+        console.log('percent complete:', `${Math.round(percent_complete/.15)}%`)    
+        console.log('succesfully added personal info')
+        window.dataLayer.push({
+          event:'form_submitted',
+          'form_name':'personal_info_form',
+          'percent_complete': `${Math.round(percent_complete/.15)}%`,
+        })
     };
 
   useEffect(()=>{
     getUser(user); 
-    if (user.user_logins >2){
-      setEdit(false)
-    }
+    contactBy();
   },[])
 
   return (
     <MDBContainer fluid>
-      {/* {!edit? <>
-        <div>
-          <p className="edit-btn" onClick={handleEdit}>edit</p>
-        <div className="form-row mb-3">
-          <div className="form-group d-flex flex-row">
-            <div className="w-25 me-4">
-              <h6>First Name</h6>
-              {currentUser.first_name?<> <p>{currentUser.first_name}</p></>
-              :<> <p>No response</p></>}
-             
-            </div>
-            <div className="w-25 me-4">
-              <h6>Last Name</h6>
-              {currentUser.last_name?<><p>{currentUser.last_name}</p></>
-              :<><p>No response</p></>}
-              
-            </div>
-            <div className="w-25">
-            <h6>Email</h6>
-            {currentUser.email?<><p>{currentUser.email}</p></>:<><p>No response</p></>}
-            </div>
-          </div>
-          <div className="d-flex flex-row">
-              <div className="w-25 mt-3 me-4">
-                <h6>Phone number</h6>
-                {currentUser.phone_number?<><p>{currentUser.phone_number}</p></>:<><p>No response</p></>}
-                </div>
-              <div className="form-group col-md-2 mt-3 me-4">
-              <h6>Birthday</h6>
-              {currentUser.birthday?<><p>{currentUser.birthday}</p></>:<><p>No response</p></>}
-              </div>
-              <div className="w-25 mt-3 ms-5">
-              <h6>Age of job seeker</h6>
-              {currentUser.age?<><p>{currentUser.age}</p></>:<><p>No response</p></>}
-              </div>
-            
-          </div>
-        </div>
-
-        <div className="form-group d-flex flex-row mb-5">
-          <div className="w-25 me-4">
-            <h6>State</h6>
-            {currentUser.state?<><p>{currentUser.state}</p></>
-            :<><p>No response</p></>}
-          </div>
-          <div className="w-25 me-4">
-          <h6>City</h6>
-            {currentUser.city?<><p>{currentUser.city}</p></>
-            :<><p>No response</p></>}
-          </div>
-          <div className="w-25 me-4">
-          <h6>Zip Code</h6>
-            {currentUser.zip?<><p>{currentUser.zip}</p></>
-            :<><p>No response</p></>}
-          </div>
-        </div>
-
-         
-        <h6>Job interests</h6>
-           <div className='mb-2'>
-               {currentUser.lifeguard?<>
-                <Check size={24} className='me-2'/>
-                <label htmlFor="lifeguard">lifeguard</label>
-                </>:<>
-                <X size={24} className='me-2'/>
-                <label htmlFor="lifeguard">lifeguard</label>
-                </>}
-               
-                
-              </div>
-              <div className='mb-2'>
-              {currentUser.swim_instructor?<>
-                <Check size={24} className='me-2'/>
-                <label htmlFor="swim_instructor">swim instructor</label>
-                </>:<>
-                <X size={24} className='me-2'/>
-                <label htmlFor="swim_instructor">swim instructor</label>
-                </>}
-               
-              </div>
-              <div className='mb-2'>
-                {currentUser.camp_counselor?<>
-                <Check size={24} className='me-2'/>
-                <label htmlFor="camp_counselor">camp counselor</label>
-                </>:<>
-                <X size={24} className='me-2'/>
-                <label htmlFor="camp_counselor">camp counselor</label>
-                </>}
-              </div>
-              <div className='mb-2'>
-                {currentUser.park_field_maintenance?<>
-                <Check size={24} className='me-2'/>
-                <label htmlFor="park_field_maintenance">park/field maintenance</label>
-                </>:<>
-                <X size={24} className='me-2'/>
-                <label htmlFor="park_field_maintenance">park/field maintenance</label>
-                </>}
-              </div>
-              <div className='mb-2'>
-                {currentUser.pool_maintenance?<>
-                <Check size={24} className='me-2'/>
-                <label htmlFor="pool_maintenance">pool maintenance</label>
-                </>:<>
-                <X size={24} className='me-2'/>
-                <label htmlFor="pool_maintenance">pool maintenance</label>
-                </>}
-              </div>
-              <div className='mb-2'>
-                {currentUser.golf_ranger?<>
-                <Check size={24} className='me-2'/>
-                <label htmlFor="golf_ranger">golf ranger</label>
-                </>:<>
-                <X size={24} className='me-2'/>
-                <label htmlFor="golf_ranger">golf ranger</label>
-                </>}
-              <br />
-              </div>
-          <div className="form-group mb-3 w-50 my-4">
-              <h6>Preferred job location zip code</h6>
-            {currentUser.job_zip?<><p>{currentUser.job_zip}</p></>
-            :<><p>No response</p></>}
-            </div>
-            <div className="form-group mb-3 w-50 my-4">
-              <h6>I am...</h6>
-            {currentUser.parent_or_child?<><p>{currentUser.parent_or_child}</p></>
-            :<><p>No response</p></>}
-            </div>
-          <div className="d-flex flex-column">
-          <h6>What is the best way for us to follow up with you?</h6>
-            {currentUser.contact_by?<><p>{currentUser.contact_by}</p></>
-            :<><p>No response</p></>}
-          </div>
-          <div className="form-group col-md-6 mb-3">
-          <h6>Please share a social media handle or username.</h6>
-            {currentUser.social?<><p>{currentUser.social}</p></>
-            :<><p>No response</p></>}
-          </div>
-          <div>
-          <h6>Is there anything else you'd like us to know about you?</h6>
-            {currentUser.other_info?<><p>{currentUser.other_info}</p></>
-            :<><p>No response</p></>}
-          </div>
-      </div>
-
-      
-      </>:<> */}
-      <form onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
-      {/* <p className="edit-btn" onClick={handleCancelEdit}>cancel</p> */}
+      <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
+  
         <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
@@ -419,7 +309,7 @@ const contactBy=()=>{
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>Your personal information has been succesfully updated!</Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleClose}>
+          <Button variant="success" data-testid='update-profile-info-btn' onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>
