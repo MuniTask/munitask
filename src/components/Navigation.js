@@ -52,7 +52,7 @@ export default function Navigation({user, signUserOut}) {
           </MDBNavbarItem >
      
         </MDBNavbarNav>
-        {user.uid? <>
+        {user.displayName? <>
       <Dropdown>
         <Dropdown.Toggle data-testid='userDropdown' focusfirstitemonshow='false' className='user-btn' id="dropdown-basic">
           Hello {`, ${user.displayName}`}

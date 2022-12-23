@@ -42,6 +42,7 @@ export default function UserProfile({user, incrementLogin, signUserOut}) {
           city:e.target.city.value,
           zip:e.target.zip.value,
           phone_number:e.target.phone_number.value,
+          parent_or_child: e.target.parent_or_child.value,
           contact_by:contact[0],
           job_zip:e.target.job_zip.value,
           social: e.target.social.value,
@@ -53,7 +54,7 @@ export default function UserProfile({user, incrementLogin, signUserOut}) {
           pool_maintenance:e.target.pool_maintenance.checked,
           golf_ranger:e.target.golf_ranger.checked,
           age:e.target.age.value,
-          parent_or_child: e.target.parent_or_child.value,
+         
       }, {merge:true})
       console.log('succesfully added personal info')
      

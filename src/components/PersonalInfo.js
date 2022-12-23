@@ -75,19 +75,12 @@ const contactBy=()=>{
             percent_complete++
           }
          
-          const datalayer_list=[e.target.first_name.value,
-            e.target.last_name.value,
-            e.target.birthday.value,
-            e.target.email.value,
-            e.target.state.value,
-            e.target.city.value,
-            e.target.zip.value,
+          const datalayer_list=[
             e.target.phone_number.value,
             contact[0],
             e.target.job_zip.value,
             e.target.social.value,
             e.target.other_info.value,
-            e.target.age.value,
             e.target.parent_or_child.value
           ]
         for (let x of datalayer_list){
@@ -113,7 +106,7 @@ const contactBy=()=>{
     <MDBContainer fluid>
       <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
   
-        <div className="form-row mb-3">
+        {/* <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
               <label htmlFor="first_name">First Name</label>
@@ -187,7 +180,7 @@ const contactBy=()=>{
             :<>  <input name="zip" type="text" className="form-control" id="inputZip" /></>}
           
           </div>
-        </div>
+        </div> */}
 
               <p className='mb-1'>Select jobs that interest you:</p>
               <div className='mb-2'>

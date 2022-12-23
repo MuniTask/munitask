@@ -237,14 +237,15 @@ return mun_lat;
   }
 
   const getSavedJobs=async()=>{
-    const userRef=doc(db,"users",user.uid)
-    const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) {
-      setSavedJobs(docSnap.data().saved_jobs);
-    } else {
-      console.log("No saved jobs!");
+    if (user.uid){
+      const userRef=doc(db,"users",user.uid)
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        setSavedJobs(docSnap.data().saved_jobs);
+      } else {
+        console.log("No saved jobs!");
+      }
     }
-    
   };
  
   useEffect(() => {

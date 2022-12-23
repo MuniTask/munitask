@@ -5,13 +5,24 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import {db} from "../firebase";
 import brand from '../images/munitask-brand.png';
 import googlebtn from '../images/btn_google_signin_light_pressed_web@2x.png';
+import { validEmail, validPassword } from '../Regex.js';
+import { Fragment } from 'react';
 export default function Signup({signUp, createPopUp,setUser}) {
-
-    const [redirect, setRedirect]=useState(false)
+  const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
+  "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
+  "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
+  "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
+  const [emailErr, setEmailErr] = useState(false);
+   const [pwdError, setPwdError] = useState(false);
+    const [redirect, setRedirect]=useState(false);
+    const age_array=Array.from({length: 85}, (x, i) => i);
+  
     const signUpWithEmail=(e)=>{
         e.preventDefault();
-        const email= e.target.email.value
-        const password= e.target.password.value
+        const email= e.target.email.value;
+        const password= e.target.password.value;
+        if (validPassword.test(password) && validEmail.test(email)) {
+          console.log('valid')
         const username=e.target.username.value
         const auth = getAuth();
         createUserWithEmailAndPassword(auth, email, password)
@@ -33,9 +44,14 @@ export default function Signup({signUp, createPopUp,setUser}) {
         const errorCode = error.code;
         const errorMessage = error.message;
         // ..
-      });
-      
-      
+      })}else if(!validPassword.test(password)){
+        setPwdError(true)
+      }else if(!validEmail.test(email)){
+        setEmailErr(true)
+      }else if(!validEmail.test(email) && !validPassword.test(password)){
+        setEmailErr(true)
+        setPwdError(true)
+      };
       }
       const writeUserData = async(result)=> {
         console.log('result displayname',result.displayName)
@@ -44,10 +60,11 @@ export default function Signup({signUp, createPopUp,setUser}) {
           name:result.displayName,
           email: result.email,
           saved_jobs:[],
-          user_logins:0
+          user_logins:0,
+        
         }, {merge:true});
-      }
-
+      };
+ 
   return (<>
     {redirect? <><Navigate to='/login'/></>:<>
     <div className='login-card'>
@@ -56,7 +73,7 @@ export default function Signup({signUp, createPopUp,setUser}) {
                     <img height={27} loading='lazy' src={brand} alt='munitask brand'/>
         </div>
             <form className='' onSubmit={(e)=>{signUpWithEmail(e)}}>
-
+        
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
                     <input type="text" className="form-control" name='username'/>
@@ -66,15 +83,17 @@ export default function Signup({signUp, createPopUp,setUser}) {
                 <div className="mb-3 login-form">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                     <input type="email" className="form-control" name='email'/>
-                    
+                    {emailErr? <><p style={{color: 'red', fontSize:'.85123rem'}}> Invalid email</p></>:<></>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" className="form-control" name='password'/>
+                    <input type="password" className="form-control" name='password' />
+                    {pwdError? <><p style={{color: 'red', fontSize:'.85123rem'}}> Password must be between 8 and 15 characters long, contain at least one number, at least one uppercase letter, and at least one lowercase letter.</p></>:<></>}
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Confirm Password</label>
                     <input type="password" className="form-control" name='confirmPassword'/>
+
                 </div>
                 <button type="submit" className="btn btn-primary login-btn ">Sign Up<i className="fa-solid fa-arrow-right-long fa-lg"></i></button>
               
@@ -92,6 +111,7 @@ export default function Signup({signUp, createPopUp,setUser}) {
                 </Link>
            
             {/* <button className='btn btn-light' onClick={()=>{createPopUp(); handleCloseSignup()}}>Sign in with Google</button> */}
+            
             </div>
             </div>
             </>}

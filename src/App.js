@@ -2,12 +2,9 @@ import './styles/styles.css';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import Navigation from './components/Navigation';
 import FooterBottom from './components/FooterBottom';
-// import Home from './views/Home';
-
 import HowItWorks from './views/HowItWorks';
 import JobView from './views/JobView';
 import AddToDb from './views/AddToDb';
-import Maps from './components/Maps';
 import UserProfile from './views/UserProfile';
 import { useEffect, useState } from 'react';
 import { getAuth, signInWithPopup,GoogleAuthProvider, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
@@ -15,19 +12,14 @@ import { collection, addDoc, getDocs, setDoc, doc, getDoc, updateDoc} from "fire
 import {db} from "./firebase";
 import Addtodb2 from './views/Addtodb2';
 import Home2 from './views/Home2';
-import JobItem from './components/JobItem';
-import { increment } from 'firebase/database';
 import ForgotPassword from './components/ForgotPassword';
 import Login from './components/Login';
-import { SignIn } from 'phosphor-react';
-// import ReactGA from 'react-ga';
 import Signup from './components/Signup';
 import WhoWeAre from './views/WhoWeAre';
+import UserInfoForm from './views/UserInfoForm';
 
 
 function App() {
-  // ReactGA.initialize(process.env.REACT_APP_GA_ID);
-//  const [user, setUser]=useState({})
 const getUserFromLocalStorage = () => {
   const foundUser = localStorage.getItem('user')
   if (foundUser){
@@ -35,11 +27,10 @@ const getUserFromLocalStorage = () => {
   }
   return {}
 };
-const [redirect, setRedirect]=useState(false)
-const [user, setUser] = useState(getUserFromLocalStorage())
+const [redirect, setRedirect]=useState(false);
+const [user, setUser] = useState(getUserFromLocalStorage());
  const auth = getAuth();
- const [signedIn, setSignedIn]=useState(false)
-
+ const [signedIn, setSignedIn]=useState(false);
 
   const createPopUp=async()=>{
     const auth=getAuth();
@@ -201,6 +192,7 @@ useEffect(()=>{
       <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} createPopUp={createPopUp}/>}/>
       {/* <Route path='/maps' element={<Maps />}/> */}
       <Route path='/userprofile' element={<UserProfile signUserOut={signUserOut} incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
+      <Route path='/userinfo' element={<UserInfoForm user={user}/>}/>
 
      </Routes>
      </div>

@@ -30,7 +30,7 @@ export default function Login({logIn, createPopUp, writeUserData, setUser, user}
       console.log('exists')
      if (docSnap.data().user_logins<=1 || !docSnap.data().user_logins){
      console.log(false);
-     const go_to='/userprofile'
+     const go_to='/userinfo'
      setGoTo(go_to);
      incrementLogin(user_info);
      setRedirect(true);
