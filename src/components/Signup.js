@@ -95,13 +95,13 @@ export default function Signup({signUp, createPopUp,setUser}) {
                     <input type="password" className="form-control" name='confirmPassword'/>
 
                 </div>
-                <button type="submit" className="btn btn-primary login-btn ">Sign Up<i className="fa-solid fa-arrow-right-long fa-lg"></i></button>
+                <button type="submit" data-testid='signInSubmit' className="btn btn-dark login-btn ">Sign Up<i className="fa-solid fa-arrow-right-long fa-lg"></i></button>
               
             </form>
             <p className='my-4 text-center'><b>OR</b></p>
             <div className='d-flex justify-content-center'>
              
-            <img src={googlebtn} alt='...' className='google-btn' onClick={()=>{createPopUp()}}/>
+            <img src={googlebtn} alt='...' data-testid='googleBtn' className='google-btn' onClick={()=>{createPopUp()}}/>
            
             </div>
             <div className='d-flex flex-row justify-content-center mt-3'>

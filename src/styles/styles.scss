@@ -3,6 +3,7 @@
 @import "./mediaquery";
 @import "./jobItem";
 @import "./maps";
+@import "./buttons";
 
 $accordion-button-active-bg:              
 tint-color(#ffffff);
@@ -116,30 +117,7 @@ a.navbar-brand{
     color: white;
   }
 }
-.user-btn, .signin-btn{
-  border-radius: 15px;
-  font-size: 1rem;
-  font-weight:bold;
-  border:2px solid $green-color;
-  color: #e8f8b3;
-  background-color: $bootstrap-dark-color;
-  
-  &:hover{
-    border-radius: 15px;
-  font-size: 1rem;
-  font-weight:bold;
-  border:2px solid $green-color;
-  color: $dark-purple-color;
-  background-color: $green-color;
-  }&:first-child:active{
-    border-radius: 15px;
-  font-size: 1rem;
-  font-weight:bold;
-  border:2px solid $green-color;
-  color: $dark-purple-color;
-  background-color: $green-color;
-  }
-}
+
 div.user-dropdown.dropdown-menu.show{
   background-color: $bootstrap-dark-color;
   text-decoration: none;

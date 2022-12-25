@@ -2,14 +2,21 @@ div.job-card{
     height: 8rem;
     z-index: 1;
     overflow: hidden;
+  
+  
+
 }
 .job-card-body{
   color: black;
     border-radius: 0px 8px 8px 0px;
     height: 8rem;
     padding-top: 20px;
-    
   }
+  .job-item-info-bubble{
+    background-color: rgba(194, 190, 246, 0.1);
+    border-radius: 10px;
+  }
+
 img.job-img{
   z-index: -99;
   overflow: hidden;
@@ -22,7 +29,9 @@ img.job-img{
         color: rgb(99, 99, 99);
     }
   }
-
+.card-text{
+  color: rgb(99, 99, 99);
+}
   .like{
     z-index: 3;
   }
@@ -38,9 +47,9 @@ img.job-img{
     overflow: hidden;
   white-space: nowrap;
   margin:1px;
+  color: rgb(86, 87, 117);
   }
   .card-text{
     font-size:.9rem;
     margin-bottom: 7px;
   }
- 

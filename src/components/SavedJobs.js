@@ -1,4 +1,4 @@
-import { arrayRemove, collection, doc, getDoc, getDocs, limit, query, updateDoc, where } from 'firebase/firestore';
+import {  collection, doc, getDoc, getDocs, limit, query, where } from 'firebase/firestore';
 import {db} from '../firebase';
 import React, { useEffect, useState } from 'react'
 import JobItem from './JobItem';
@@ -47,7 +47,7 @@ export default function SavedJobs({user}) {
     const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-    if (data_lst == null || data_lst.length==0){
+    if (data_lst === null || data_lst.length===0){
       return 0
     }
     const mun_zip=data_lst[0].zip_code;
@@ -58,7 +58,7 @@ export default function SavedJobs({user}) {
     const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-    if (data_lst == null || data_lst.length==0){
+    if (data_lst === null || data_lst.length===0){
       return 0
     }
     const mun_logo=data_lst[0].logo_url;
@@ -69,7 +69,7 @@ export default function SavedJobs({user}) {
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-  if (data_lst == null || data_lst.length==0){
+  if (data_lst === null || data_lst.length===0){
     return 0
   }
   const mun_lng=data_lst[0].longitude;
@@ -79,7 +79,7 @@ export default function SavedJobs({user}) {
   const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
-  if (data_lst == null || data_lst.length==0){
+  if (data_lst === null || data_lst.length===0){
     return 0
   }
   const mun_lat=data_lst[0].latitude;

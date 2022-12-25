@@ -14,7 +14,7 @@ export default function Settings({user, signUserOut}) {
     "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
     const auth=getAuth();
     const [currentUser, setCurrentUser]=useState({});
-    const age_array=Array.from({length: 85}, (x, i) => i);
+    const age_array=Array.from({length: 50}, (x, i) => i+15);
     const [canSubmit, setCanSubmit]=useState(false)
     const [provider, setProvider]=useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
@@ -30,6 +30,15 @@ export default function Settings({user, signUserOut}) {
     const handleCloseDeleteModal = () => setShowDeleteModal(false);
     const handleShowDeleteModal = () => setShowDeleteModal(true);
 
+    const minimum_year_of_birth=()=>{
+      const date = new Date();
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      // This arrangement can be altered based on how we want the date's format to appear.
+      let currentDate = `${year-15}-${month}-${day}`;
+     return currentDate
+    };
     const delete_user=()=>{
       const auth = getAuth();
     const user = auth.currentUser;
@@ -130,54 +139,72 @@ export default function Settings({user, signUserOut}) {
   return (
     
     <div>
-      {/* {user.uid?<> */}
-      {provider? <>
+   
       
-        <div className='d-flex flex-row align-items-center'>
+        {/* <div className='d-flex flex-row align-items-center'>
           <h5 className='me-2 pt-2'>You are signed in with</h5>
           <img style={{height:'1.8rem'}} src={google_logo} alt='google-logo'/>
-        </div>
-      </>:<>
+        </div> */}
+
       <h4>Account Information</h4>
       {!canSubmit?<>
         <Form>
-        {/* <div className="form-row mb-3">
+       
+        {provider?<>
+         <div className='d-flex flex-row align-items-center'>
+          <h5 className='me-2 pt-2'>You are signed in with</h5>
+          <img style={{height:'1.8rem'}} src={google_logo} alt='google-logo'/>
+        </div></>:<>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control disabled type="email" name='new_email' placeholder='email' />
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicUsername">
+        <Form.Label>Username</Form.Label>
+        <Form.Control disabled type="username" name='new_username' placeholder='username'/>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control disabled type="password" name='new_password'  placeholder='password' />
+      </Form.Group>
+        </>}
+        <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
               <label htmlFor="first_name">First Name</label>
-              {user.first_name?<> <input name="first_name" type="text" defaultValue={user.first_name}  className="form-control " id="first_name"  /></>
-              :<> <input name="first_name" type="text" placeholder="First Name" className="form-control " id="first_name"  /></>}
+              {currentUser.first_name?<> <input disabled name="first_name" type="text" defaultValue={currentUser.first_name}  className="form-control " id="first_name"  /></>
+              :<> <input disabled name="first_name" type="text" placeholder="First Name" className="form-control " id="first_name"  /></>}
              
             </div>
             <div className="w-25 me-4">
               <label htmlFor="last_name">Last Name</label>
-              {user.last_name?<><input name="last_name" type="text" className="form-control " id="last_name" defaultValue={user.last_name} /></>
-              :<><input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
+              {currentUser.last_name?<><input disabled name="last_name" type="text" className="form-control " id="last_name" defaultValue={currentUser.last_name} /></>
+              :<><input disabled name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
               
             </div>
             <div className="w-25">
               <label htmlFor="inputEmail4">Email</label>
-              {user.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={user.email} /></>
-              :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
+              {currentUser.email?<><input disabled name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} /></>
+              :<><input disabled name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
              
             </div>
           </div>
           <div className="d-flex flex-row">
             <div className="w-25  mt-3 me-4">
                 <label htmlFor="inputTel4">Phone Number</label>
-                {user.phone_number?<><input name="phone_number" type="tel" className="form-control" id="inputTel4" defaultValue={user.phone_number} /></>
-                :<><input name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" /></>}
+                {currentUser.phone_number?<><input disabled name="phone_number" type="tel" className="form-control" id="inputTel4" defaultValue={currentUser.phone_number} /></>
+                :<><input disabled name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" /></>}
               </div>
             <div className="form-group w-25 mt-3 me-4 ">
               <label htmlFor="birthday">Birthday</label>
-              {user.birthday?<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={user.birthday} /></>
-              :<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" /></>}
+              {currentUser.birthday?<><input disabled type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={currentUser.birthday} /></>
+              :<><input disabled type="date" className="form-control" id="birthday" name="birthday"  min='1970-01-01' max={minimum_year_of_birth()} /></>}
             </div>
             <div className="form-group w-25 mt-3">
             <label htmlFor="age">Age of job seeker</label>
-            <select name="age" id="inputAge" className="form-control w-50">
-              {user.age?<>
-                <option>{user.age}</option>
+            <select name="age" id="inputAge" className="form-control w-50" disabled>
+              {currentUser.age?<>
+                <option>{currentUser.age}</option>
                 {age_array.map((age,i)=><Fragment key={i}>
               <option>{age}</option>
               </Fragment>)}</>
@@ -192,9 +219,9 @@ export default function Settings({user, signUserOut}) {
         <div className="form-group d-flex flex-row mb-5">
           <div className="w-25 me-4">
             <label htmlFor="inputState">State</label>
-            <select name="state" id="inputState" className="form-control">
-              {user.state?<>
-                <option>{user.state}</option>
+            <select name="state" id="inputState" className="form-control" disabled>
+              {currentUser.state?<>
+                <option>{currentUser.state}</option>
                 {states.map((state,i)=><Fragment key={i}>
               <option>{state}</option>
               </Fragment>)}</>
@@ -205,30 +232,17 @@ export default function Settings({user, signUserOut}) {
           </div>
           <div className="w-25 me-4">
             <label htmlFor="inputCity">City</label>
-            {user.city?<> <input name="city" type="text" className="form-control" id="inputCity" defaultValue={user.city} />
-            </>:<> <input name="city" type="text" className="form-control" id="inputCity" /></>}
+            {currentUser.city?<> <input disabled name="city" type="text" className="form-control" id="inputCity" defaultValue={currentUser.city} />
+            </>:<> <input disabled name="city" type="text" className="form-control" id="inputCity" /></>}
            
           </div>
           <div className="w-25 me-4">
             <label htmlFor="inputZip">Zip</label>
-            {user.zip?<>  <input name="zip" type="text" className="form-control" id="inputZip" defaultValue={user.zip} /></>
-            :<>  <input name="zip" type="text" className="form-control" id="inputZip" /></>}
+            {currentUser.zip?<>  <input disabled name="zip" type="text" className="form-control" id="inputZip" defaultValue={currentUser.zip} /></>
+            :<>  <input disabled name="zip" type="text" className="form-control" id="inputZip" /></>}
           
           </div>
-        </div> */}
-
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control disabled type="email" name='new_email' placeholder='email' />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control disabled type="username" name='new_username' placeholder='username'/>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control disabled type="password" name='new_password'  placeholder='password' />
-      </Form.Group>
+        </div>
       <div className='d-flex flex-row align-items-baseline'>
         <Button variant="primary" onClick={handleShow}>
        edit
@@ -281,7 +295,7 @@ export default function Settings({user, signUserOut}) {
             <div className="form-group w-25 mt-3 me-4 ">
               <label htmlFor="birthday">Birthday</label>
               {currentUser.birthday?<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={currentUser.birthday} /></>
-              :<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" /></>}
+              :<><input type="date" className="form-control" id="birthday" name="birthday"  min='1970-01-01' max={minimum_year_of_birth()} /></>}
             </div>
             <div className="form-group w-25 mt-3">
             <label htmlFor="age">Age of job seeker</label>
@@ -337,7 +351,7 @@ export default function Settings({user, signUserOut}) {
      
     </Form>
     </>}
-    </>}
+    
     <div className='mt-5'>
       <h5>Delete Account</h5>
       <p>All of your data and interest forms will be deleted from MuniTask.</p>

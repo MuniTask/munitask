@@ -17,6 +17,11 @@ div.job-card {
   padding-top: 20px;
 }
 
+.job-item-info-bubble {
+  background-color: rgba(194, 190, 246, 0.1);
+  border-radius: 10px;
+}
+
 img.job-img {
   z-index: -99;
   overflow: hidden;
@@ -28,6 +33,10 @@ img.job-img {
   z-index: 1;
 }
 .job-card-link:hover {
+  color: rgb(99, 99, 99);
+}
+
+.card-text {
   color: rgb(99, 99, 99);
 }
 
@@ -47,6 +56,7 @@ img.job-img {
   overflow: hidden;
   white-space: nowrap;
   margin: 1px;
+  color: rgb(86, 87, 117);
 }
 
 .card-text {
@@ -80,6 +90,54 @@ img.job-img {
 
 .map-body {
   height: 100vh;
+}
+
+.login-btn {
+  background-color: #292b2c;
+  color: #e8f8b3;
+  border-radius: 15px;
+  font-weight: bold;
+}
+.login-btn:hover {
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 2px solid #c3db74;
+  color: #52417b;
+  background-color: #c3db74;
+}
+.login-btn:first-child:active {
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 2px solid #c3db74;
+  color: #52417b;
+  background-color: #c3db74;
+}
+
+.user-btn, .signin-btn {
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 2px solid #c3db74;
+  color: #e8f8b3;
+  background-color: #292b2c;
+}
+.user-btn:hover, .signin-btn:hover {
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 2px solid #c3db74;
+  color: #52417b;
+  background-color: #c3db74;
+}
+.user-btn:first-child:active, .signin-btn:first-child:active {
+  border-radius: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 2px solid #c3db74;
+  color: #52417b;
+  background-color: #c3db74;
 }
 
 * {
@@ -177,31 +235,6 @@ a.navbar-brand {
 .list-btn:focus, .map-btn:focus {
   background-color: #000000;
   color: white;
-}
-
-.user-btn, .signin-btn {
-  border-radius: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: 2px solid #c3db74;
-  color: #e8f8b3;
-  background-color: #292b2c;
-}
-.user-btn:hover, .signin-btn:hover {
-  border-radius: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: 2px solid #c3db74;
-  color: #52417b;
-  background-color: #c3db74;
-}
-.user-btn:first-child:active, .signin-btn:first-child:active {
-  border-radius: 15px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: 2px solid #c3db74;
-  color: #52417b;
-  background-color: #c3db74;
 }
 
 div.user-dropdown.dropdown-menu.show {

@@ -8,7 +8,7 @@ import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopu
 
 export default function Login({logIn, createPopUp, writeUserData, setUser, user}) {
   const [redirect, setRedirect]=useState(false);
-  const handleRedirect=()=>{setRedirect(true)};
+ 
   const [goTo, setGoTo]=useState('/');
   const incrementLogin=async(user)=>{
     const userRef=doc(db,'users', user.uid);
@@ -102,19 +102,19 @@ export default function Login({logIn, createPopUp, writeUserData, setUser, user}
             name="password"
             data-testid='login-password-input'
           />
-          <a href="/passwordrecovery" data-testid='forgot-pass-btn' className="login-link1">
+          <a href="/passwordrecovery" data-testid='forgotPassBtn' className="login-link1">
             Forgot your password?
           </a>
         </div>
     
-        <button type="submit" className="btn btn-primary login-btn ">
+        <button type="submit" data-testid='LogInSubmit' className="btn btn-dark login-btn ">
           Log In<i className="fa-solid fa-arrow-right-long fa-lg"></i>
         </button>
        
       </form>
       <p className='my-4 text-center'><b>OR</b></p>
       <div className='d-flex justify-content-center'>
-      <img src={googlebtn} alt='...' className='google-btn' onClick={()=>{createLoginPopUp()}}/>
+      <img src={googlebtn} alt='...' className='googleBtn' onClick={()=>{createLoginPopUp()}}/>
       </div>
 
       <div className='d-flex flex-row justify-content-center mt-3'>

@@ -6,6 +6,7 @@ import {db} from '../firebase';import JobViewMap from '../components/JobViewMap'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InterestForm from '../components/InterestForm';
+import { titleCase } from '../FunctionStorage';
 
 export default function JobView({user, createPopUp}) {
   const [jobs, setJobs]=useState({})
@@ -54,25 +55,25 @@ export default function JobView({user, createPopUp}) {
       <div className='job-info-header'>
         <div className='d-flex flex-row align-items-baseline'>
           <h4 className='display-5'>{jobs.title}</h4>
-          {user.uid?<><p className='interest-btn ms-3 ' data-testid='submit-interest-btn' onClick={handleShow}>
+          {user.uid?<><p className='interest-btn ms-3 ' data-testid='submitInterestBtn' onClick={handleShow}>
             Submit Interest
           </p></>
-          :<><p className='interest-btn ms-3 ' data-testid='submit-interest-btn-guest' onClick={handleShowPopUp}>
+          :<><p className='interest-btn ms-3 ' data-testid='submitInterestBtnGuest' onClick={handleShowPopUp}>
           Submit Interest
         </p></>}
         <Modal  show={signInPopUp} onHide={handleClosePopUp}>
               
               <Modal.Body>Sign in or create an account to save listings.</Modal.Body>
               <Modal.Footer>
-                <Button variant="secondary" data-testid='login-modal-no-btn' onClick={handleClosePopUp}>
+                <Button variant="secondary" data-testid='loginModalNoBtn' onClick={handleClosePopUp}>
                   No, thanks
                 </Button>
                 <Link to='/login'>
-                  <Button variant="success" data-testid='login-modal-login-btn'>
+                  <Button variant="success" data-testid='loginModalLoginBtn'>
                     Log in
                   </Button>
                 </Link>
-                <Link to='/signup' data-testid='login-modal-signup-btn'>
+                <Link to='/signup' data-testid='loginModalSignupBtn'>
                   <Button variant="success">
                     Sign up
                   </Button>
@@ -81,7 +82,7 @@ export default function JobView({user, createPopUp}) {
         </Modal>
         </div>
         <p>{jobs.municipality} Park Disctrict</p>
-        <a href={jobs.park_url} data-testid='park-url-link' className='mb-4'>{jobs.park_url}</a>
+        <a href={jobs.park_url} data-testid='parkUrlLink' className='mb-4'>{jobs.park_url}</a>
         
       </div>
       <div>

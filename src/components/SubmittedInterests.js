@@ -147,10 +147,10 @@ export default function SubmittedInterests({user}) {
             <li>{form.other_info}</li>
          </ul>
          {/* FIX STATE!! */}
-         <Link  to={`/${form.job_id}`} state={{job:form[0]}}>View job listing</Link>
+         <Link  to={`/${form.job_id}`} data-testid='linkToJobFromInterestForm' state={{job:form[0]}}>View job listing</Link>
          
         
-         <Button variant="outline-danger" onClick={handleShow}>
+         <Button variant="outline-danger" data-testid='deleteInterestFormBtn' onClick={handleShow}>
         Delete
       </Button>
 
@@ -163,7 +163,7 @@ export default function SubmittedInterests({user}) {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="outline-danger" onClick={()=>unsubmit_form(form.id)}>
+          <Button variant="outline-danger" data-testid='confirmDeleteInterestFormBtn' onClick={()=>unsubmit_form(form.id)}>
             Delete form
           </Button>
         </Modal.Footer>

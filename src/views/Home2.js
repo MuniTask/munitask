@@ -16,6 +16,7 @@ import poolMaint from '../images/swimming-pool.png';
 import campCounselor from '../images/tent.png';
 import parkMaint from '../images/under-maintenance.png';
 import { geohashForLocation } from 'geofire-common';
+import { titleCase } from '../FunctionStorage';
 // import ReactGA from 'react-ga';
    
 export default function Home2({user, createPopUp, redirect}) {
@@ -261,7 +262,6 @@ return mun_lat;
     })
   //  ReactGA.pageview(window.location.pathname)
     getSavedJobs();
-
   },[])
 
   return (<>
@@ -272,31 +272,31 @@ return mun_lat;
       <div >
       <div className='mt-4 d-flex flex-row justify-content-center search-container'>
       <div className='d-flex flex-column me-3'>
-        <h5 onClick={()=>{handleFilter('')}} data-testid='all-filter-btn'  className='mx-auto d-flex justify-content-center align-items-center job-icon p-0 m-0' alt='...' style={{border:'4px solid gray',}}><DotsThreeOutline size={40} /></h5>
+        <h5 onClick={()=>{handleFilter('')}} data-testid='allFilterBtn'  className='mx-auto d-flex justify-content-center align-items-center job-icon p-0 m-0' alt='...' style={{border:'4px solid gray',}}><DotsThreeOutline size={40} /></h5>
          <p className='job-icon-text text-center'>All</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('golf ranger')} data-testid='golf-ranger-filter-btn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+        <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
         <p className='job-icon-text text-center'>Golf Ranger</p>
         </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('swim instructor')} data-testid='swim-instructor-filter-btn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
+        <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
          <p className='job-icon-text text-center'>Swim Instructor</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguard-filter-btn' className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
+        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguardFilterBtn' className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
          <p className='job-icon-text text-center'>Lifeguard</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('pool maintenance')} data-testid='pool-maintenance-filter-btn' className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
+        <img onClick={()=>handleFilter('pool maintenance')} data-testid='poolMaintenanceFilterBtn' className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
         <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('camp counselor')} data-testid='golf-ranger-filter-btn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
-         <p className='job-icon-text text-center'>Golf Ranger</p>
+        <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+         <p className='job-icon-text text-center'>Camp Counselor</p>
          </div>
         <div className='d-flex flex-column'>
-        <img onClick={()=>handleFilter('park maintenance')} data-testid='park-maintenance-filter-btn' className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
+        <img onClick={()=>handleFilter('park maintenance')} data-testid='parkMaintenanceFilterBtn' className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
          <p className='job-icon-text text-center'>Park Maintenance</p>
          </div>
         
@@ -315,29 +315,29 @@ return mun_lat;
         {/* ------------------------ */}
 
         <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
-          <div className='d-flex justify-content-end me-2 ' data-testid='refresh-jobs-btn'onClick={()=>{handleFilter('')}}>
+          <div className='d-flex justify-content-end me-2 ' data-testid='refreshJobsBtn'onClick={()=>{handleFilter('')}}>
             <p className='me-2' >Refresh</p>
             <ArrowsClockwise size={24} />
           </div>
           <Dropdown>
-              <Dropdown.Toggle variant='link' data-testid='sortby-dropdown' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
+              <Dropdown.Toggle variant='link' data-testid='sortByDropdown' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
                 Sort By
               </Dropdown.Toggle>
 
               <Dropdown.Menu >
-                <Dropdown.Item data-testid='sortby-recent-btn' onClick={sortByRecent}>Most Recent</Dropdown.Item>
-                <Dropdown.Item data-testid='sortby-relevant-btn' onClick={()=>{handleFilter('')}}>Relevance</Dropdown.Item>
+                <Dropdown.Item data-testid='sortByRecentBtn' onClick={sortByRecent}>Most Recent</Dropdown.Item>
+                <Dropdown.Item data-testid='sortByRelevantBtn' onClick={()=>{handleFilter('')}}>Relevance</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             
           <div>
-          <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal} data-testid='show-filter-modal-btn'>Filter<SlidersHorizontal size={32}/></Button>
+          <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal} data-testid='showFilterModalBtn'>Filter<SlidersHorizontal size={32}/></Button>
           <FilterModal handleClose={handleCloseModal} constJobs={constJobs}  setmyjobs={setmyjobs} show={showModal}/>
             {/* // <Button className='filter-btn' variant='link' type="button" >Filters <SlidersHorizontal size={32} /></Button> */}
             </div>
             <ButtonGroup >
-                <Button variant='outline-dark' className='list-btn' data-testid='list-view-btn' onClick={handleCloseMap}>List</Button>
-                <Button variant='outline-dark' className='map-btn' data-testid='map-view-btn' onClick={handleShowMap}>Map</Button>
+                <Button variant='outline-dark' className='list-btn' data-testid='listViewBtn' onClick={handleCloseMap}>List</Button>
+                <Button variant='outline-dark' className='map-btn' data-testid='mapViewBtn' onClick={handleShowMap}>Map</Button>
             </ButtonGroup>
               
         </div>

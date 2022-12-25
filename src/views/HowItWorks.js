@@ -14,7 +14,7 @@ useEffect(()=>{
 })},[])
   return (
     <>
-    <h4 className='display-4'>How It Works</h4>
+    
     <FAQs/>
     </>
   )

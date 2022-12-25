@@ -38,25 +38,21 @@ export default function FooterBottom() {
               <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
                 <p>
-                  <Link to='/' data-testid='footer-jobs-link' className='text-reset'>
+                  <Link to='/' data-testid='footerJobsLink' className='text-reset'>
                     Jobs
                   </Link>
                 </p>
                 <p>
-                  <Link to='/about' data-testid='footer-about-link' className='text-reset'>
-                    About
+                  <Link to='/howitwokrs' data-testid='footerAboutLink' className='text-reset'>
+                    How It Works
                   </Link>
                 </p>
                 <p>
-                  <a href='#!' className='text-reset'>
-                    Mission
+                  <a href='/whoweare' className='text-reset'>
+                    Who We Are
                   </a>
                 </p>
-                <p>
-                  <a href='#!' className='text-reset'>
-                    Help
-                  </a>
-                </p>
+                
               </MDBCol>
   
               <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>

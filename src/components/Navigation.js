@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
+import React, {  useState } from 'react'
 import brand from '../images/munitask-brand.png';
-import { getAuth, signInWithPopup,GoogleAuthProvider } from "firebase/auth";
 import { Link } from "react-router-dom";
-import { MDBBtn, MDBCollapse, MDBContainer, MDBDropdown, MDBDropdownItem, MDBDropdownMenu, MDBDropdownToggle, MDBIcon, MDBNavbar, MDBNavbarBrand, MDBNavbarItem, MDBNavbarLink, MDBNavbarNav, MDBNavbarToggler } from 'mdb-react-ui-kit';
-import { NavItem, Dropdown, Modal, Button } from 'react-bootstrap';
+import {  MDBCollapse, MDBContainer, MDBNavbar, MDBNavbarBrand, MDBNavbarItem, MDBNavbarNav, MDBNavbarToggler } from 'mdb-react-ui-kit';
+import { Dropdown } from 'react-bootstrap';
 import {List} from 'phosphor-react';
-import Login from './Login';
-import Signup from './Signup';
 export default function Navigation({user, signUserOut}) {
   const [showNavNoToggler, setShowNavNoToggler] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
- 
+
   return (
     <MDBNavbar expand='lg' className='navigation'  dark bgColor='dark'  >
     <MDBContainer fluid>
@@ -46,7 +38,7 @@ export default function Navigation({user, signUserOut}) {
             </Link>
           </MDBNavbarItem>
           <MDBNavbarItem>
-            <Link  data-testid='whoWeAreNavItem' className='nav-link' to="/about" >
+            <Link  data-testid='whoWeAreNavItem' className='nav-link' to="/whoweare" >
             Who We Are
             </Link>
           </MDBNavbarItem >
@@ -58,8 +50,8 @@ export default function Navigation({user, signUserOut}) {
           Hello {`, ${user.displayName}`}
         </Dropdown.Toggle>
       <Dropdown.Menu className='user-dropdown'>
-        <Link onClick={()=>{signUserOut()}} data-testid='signout-link' to='/'>Sign Out</Link><br/>
-        <Link to='/userprofile' data-testid='profile-link'>Profile</Link>
+        <Link onClick={()=>{signUserOut()}} data-testid='signoutLink' to='/'>Sign Out</Link><br/>
+        <Link to='/userprofile' data-testid='profileLink'>Profile</Link>
       </Dropdown.Menu>
     </Dropdown>
         </>

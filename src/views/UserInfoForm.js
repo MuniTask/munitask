@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import {db} from '../firebase';
 
 export default function UserInfoForm({user}) {
-  const age_array=Array.from({length: 85}, (x, i) => i);
+  const age_array=Array.from({length: 50}, (x, i) => i+15);
   const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
     "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
     "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
@@ -19,7 +19,15 @@ export default function UserInfoForm({user}) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const minimum_year_of_birth=()=>{
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    // This arrangement can be altered based on how we want the date's format to appear.
+    let currentDate = `${year-15}-${month}-${day}`;
+   return currentDate
+  };
   const writePersonalInfo=async(e)=>{
     const contact=[];
       if (e.target.phone.checked===true){
@@ -63,8 +71,8 @@ export default function UserInfoForm({user}) {
     setRedirect(true);
    
   };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
   //     let complete=true;
   //     let percent_complete=0;
   //     const contact=[];
@@ -110,16 +118,19 @@ export default function UserInfoForm({user}) {
   //     }
   //     console.log('percent complete:', `${Math.round(percent_complete/.15)}%`)    
   //     console.log('succesfully added personal info')
-  //     window.dataLayer.push({
-  //       event:'form_submitted',
-  //       'form_name':'personal_info_form',
-  //       'percent_complete': `${Math.round(percent_complete/.15)}%`,
-  //     })
-  // };
+      window.dataLayer.push({
+        event:'form_submitted',
+        'form_name':'personal_info_form',
+        'action': 'personal info form complete',
+      })
+  };
+  useEffect(()=>{
+    console.log(minimum_year_of_birth())
+  })
   return (<>
   {redirect? <><Navigate to='/'/> </>:<>
     <MDBContainer fluid>
-      <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e)}} >
+      <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
     <h4 className="my-3">Personal Information</h4>
         <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
@@ -147,7 +158,7 @@ export default function UserInfoForm({user}) {
               </div>
             <div className="form-group w-25 mt-3 me-4 ">
               <label htmlFor="birthday">Birthday</label>
-             <input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" required/>
+             <input type="date" className="form-control" id="birthday" name="birthday" min='1970-01-01' max={minimum_year_of_birth()} required/>
             </div>
             <div className="form-group w-25 mt-3">
             <label htmlFor="age">Age of job seeker</label>
@@ -264,14 +275,14 @@ export default function UserInfoForm({user}) {
         {/* <button type="submit" className="btn btn-primary mt-4">
           Submit
         </button> */}
-        <Button variant="success" className='mt-4' type="submit" onClick={handleShow}>
+        <Button variant="success" className='mt-4' data-testid='updateProfileInfoBtn' type="submit" onClick={handleShow}>
         Save Changes
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>Your personal information has been succesfully updated!</Modal.Body>
         <Modal.Footer>
-          <Button variant="success" data-testid='update-profile-info-btn' onClick={handleClose}>
+          <Button variant="success" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>

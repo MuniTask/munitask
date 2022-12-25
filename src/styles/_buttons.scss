@@ -1,0 +1,45 @@
+.login-btn{
+    background-color: $bootstrap-dark-color;
+    color:  #e8f8b3;
+    border-radius: 15px;
+    font-weight: bold;
+    &:hover{
+        border-radius: 15px;
+      font-size: 1rem;
+      font-weight:bold;
+      border:2px solid $green-color;
+      color: $dark-purple-color;
+      background-color: $green-color;
+      }&:first-child:active{
+        border-radius: 15px;
+      font-size: 1rem;
+      font-weight:bold;
+      border:2px solid $green-color;
+      color: $dark-purple-color;
+      background-color: $green-color;
+      }
+}
+.user-btn, .signin-btn{
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight:bold;
+    border:2px solid $green-color;
+    color: #e8f8b3;
+    background-color: $bootstrap-dark-color;
+    
+    &:hover{
+      border-radius: 15px;
+    font-size: 1rem;
+    font-weight:bold;
+    border:2px solid $green-color;
+    color: $dark-purple-color;
+    background-color: $green-color;
+    }&:first-child:active{
+      border-radius: 15px;
+    font-size: 1rem;
+    font-weight:bold;
+    border:2px solid $green-color;
+    color: $dark-purple-color;
+    background-color: $green-color;
+    }
+  }

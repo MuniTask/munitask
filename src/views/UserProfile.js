@@ -97,13 +97,13 @@ export default function UserProfile({user, incrementLogin, signUserOut}) {
             {redirect? 
             <>
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab' data-testid='settings-tab' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
-              <GearSix size={20} className='me-2'/>Settings
+              <MDBTabsLink className='profile-tab' data-testid='settingsTab' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
+              <GearSix size={20} className='me-2'/>Personal Settings
               </MDBTabsLink>
             </MDBTabsItem>
             <MDBTabsItem>
-              <MDBTabsLink data-testid='personal-info-tab' className='profile-tab mt-2' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
-              <User size={20} className='me-2'/>Personal Information
+              <MDBTabsLink data-testid='personalPrefTab' className='profile-tab mt-2' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
+              <User size={20} className='me-2'/>Personal Preferences
               </MDBTabsLink>
             </MDBTabsItem>
 
@@ -111,26 +111,26 @@ export default function UserProfile({user, incrementLogin, signUserOut}) {
             :
             <>
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab' data-testid='settings-tab' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
-              <GearSix size={20} className='me-2'/>Settings
+              <MDBTabsLink className='profile-tab' data-testid='settingsTab' onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
+              <GearSix size={20} className='me-2'/>Personal Settings
               </MDBTabsLink>
             </MDBTabsItem>
             <MDBTabsItem>
-              <MDBTabsLink data-testid='personal-info-tab' className='profile-tab mt-2' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
-              <User size={20} className='me-2'/>Personal Information
+              <MDBTabsLink data-testid='personalPrefTab' className='profile-tab mt-2' onClick={() => handleVerticalClick('tab2')} active={verticalActive === 'tab2'}>
+              <User size={20} className='me-2'/>Personal Preferences
               </MDBTabsLink>
             </MDBTabsItem>
             </>}
             
          
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab mt-2' data-testid='saved-jobs-tab' onClick={() => handleVerticalClick('tab3')} active={verticalActive === 'tab3'}>
+              <MDBTabsLink className='profile-tab mt-2' data-testid='savedJobsTab' onClick={() => handleVerticalClick('tab3')} active={verticalActive === 'tab3'}>
               <Heart size={20} className='me-2'/>Saved Jobs
               </MDBTabsLink>
             </MDBTabsItem>
 
             <MDBTabsItem>
-              <MDBTabsLink className='profile-tab mt-2' data-testid='submitted-forms-tab' onClick={() => handleVerticalClick('tab4')} active={verticalActive === 'tab4'}>
+              <MDBTabsLink className='profile-tab mt-2' data-testid='submittedFormsTab' onClick={() => handleVerticalClick('tab4')} active={verticalActive === 'tab4'}>
               <ListChecks size={20} className='me-2'/>Submitted Interest Forms
               </MDBTabsLink>
             </MDBTabsItem>
@@ -142,22 +142,22 @@ export default function UserProfile({user, incrementLogin, signUserOut}) {
             {redirect?
             <>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab2'}>
-            <h4 className='display-5 mb-5 ms-5'>Settings</h4>
+            <h4 className='display-5 mb-5 ms-5'>Personal Settings</h4>
             <Settings signUserOut={signUserOut} user={user}/>
             </MDBTabsPane>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab1'}>
-                <h4 className='display-5 mb-5'>Personal Info</h4>
+                <h4 className='display-5 mb-5'>Personal Preferences</h4>
                 <PersonalInfo user={user} writePersonalInfo={writePersonalInfo}/>
             </MDBTabsPane>
             </>
             :
             <>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab1'}>
-            <h4 className='display-5 mb-5 ms-5'>Settings</h4>
+            <h4 className='display-5 mb-5 ms-5'>Personal Settings</h4>
             <Settings user={user}/>
             </MDBTabsPane>
             <MDBTabsPane className='ms-5' show={verticalActive === 'tab2'}>
-                <h4 className='display-5 mb-5'>Personal Info</h4>
+                <h4 className='display-5 mb-5'>Personal Preferences</h4>
                 <PersonalInfo user={user} writePersonalInfo={writePersonalInfo}/>
             </MDBTabsPane>
             </>}

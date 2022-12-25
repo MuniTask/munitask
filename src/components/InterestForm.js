@@ -8,10 +8,18 @@ export default function InterestForm({ writeInterestForm,job,user }) {
     "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
     "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
   const illinois_cities = [];
+  const handleEventPush = (e) => {
+    e.preventDefault();
+      window.dataLayer.push({
+        event:'form_submitted',
+        'form_name':'interest_form',
+        'action': `submission`,
+      })
+  };
 
   return (
     <MDBContainer fluid>
-      <form onSubmit={(e) => { writeInterestForm(e); }} >
+      <form onSubmit={(e) => { writeInterestForm(e);handleEventPush(e) }} >
           <div className="d-flex flex-column mb-4">
             <div className="form-group mb-3">
               <label htmlFor="start">Ideal job start date:</label>

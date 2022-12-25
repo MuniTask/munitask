@@ -1,23 +1,22 @@
 import { doc, getDoc } from "firebase/firestore";
-import { MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
-import { Check, X } from "phosphor-react";
+import { MDBContainer} from "mdb-react-ui-kit";
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Button, Modal } from "react-bootstrap";
 import {db} from '../firebase';
 export default function PersonalInfo({ writePersonalInfo, user }) {
-  const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
-    "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
-    "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
-    "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
-  const [startDate, setStartDate] = useState(new Date());
+  // const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
+  //   "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
+  //   "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
+  //   "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
+  // const [startDate, setStartDate] = useState(new Date());
   const [currentUser, setCurrentUser]=useState({});
   const [text, setText]=useState(false);
   const [call, setCall]=useState(false);
   const [email, setEmail]=useState(false);
-  const age_array=Array.from({length: 85}, (x, i) => i);
+  // const age_array=Array.from({length: 50}, (x, i) => i+15);
   const parent_or_child_array=['the parent of a job seeker.', 'a job seeker.']
-  const illinois_cities = [];
+  // const illinois_cities = [];
   const [data, setData]=useState({});
   const [show, setShow] = useState(false);
 
@@ -51,49 +50,10 @@ const contactBy=()=>{
 
   const handleSubmit = (e) => {
       e.preventDefault();
-        let complete=true;
-        let percent_complete=0;
-        const contact=[];
-          if (e.target.phone.checked===true){
-            contact.push('phone')
-          } 
-          if (e.target.text.checked===true){
-            contact.push('text')
-          } if(e.target.email.checked===true){
-            contact.push('email')
-          };
-          if (!e.target.email.checked && !e.target.phone.checked && !e.target.text.checked){
-            contact.push('')
-          };
-          const job_pref_list=[e.target.lifeguard.checked, 
-            e.target.swim_instructor.checked, 
-            e.target.camp_counselor.checked, 
-            e.target.park_field_maintenance.checked,
-            e.target.pool_maintenance.checked,
-            e.target.golf_ranger.checked];
-          if (job_pref_list.includes(true)){
-            percent_complete++
-          }
-         
-          const datalayer_list=[
-            e.target.phone_number.value,
-            contact[0],
-            e.target.job_zip.value,
-            e.target.social.value,
-            e.target.other_info.value,
-            e.target.parent_or_child.value
-          ]
-        for (let x of datalayer_list){
-          if (x !=='' && x!== null && x!== undefined){
-            percent_complete++
-          }
-        }
-        console.log('percent complete:', `${Math.round(percent_complete/.15)}%`)    
-        console.log('succesfully added personal info')
         window.dataLayer.push({
           event:'form_submitted',
           'form_name':'personal_info_form',
-          'percent_complete': `${Math.round(percent_complete/.15)}%`,
+          'action': `form updated`,
         })
     };
 
