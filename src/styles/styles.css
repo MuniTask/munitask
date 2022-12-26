@@ -74,7 +74,7 @@ img.job-img {
   box-shadow: -11px -2px 14px 0px rgb(204, 204, 204);
 }
 
-.map-1 > .mapboxgl-canvas {
+.mapboxgl-canvas {
   height: 800px;
   width: 600px;
 }
