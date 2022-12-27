@@ -66,18 +66,18 @@ useEffect(()=>{
   // findLng('Alsip');
   console.log('hi')
 },[])
-   
+  //  style={{width:"600px",height:"800px",border:"1px solid lightgray"}}
   return (
     <div className='map-body d-flex flex-row '>
         <div className='d-flex flex-column map-scroll mx-auto align-items-center' style={{overflowY:"scroll"}}>
             {myjobs.map((job, i)=> <JobItem className='' createPopUp={createPopUp} savedJobs={savedJobs} key={i} myjobs={myjobs} job={job} user={user}/>)}
         </div>
-    <div  className='map-div mx-auto map-1' >
+    <div  className='map-div mx-auto ' >
       
-        <Map doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
-        style={{width:"600px",height:"800px",border:"1px solid lightgray"}}
+        <Map className='map-1' doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
+        style={{width: '40vw', height: '60vh', border:"1px solid lightgray"}} 
         initialViewState={{latitude:lat, longitude:lng, zoom: 8}}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapStyle="mapbox://styles/mapbox/streets-v9" 
          >
         {/* <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={26} weight="fill" /></Marker> */}
         {myjobs.map((job, i)=>

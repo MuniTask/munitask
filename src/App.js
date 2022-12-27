@@ -31,7 +31,7 @@ const [redirect, setRedirect]=useState(false);
 const [user, setUser] = useState(getUserFromLocalStorage());
  const auth = getAuth();
  const [signedIn, setSignedIn]=useState(false);
-
+const [globalJobs, setGlobalJobs]=useState();
   const createPopUp=async()=>{
     const auth=getAuth();
     const provider=new GoogleAuthProvider()
@@ -180,7 +180,7 @@ useEffect(()=>{
      <div className='content-wrap'>
      <Navigation user={user} signUp={signUpWithEmail} handleFirstLogin={handleFirstLogin} logIn={logInWithEmail} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
-      <Route path='/' element={<Home2 createPopUp={createPopUp}  user={user}/>}/>
+      <Route path='/' element={<Home2   globalJobs={globalJobs} setGlobalJobs={setGlobalJobs} createPopUp={createPopUp}  user={user}/>}/>
       <Route path='/home2' element={<Home2  incrementLogin={incrementLogin} user={user}/>}/>
       <Route path='/:jobTitle' element={<JobView createPopUp={createPopUp} user={user}/>}/>
       <Route path='/whoweare' element={<WhoWeAre />}/>

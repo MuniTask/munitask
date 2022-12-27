@@ -1,3 +1,8 @@
+@media only screen and (max-width: 832px) {
+  .map-scroll{
+    visibility: hidden;
+  }
+} 
 .map-body{
     min-width: 600px;
   }
@@ -11,9 +16,9 @@
    
   }
 
-.mapboxgl-canvas{
-    height: 800px;
-    width: 600px;
+  .map-1 >.mapboxgl-canvas{
+    height: 60vh;
+    width: 40vw;
    
   }
   .map-2 > .mapboxgl-canvas{
@@ -24,7 +29,7 @@
   }
   .mapdiv{
     height:100vh;
-    
+     
   }
   .map-body{
     height:100vh;

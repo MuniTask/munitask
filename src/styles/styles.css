@@ -64,6 +64,11 @@ img.job-img {
   margin-bottom: 7px;
 }
 
+@media only screen and (max-width: 832px) {
+  .map-scroll {
+    visibility: hidden;
+  }
+}
 .map-body {
   min-width: 600px;
 }
@@ -74,9 +79,9 @@ img.job-img {
   box-shadow: -11px -2px 14px 0px rgb(204, 204, 204);
 }
 
-.mapboxgl-canvas {
-  height: 800px;
-  width: 600px;
+.map-1 > .mapboxgl-canvas {
+  height: 60vh;
+  width: 40vw;
 }
 
 .map-2 > .mapboxgl-canvas {

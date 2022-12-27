@@ -3,7 +3,7 @@ import { collection, endAt, getDocs, orderBy, query, startAt } from 'firebase/fi
 import {Modal,Form, Button, Col, Row} from 'react-bootstrap';
 import {db} from '../firebase';
 import { distanceBetween, geohashQueryBounds } from 'geofire-common';
-export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
+export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFilterOnly}) {
   const [ value, setValue ] = useState(10);
   const [ pay, setPay ] = useState(0);
  
@@ -45,15 +45,16 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
     else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
       const payFilter=e.target['payFilter'].value
       const matchingJobs=[]
-      for (let x of constJobs){
+      for (let x of myjobs){
         if (parseFloat(x.wage) >= parseFloat(payFilter)){
           matchingJobs.push(x)
         }
         else if (payFilter === 'all'){
-          matchingJobs.push(...constJobs)
+          matchingJobs.push(...myjobs)
         }
       }
-      setmyjobs([...matchingJobs])
+      setmyjobs([...matchingJobs]);
+      setFilterOnly([...matchingJobs]);
       setPay(payFilter)
       console.log(payFilter)
        }
@@ -81,7 +82,6 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
       const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
       const distanceInM = distanceInKm * 1000;
       if (wage !=='all'){
-        console.log('typeof pay',typeof wage)
         if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(wage)) {
           matchingDocs.push(snap);
           }
@@ -93,7 +93,8 @@ export default function FilterModal({handleClose, show, constJobs, setmyjobs}) {
           }
     }
     console.log('matching docs',matchingDocs)
-    setmyjobs([...matchingDocs])
+    setmyjobs([...matchingDocs]);
+    setFilterOnly([...matchingDocs]);
 }
 
   return (
