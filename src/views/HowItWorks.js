@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import FAQs from './/FAQs';
 
 export default function HowItWorks({}) {
@@ -13,9 +13,9 @@ useEffect(()=>{
     }
 })},[])
   return (
-    <>
+    <div className='page-container'>
     
     <FAQs/>
-    </>
+    </div>
   )
 }

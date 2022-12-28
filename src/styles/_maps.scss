@@ -1,13 +1,9 @@
-@media only screen and (max-width: 832px) {
-  .map-scroll{
-    visibility: hidden;
-  }
-} 
+
 .map-body{
     min-width: 600px;
   }
   .map-scroll{
-    width: 40%;
+    width: 45%;
     height:'90vh';
     
     -webkit-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
@@ -22,8 +18,8 @@
    
   }
   .map-2 > .mapboxgl-canvas{
-    height: 500px;
-    width: 500px;
+    height: 30vh;
+    width: 60vw;
     
     
   }
@@ -34,3 +30,19 @@
   .map-body{
     height:100vh;
   }
+.popover-img{
+  height: 20px;
+  width: auto;
+}
+  @media screen and (max-width: 900px) {
+    div.map-scroll{
+    visibility: hidden;
+    display: none;
+    }
+  } 
+  .map-popover{
+   background-color: aliceblue;
+   box-shadow: 16px 10px 32px -79px rgba(0,0,0,0.75) inset;
+   -webkit-box-shadow: 16px 10px 32px -79px rgba(0,0,0,0.75) inset;
+   -moz-box-shadow: 16px 10px 32px -79px rgba(0,0,0,0.75) inset;
+  } 

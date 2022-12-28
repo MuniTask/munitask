@@ -11,6 +11,7 @@ import { MDBContainer,MDBCol, MDBTabs, MDBTabsLink, MDBTabsItem, MDBRow, MDBTabs
 import JobItem from './JobItem';
 import { Link } from 'react-router-dom';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { titleCase } from '../FunctionStorage';
 
 
 export default function Maps({myjobs, user, savedJobs, createPopUp}) {
@@ -89,10 +90,21 @@ useEffect(()=>{
             trigger={["hover", "focus"]}
             placement="right" 
             overlay={
-                <Popover id="popover-basic">
-                  <Popover.Header as="h3">{job.job_description}</Popover.Header>
-                  <Popover.Body>
-                    {job.municipality} - {job.zip_code}
+                <Popover className='map-popover' id="popover-basic">
+                
+                  <Popover.Body className='map-popover'>
+                    <div className='d-flex flex-row'>
+                      <div className='me-2 map-popover' style={{background:'aliceblue'}}> 
+                        <img className='popover-img' alt='park logo' src={job.logo_url}/>
+                      </div>
+                      <div className='me-2'>
+                        <b>{job.municipality}</b>
+                      </div>
+                      <div>
+                    {titleCase(job.title)}
+                    </div>
+                    </div>
+                    
                   </Popover.Body>
                 </Popover>}>
           <MapPin  size={26} weight="fill" />

@@ -43,3 +43,14 @@
     background-color: $green-color;
     }
   }
+
+  .interest-btn{
+    border-radius: 10px;
+    background-color: $purple-color;
+    color: whitesmoke;
+    cursor: pointer;
+    width: 116px;
+   font-size: .8rem;
+   font-weight: bold;
+   padding:7px;
+  }

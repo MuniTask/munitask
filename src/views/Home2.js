@@ -190,38 +190,38 @@ return mun_lat;
     getSavedJobs();
   },[])
 
-  return (<>
+  return (
     
     <div className='page-container'>
       <p>{redirect}</p>
      
       <div >
-      <div className='mt-4 d-flex flex-row justify-content-center search-container'>
-      <div className='d-flex flex-column me-3'>
+      <div className='py-4 d-flex flex-row justify-content-center search-container'>
+      <div className='job-icon-div d-flex flex-column '>
         <h5 onClick={()=>{handleFilter('')}} data-testid='allFilterBtn'  className='mx-auto d-flex justify-content-center align-items-center job-icon p-0 m-0' alt='...' style={{border:'4px solid gray',}}><DotsThreeOutline size={40} /></h5>
          <p className='job-icon-text text-center'>All</p>
          </div>
-        <div className='d-flex flex-column me-3'>
+        <div className='job-icon-div d-flex flex-column '>
         <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
         <p className='job-icon-text text-center'>Golf Ranger</p>
         </div>
-        <div className='d-flex flex-column me-3'>
+        <div className='job-icon-div d-flex flex-column '>
         <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
          <p className='job-icon-text text-center'>Swim Instructor</p>
          </div>
-        <div className='d-flex flex-column me-3'>
-        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguardFilterBtn' className='job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
+        <div className='job-icon-div d-flex flex-column '>
+        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguardFilterBtn' className='mx-auto job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
          <p className='job-icon-text text-center'>Lifeguard</p>
          </div>
-        <div className='d-flex flex-column me-3'>
+        <div className='job-icon-div d-flex flex-column '>
         <img onClick={()=>handleFilter('pool maintenance')} data-testid='poolMaintenanceFilterBtn' className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
-        <div className='d-flex flex-column me-3'>
+        <div className='job-icon-div d-flex flex-column '>
         <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
          <p className='job-icon-text text-center'>Camp Counselor</p>
          </div>
-        <div className='d-flex flex-column'>
+        <div className='job-icon-div d-flex flex-column'>
         <img onClick={()=>handleFilter('park maintenance')} data-testid='parkMaintenanceFilterBtn' className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
          <p className='job-icon-text text-center'>Park Maintenance</p>
          </div>
@@ -263,10 +263,10 @@ return mun_lat;
     {myjobs?<>
           {showMap?
           <>
-            <MDBContainer >
+         
               
               <Maps user={user} myjobs={myjobs} savedJobs={savedJobs} createPopUp={createPopUp}/>
-            </MDBContainer>
+            
           </>:<>
         
          
@@ -290,5 +290,5 @@ return mun_lat;
 
     </div>
 
-  </>)
+  )
 }

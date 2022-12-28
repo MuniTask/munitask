@@ -1,4 +1,4 @@
-import { deleteUser, EmailAuthCredential, EmailAuthProvider, getAuth, reauthenticateWithCredential, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
+import { deleteUser, EmailAuthCredential, EmailAuthProvider, getAuth, GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { Password } from 'phosphor-react';
 import React, { Fragment, useEffect, useState } from 'react'
@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 import {db} from "../firebase";
 import google_logo from '../images/google_logo.png';
 import ReAuthUser from './ReAuthUser';
-export default function Settings({user, signUserOut}) {
+export default function Settings({user, signUserOut, createPopUp}) {
   const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
     "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
     "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
@@ -63,18 +63,25 @@ export default function Settings({user, signUserOut}) {
       const auth = getAuth();
       const user = auth.currentUser;
       // TODO(you): prompt the user to re-provide their sign-in credentials
-      const email= auth.currentUser.email;
-      const password= e.target.password.value;
-      console.log(email)
-      const credential = EmailAuthProvider.credential(email, password);
-      reauthenticateWithCredential(user, credential).then(() => {
-        console.log('success reauthenticating')
+      if (auth.currentUser['providerData'][0].providerId ==='google.com'){
+        createPopUp();
         setCanSubmit(true)
-      }).catch((error) => {
-        console.log('error!!')
-        console.log(error)
-        // ...
-      });
+      } else if(auth.currentUser['providerData'][0].providerId ==='password'){
+        console.log('EMAIL')
+        const email= auth.currentUser.email;
+        const password= e.target.password.value;
+        console.log(email)
+        const credential = EmailAuthProvider.credential(email, password);
+        reauthenticateWithCredential(user, credential).then(() => {
+          console.log('success reauthenticating')
+          setCanSubmit(true)
+        }).catch((error) => {
+          console.log('error!!')
+          console.log(error)
+          // ...
+        });
+      
+      }
     };
 
     const google_or_email=()=>{
@@ -155,7 +162,8 @@ export default function Settings({user, signUserOut}) {
           <h5 className='me-2 pt-2'>You are signed in with</h5>
           <img style={{height:'1.8rem'}} src={google_logo} alt='google-logo'/>
         </div></>:<>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <div className='personal-settings-group1'>
+        <Form.Group className="mb-3 " controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control disabled type="email" name='new_email' placeholder='email' />
       </Form.Group>
@@ -167,40 +175,41 @@ export default function Settings({user, signUserOut}) {
         <Form.Label>Password</Form.Label>
         <Form.Control disabled type="password" name='new_password'  placeholder='password' />
       </Form.Group>
+      </div>
         </>}
         <div className="form-row mb-3">
-          <div className="form-group d-flex flex-row">
-            <div className="w-25 me-4">
+          <div className="form-group personal-settings-group2">
+            <div className=" me-4">
               <label htmlFor="first_name">First Name</label>
               {currentUser.first_name?<> <input disabled name="first_name" type="text" defaultValue={currentUser.first_name}  className="form-control " id="first_name"  /></>
               :<> <input disabled name="first_name" type="text" placeholder="First Name" className="form-control " id="first_name"  /></>}
              
             </div>
-            <div className="w-25 me-4">
+            <div className=" me-4">
               <label htmlFor="last_name">Last Name</label>
               {currentUser.last_name?<><input disabled name="last_name" type="text" className="form-control " id="last_name" defaultValue={currentUser.last_name} /></>
               :<><input disabled name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
               
             </div>
-            <div className="w-25">
+            {/* <div className="">
               <label htmlFor="inputEmail4">Email</label>
               {currentUser.email?<><input disabled name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} /></>
               :<><input disabled name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
              
-            </div>
+            </div> */}
           </div>
-          <div className="d-flex flex-row">
-            <div className="w-25  mt-3 me-4">
+          <div className="personal-settings-group3">
+            <div className="  mt-3 me-4">
                 <label htmlFor="inputTel4">Phone Number</label>
                 {currentUser.phone_number?<><input disabled name="phone_number" type="tel" className="form-control" id="inputTel4" defaultValue={currentUser.phone_number} /></>
                 :<><input disabled name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" /></>}
               </div>
-            <div className="form-group w-25 mt-3 me-4 ">
+            <div className="form-group  mt-3 me-4 ">
               <label htmlFor="birthday">Birthday</label>
               {currentUser.birthday?<><input disabled type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={currentUser.birthday} /></>
               :<><input disabled type="date" className="form-control" id="birthday" name="birthday"  min='1970-01-01' max={minimum_year_of_birth()} /></>}
             </div>
-            <div className="form-group w-25 mt-3">
+            <div className="form-group  mt-3">
             <label htmlFor="age">Age of job seeker</label>
             <select name="age" id="inputAge" className="form-control w-50" disabled>
               {currentUser.age?<>
@@ -216,8 +225,8 @@ export default function Settings({user, signUserOut}) {
             </div>
         </div>
 
-        <div className="form-group d-flex flex-row mb-5">
-          <div className="w-25 me-4">
+        <div className="form-group personal-settings-group4 mb-5">
+          <div className=" me-4">
             <label htmlFor="inputState">State</label>
             <select name="state" id="inputState" className="form-control" disabled>
               {currentUser.state?<>
@@ -230,13 +239,13 @@ export default function Settings({user, signUserOut}) {
                 </Fragment>)}</>}
             </select>
           </div>
-          <div className="w-25 me-4">
+          <div className=" me-4">
             <label htmlFor="inputCity">City</label>
             {currentUser.city?<> <input disabled name="city" type="text" className="form-control" id="inputCity" defaultValue={currentUser.city} />
             </>:<> <input disabled name="city" type="text" className="form-control" id="inputCity" /></>}
            
           </div>
-          <div className="w-25 me-4">
+          <div className=" me-4">
             <label htmlFor="inputZip">Zip</label>
             {currentUser.zip?<>  <input disabled name="zip" type="text" className="form-control" id="inputZip" defaultValue={currentUser.zip} /></>
             :<>  <input disabled name="zip" type="text" className="form-control" id="inputZip" /></>}
@@ -247,7 +256,7 @@ export default function Settings({user, signUserOut}) {
         <Button variant="primary" onClick={handleShow}>
        edit
       </Button>
-        <ReAuthUser reAuthUser={reAuthUser} handleClose={handleClose} show={show} setShow={setShow} handleShow={handleShow}/>
+        <ReAuthUser provider={provider} reAuthUser={reAuthUser} handleClose={handleClose} show={show} setShow={setShow} handleShow={handleShow}/>
       </div>
     </Form>
       </>:

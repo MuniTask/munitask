@@ -51,9 +51,9 @@ export default function JobView({user, createPopUp}) {
   <div className='page-container me-5 ms-5 mt-2'>
     <Link to='/' className='btn mb-3 mt-2'><CaretLeft size={20} weight="bold" />Back to jobs</Link>
     <div className='jobview-container'>
-    <div className='d-flex flex-row justify-content-between mb-5'>
+    <div className='d-flex flex-row justify-content-between flex-wrap mb-5'>
       <div className='job-info-header'>
-        <div className='d-flex flex-row align-items-baseline'>
+        <div className='d-flex flex-row flex-wrap align-items-baseline'>
           <h4 className='display-5'>{jobs.title}</h4>
           {user.uid?<><p className='interest-btn ms-3 ' data-testid='submitInterestBtn' onClick={handleShow}>
             Submit Interest
@@ -89,8 +89,8 @@ export default function JobView({user, createPopUp}) {
         <img style={{width:'9rem'}} src={jobs.logo_url}/>
       </div>
     </div>
-    <div className='mt-4 mb-4 quick-facts d-flex flex-row'>
-      <div className='me-auto d-flex flex-row '>
+    <div className='mt-4 mb-4 '>
+      <div className='me-auto quick-facts'>
       <div className='ms-4 d-flex flex-row'><Bag size={22} className='pt-1' color='#745cac' weight="fill" /><p>{jobs.title}</p></div>
       <div className='ms-4 d-flex flex-row'><CalendarBlank className='pt-1' size={22} weight="fill" color='#745cac'/><p>Date Posted</p></div>
       <div className='ms-4 d-flex flex-row'><Clock className='pt-1' size={22} weight="fill" color='#745cac'/><p>Part-Time/Full-Time</p></div>

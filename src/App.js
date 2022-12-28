@@ -191,7 +191,7 @@ useEffect(()=>{
       <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} writeUserData={writeUserData} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
       <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} createPopUp={createPopUp}/>}/>
       {/* <Route path='/maps' element={<Maps />}/> */}
-      <Route path='/userprofile' element={<UserProfile signUserOut={signUserOut} incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
+      <Route path='/userprofile' element={<UserProfile createPopUp={createPopUp} signUserOut={signUserOut} incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
       <Route path='/userinfo' element={<UserInfoForm user={user}/>}/>
 
      </Routes>

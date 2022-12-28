@@ -8,16 +8,10 @@ import {
 import logo from '../images/munitask-logo.png';
   
 export default function FAQs() {
-  useEffect(()=>{
-    window.dataLayer.push({
-      event: 'pageview',
-      page:{
-        title:'FAQs'
-      }
-  })},[])
+  
   return (
     <>
-    <MDBContainer fluid className='p-0 faq-body'>
+    <MDBContainer fluid className='p-0 faq-body page-container'>
         <div className='faq-header'>
             <h4>FAQs</h4>
             <h2 className='display-4 pb-2'>Ask us anything</h2>

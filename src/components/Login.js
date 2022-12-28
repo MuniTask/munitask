@@ -114,7 +114,7 @@ export default function Login({logIn, createPopUp, writeUserData, setUser, user}
       </form>
       <p className='my-4 text-center'><b>OR</b></p>
       <div className='d-flex justify-content-center'>
-      <img src={googlebtn} alt='...' className='googleBtn' onClick={()=>{createLoginPopUp()}}/>
+      <img src={googlebtn} alt='...' className='google-btn' onClick={()=>{createLoginPopUp()}}/>
       </div>
 
       <div className='d-flex flex-row justify-content-center mt-3'>

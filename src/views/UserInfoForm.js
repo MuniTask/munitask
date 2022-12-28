@@ -1,6 +1,6 @@
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
-import { Check, X } from "phosphor-react";
+import { Check, Pencil, X } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Button, Modal } from "react-bootstrap";
@@ -127,9 +127,16 @@ export default function UserInfoForm({user}) {
   useEffect(()=>{
     console.log(minimum_year_of_birth())
   })
-  return (<>
+  return (<Fragment className='page-container'>
   {redirect? <><Navigate to='/'/> </>:<>
     <MDBContainer fluid>
+      <div className="check-info-blurb alert alert-warning" role='alert'>
+        <div className="d-flex flex-row">
+      <Pencil size={20} color='rgb(68, 59, 9)'/>
+      <p className="ms-1 p-0 m-0"><b>Please double check your newly entered details.</b> We will use this information to find your best fit.</p>
+      </div>
+    
+      </div>
       <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
     <h4 className="my-3">Personal Information</h4>
         <div className="form-row mb-3">
@@ -291,5 +298,5 @@ export default function UserInfoForm({user}) {
       {/* </>} */}
      
     </MDBContainer>
-    </>} </> )
+    </>} </Fragment> )
 }

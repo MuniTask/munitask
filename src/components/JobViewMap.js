@@ -21,7 +21,7 @@ useEffect(()=>{
        {isTrue? <>
     <div  className='map-div mx-auto map-2' >
        <Map doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
-        style={{width:"500px",height:"500px",border:"1px solid white"}}
+         style={{width: '60vw', height: '30vh', border:"1px solid lightgray"}} 
         initialViewState={{latitude:41.00, longitude:-88.00, zoom:6}}
         mapStyle="mapbox://styles/mapbox/streets-v9" 
          >

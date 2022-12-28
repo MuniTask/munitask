@@ -16,9 +16,17 @@ $accordion-button-focus-box-shadow: #ffffff;
 *{
     font-family:$font-poppins;
 }
-.page-container {
+.page-container, .App {
     position: relative;
     min-height: 100vh;
+    background-color: #fafafa;
+  
+  }
+  .about-container{
+    position: relative;
+    min-height: 100vh;
+    background-color: #fafafa;
+    z-index: 1;
   }
   
   .content-wrap {
@@ -95,6 +103,8 @@ div.accordion.faq-accordion{
 
 .profile-container{
   min-height: 100vh;
+  background-color: #fafafa;
+  z-index: -2;
 }
 
 
@@ -137,22 +147,7 @@ div.user-dropdown.dropdown-menu.show{
   }
 }
 
-@media only screen and (min-width: 992px) {
 
-     nav.navbar.navbar-expand-lg{
-  height:10vh;
- }
-
-}
-@media only screen and (max-width: 992px) {
-  div.accordion.faq-accordion{
-      margin:5% 5%;
-    }
-    div.collapse.show.navbar-collapse{
-      text-align: center;
-    }
-
-}
 // .mapdiv{
 //   height:100vh;
 // }
@@ -219,23 +214,6 @@ div.user-dropdown.dropdown-menu.show{
 }
 
 
-@media only screen and (max-width: 1140px) {
-  .about-container {  display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-auto-columns: 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "about-founder"
-      "about-img-left"
-      "about-info-boxes";
-  }
-  .about-founder { grid-area: about-founder; }
-  .about-img-left { grid-area: about-img-left; padding-left: 0; display: flex; justify-content: center;}
-  .about-info-boxes { grid-area: about-info-boxes; text-align: center;}
-  
-}
 
 a.nav-link.profile-tab{
   font-size: 1rem;
@@ -247,6 +225,7 @@ a.nav-link.profile-tab{
 }
 a.nav-link.active.profile-tab{
     color: $purple-color;
+    background-color: #fafafa;
 }
 
 // .map-body{
@@ -255,39 +234,25 @@ a.nav-link.active.profile-tab{
 
 .job-icon{
   border: 4px solid $purple-color;
-  width: 4rem;
-  height: 4rem;
-  padding: 8px;
+  width: 3rem;
+  height: 3rem;
+  padding: 5px;
   border-radius: 50px;
   &:hover{
-    width:4.2rem;
-    height:4.2rem;
+    width:3.2rem;
+    height:3.2rem;
   }
 }
 .job-icon-text{
-  font-size:.8rem;
+  font-size:.65rem;
+  width:3rem;
+  margin: auto;
 }
-// .map-scroll{
-//   width: 40%;
-//   height:'90vh';
-  
-//   -webkit-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
-// -moz-box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
-// box-shadow: -11px -2px 14px 0px rgba(204,204,204,1);
- 
-// }
-
-// .mapboxgl-canvas{
-//   height: 800px;
-//   width: 600px;
-// }
-
-.interest-btn{
-  border-radius: 20px;
-  color: $purple-color;
-  cursor: pointer;
- 
+.job-icon-div {
+  width: 5rem;
 }
+
+
 .sidenav-div{
   
   padding:0px;
@@ -315,9 +280,12 @@ div.jobview-container{
     color: #485e00;
   }
 }
-
+.check-info-blurb{
+  margin: 1.5rem 1.5rem 0rem 1.5rem;
+  border-radius: 20px;
+}
 .google-btn{
-  height: 50px;
+  height: 3rem;
 }
 .password-recovery-container{
   height: 38vh;
@@ -339,4 +307,59 @@ div.jobview-container{
   width: 100%;
   max-width: 500px;
   height: auto;
+}
+
+.personal-settings-group2, .personal-settings-group3, .personal-settings-group4{
+  display: flex;
+  flex-direction: row;
+  
+}
+.quick-facts{
+   display: flex;
+   flex-direction: row; 
+}
+@media only screen and (min-width: 992px) {
+
+  nav.navbar.navbar-expand-lg{
+height:10vh;
+}
+
+}
+@media only screen and (max-width: 992px) {
+div.accordion.faq-accordion{
+   margin:5% 5%;
+ }
+ div.collapse.show.navbar-collapse{
+   text-align: center;
+ }
+
+}
+@media only screen and (max-width: 880px) {
+  .quick-facts{
+    flex-wrap: wrap;
+  }
+  
+  }
+@media only screen and (max-width: 1140px) {
+  .about-container {  display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-auto-columns: 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "about-founder"
+      "about-img-left"
+      "about-info-boxes";
+  }
+  .about-founder { grid-area: about-founder; }
+  .about-img-left { grid-area: about-img-left; padding-left: 0; display: flex; justify-content: center;}
+  .about-info-boxes { grid-area: about-info-boxes; text-align: center;}
+  
+}
+@media only screen and (max-width: 812px) {
+  .personal-settings-group2, .personal-settings-group3, .personal-settings-group4{
+    flex-direction: column;
+  }
+ 
 }
