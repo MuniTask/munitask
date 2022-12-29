@@ -54,3 +54,9 @@
    font-weight: bold;
    padding:7px;
   }
+
+  .refresh-jobs-btn, .sort-btn, .filter-btn{
+    &:hover{
+      color:gray;
+    }
+  }

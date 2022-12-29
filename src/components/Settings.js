@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom';
 import {db} from "../firebase";
 import google_logo from '../images/google_logo.png';
 import ReAuthUser from './ReAuthUser';
-export default function Settings({user, signUserOut, createPopUp}) {
+export default function Settings({user, signUserOut, setUser}) {
   const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
     "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
     "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
@@ -58,14 +58,36 @@ export default function Settings({user, signUserOut, createPopUp}) {
         // ...
       });
     };
+    const createLoginPopUp=async()=>{
+      const auth=getAuth();
+      const provider=new GoogleAuthProvider()
+      const result=await signInWithPopup(auth, provider);
+      const existingUserDoc = await getDoc(doc(db,"users",result.user.uid));
+      if (existingUserDoc.exists()){
+        console.log('existing user signed in');
+        console.log(existingUserDoc.data())
+      } else{
+        console.log('new user signed in')
+        writeUserData(result.user);
+      }
+      ////////
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log('user',user)
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      setCanSubmit(true)
+    };
+    
     const reAuthUser=(e)=>{
       e.preventDefault();
       const auth = getAuth();
       const user = auth.currentUser;
       // TODO(you): prompt the user to re-provide their sign-in credentials
       if (auth.currentUser['providerData'][0].providerId ==='google.com'){
-        createPopUp();
-        setCanSubmit(true)
+        createLoginPopUp();
       } else if(auth.currentUser['providerData'][0].providerId ==='password'){
         console.log('EMAIL')
         const email= auth.currentUser.email;

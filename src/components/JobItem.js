@@ -105,7 +105,9 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
         </Card.Text >
       </Link>
         <div className='d-flex flex-row justify-content-between job-description'>
+        <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
         <Card.Title className='job-card-title'>{titleCase(job.title)}</Card.Title>
+        </Link>
        
         {user.uid?<>
         {liked?<><Heart onClick={()=>handleUnlike(job)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(job.title)} size={20} className='ms-auto like'/></>:<><Heart data-testid='likeJobBtn' color={cardColor(job.title)} onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}</>

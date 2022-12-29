@@ -43,7 +43,7 @@ export default function FooterBottom() {
                   </Link>
                 </p>
                 <p>
-                  <Link to='/howitwokrs' data-testid='footerAboutLink' className='text-reset'>
+                  <Link to='/howitworks' data-testid='footerAboutLink' className='text-reset'>
                     How It Works
                   </Link>
                 </p>

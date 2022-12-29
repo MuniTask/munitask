@@ -6,6 +6,13 @@ import { Dropdown } from 'react-bootstrap';
 import {List} from 'phosphor-react';
 export default function Navigation({user, signUserOut}) {
   const [showNavNoToggler, setShowNavNoToggler] = useState(false);
+  const [show, setShow] = useState(false);
+  const showDropdown = ()=>{
+      setShow(true);
+  }
+  const hideDropdown = () => {
+      setShow(false);
+  }
 
   return (
     <MDBNavbar expand='lg' className='navigation'  dark bgColor='dark'  >
@@ -49,7 +56,7 @@ export default function Navigation({user, signUserOut}) {
         <Dropdown.Toggle data-testid='userDropdown' focusfirstitemonshow='false' className='user-btn' id="dropdown-basic">
           Hello {`, ${user.displayName}`}
         </Dropdown.Toggle>
-      <Dropdown.Menu className='user-dropdown'>
+      <Dropdown.Menu show={show} onMouseEnter={showDropdown}  onMouseLeave={hideDropdown} className='user-dropdown'>
         <Link onClick={()=>{signUserOut()}} data-testid='signoutLink' to='/'>Sign Out</Link><br/>
         <Link to='/userprofile' data-testid='profileLink'>Profile</Link>
       </Dropdown.Menu>
@@ -61,7 +68,7 @@ export default function Navigation({user, signUserOut}) {
           <Dropdown.Toggle  data-testid='guestUserDropdown' className='btn btn-light signin-btn' variant="success" id="dropdown-basic">
             Hello, Guest
           </Dropdown.Toggle>
-          <Dropdown.Menu className='user-dropdown' variant='dark'>
+          <Dropdown.Menu show={show} onMouseEnter={showDropdown}  onMouseLeave={hideDropdown} className='user-dropdown' variant='dark'>
           <Link to='signup' data-testid='signUpLink'>Sign Up</Link>
               <Link to='login' data-testid='logInLink'>Log in</Link>
           </Dropdown.Menu>

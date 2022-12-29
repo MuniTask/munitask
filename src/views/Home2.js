@@ -232,7 +232,7 @@ return mun_lat;
     
 
         <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
-          <div className='d-flex justify-content-end me-2 ' data-testid='refreshJobsBtn'onClick={()=>{handleFilter('')}}>
+          <div className='d-flex justify-content-end me-2 refresh-jobs-btn' data-testid='refreshJobsBtn'onClick={()=>{handleFilter('')}}>
             <p className='me-2' >Refresh</p>
             <ArrowsClockwise size={24} />
           </div>
