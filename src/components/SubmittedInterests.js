@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Accordion, Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import {db} from '../firebase'
+import { titleCase } from '../FunctionStorage';
 export default function SubmittedInterests({user}) {
     const [forms, setForms]=useState();
     const [show, setShow] = useState(false);
@@ -64,8 +65,8 @@ export default function SubmittedInterests({user}) {
        const newJobsList=[];
       for (let doc of test_array){
         const zip_code=await getZip(doc.municipality)
-        const latitude=await getLat(doc.municipality)
-        const longitude=await getLng(doc.municipality)
+        const latitude=await getLat(parseFloat(doc.municipality))
+        const longitude=await getLng(parseFloat(doc.municipality))
         const logo_url=await getLogo(doc.municipality)
         const skip=await getLng(doc.municipality).then( 
           newJobsList.push({...doc, latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
@@ -77,7 +78,7 @@ export default function SubmittedInterests({user}) {
   
   
   const getZip=async(mun)=>{
-    const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+    const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
     if (data_lst === null || data_lst.length===0){
@@ -88,7 +89,7 @@ export default function SubmittedInterests({user}) {
   };  
   
   const getLogo=async(mun)=>{
-    const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+    const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
     if (data_lst === null || data_lst.length===0){
@@ -99,7 +100,7 @@ export default function SubmittedInterests({user}) {
   };  
   
   const getLng=async(mun)=>{
-  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
   if (data_lst === null || data_lst.length===0){
@@ -109,7 +110,7 @@ export default function SubmittedInterests({user}) {
   return mun_lng;
   };
   const getLat=async(mun)=>{
-  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
   
@@ -130,9 +131,11 @@ export default function SubmittedInterests({user}) {
    {forms.map((form, i)=><Fragment key={i}>
     <Accordion >
       <Accordion.Item eventKey="0">
-        <Accordion.Header>{form[0].title} - {form[0].municipality} Park District</Accordion.Header>
+        <Accordion.Header>{titleCase(form[0].title)} - {form[0].municipality} Park District</Accordion.Header>
         <Accordion.Body>
+          <div>
          <ul className='responses-list'>
+            <li className='mb-2'><Link  to={`/${form.job_id}`} data-testid='linkToJobFromInterestForm' state={{job:form[0]}}>View job listing</Link></li>
             <li><b>Ideal job start:</b></li>
             <li> {form.job_start}</li>
             <div className='mb-3'></div>
@@ -146,14 +149,13 @@ export default function SubmittedInterests({user}) {
             <li><b>Is there anything else you'd like us to know?</b> </li>
             <li>{form.other_info}</li>
          </ul>
-         {/* FIX STATE!! */}
-         <Link  to={`/${form.job_id}`} data-testid='linkToJobFromInterestForm' state={{job:form[0]}}>View job listing</Link>
-         
-        
+         </div>
+       
+         <div>
          <Button variant="outline-danger" data-testid='deleteInterestFormBtn' onClick={handleShow}>
         Delete
       </Button>
-
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{form[0].title} - {form[0].municipality} Park District</Modal.Title>

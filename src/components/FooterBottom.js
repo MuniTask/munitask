@@ -48,9 +48,19 @@ export default function FooterBottom() {
                   </Link>
                 </p>
                 <p>
-                  <a href='/whoweare' className='text-reset'>
+                  <Link href='/whoweare' className='text-reset'>
                     Who We Are
-                  </a>
+                  </Link>
+                </p>
+                <p>
+                  <Link to='/termsofservice' className='text-reset'>
+                    Terms of Service
+                  </Link>
+                </p>
+                <p>
+                  <Link to='/' className='text-reset'>
+                    Privacy Policy
+                  </Link>
                 </p>
                 
               </MDBCol>

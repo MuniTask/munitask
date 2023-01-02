@@ -248,13 +248,9 @@ div.accordion.faq-accordion {
   /* If you do not want any color, just delete */
 }
 
-.accordion-button:focus {
-  z-index: 3;
-  border-color: #ffffff;
-  background-color: white;
-  outline: 0 !important;
-  /* I changed the color on this line */
-  /* If you do not want any color, just delete */
+.accordion-button:not(.collapsed) {
+  color: #292b2c;
+  background-color: #fafafa;
 }
 
 .profile-container {
@@ -367,6 +363,46 @@ a.nav-link.active.profile-tab {
   background-color: #fafafa;
 }
 
+.search-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-auto-columns: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  width: 50vw;
+  margin: auto;
+  grid-template-areas: "icon-div1 icon-div2 icon-div3 icon-div4 icon-div5 icon-div6 icon-div7";
+}
+
+.icon-div1 {
+  grid-area: icon-div1;
+}
+
+.icon-div2 {
+  grid-area: icon-div2;
+}
+
+.icon-div3 {
+  grid-area: icon-div3;
+}
+
+.icon-div4 {
+  grid-area: icon-div4;
+}
+
+.icon-div5 {
+  grid-area: icon-div5;
+}
+
+.icon-div6 {
+  grid-area: icon-div6;
+}
+
+.icon-div7 {
+  grid-area: icon-div7;
+}
+
 .job-icon {
   border: 4px solid #745cac;
   width: 3rem;
@@ -387,6 +423,19 @@ a.nav-link.active.profile-tab {
 
 .job-icon-div {
   width: 5rem;
+}
+
+.job-info-header-title {
+  font-size: 2rem;
+}
+
+.terms-container {
+  box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.26);
+  -webkit-box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.26);
+  -moz-box-shadow: -2px 2px 5px 2px rgba(0, 0, 0, 0.26);
+  padding: 30px;
+  margin: 4vh 4vw;
+  min-height: 100vh;
 }
 
 .sidenav-div {
@@ -461,6 +510,13 @@ div.jobview-container {
   flex-direction: row;
 }
 
+.required label::after, .required-p::after {
+  color: #e32;
+  content: " *";
+  display: inline;
+  font-size: 1.2rem;
+}
+
 @media only screen and (min-width: 992px) {
   nav.navbar.navbar-expand-lg {
     height: 10vh;
@@ -499,6 +555,11 @@ div.jobview-container {
   }
   .signup-img {
     display: none;
+  }
+  .search-container {
+    width: 90vw;
+    margin: auto;
+    overflow-x: scroll;
   }
   .signup-page-stock-photo {
     -o-object-fit: cover;

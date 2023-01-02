@@ -13,42 +13,42 @@ import { titleCase } from '../FunctionStorage';
 
 export default function JobItem({job, savedJobs, user, createPopUp}) {
   const [currentJob, ]=useState(job);
- const [liked, setLiked]=useState(false);
+//  const [liked, setLiked]=useState(false);
  const [signInPopUp, setsignInPopUp] = useState(false);
  
  const handleClosePopUp = () => setsignInPopUp(false);
  const handleShowPopUp = () => setsignInPopUp(true);
-  const checkJobs=()=>{
-      if(savedJobs){
-        if (savedJobs.includes(job._id)){
-          console.log('saved job');
-          setLiked(true)
-        }}
-    }
+  // const checkJobs=()=>{
+  //     if(savedJobs){
+  //       if (savedJobs.includes(job._id)){
+  //         console.log('saved job');
+  //         setLiked(true)
+  //       }}
+  //   }
 
- const handleLike = (job) => {
-  setLiked(true);
-  saveJob(job);
-}
+//  const handleLike = (job) => {
+//   setLiked(true);
+//   saveJob(job);
+// }
 
-  const handleUnlike = (job) => {
-    setLiked(false);
-    unsaveJob(job);
-  }
+//   const handleUnlike = (job) => {
+//     setLiked(false);
+//     unsaveJob(job);
+//   }
 
-  const saveJob=async(job)=>{
-    await updateDoc(doc(db,"users",user.uid),{
-      saved_jobs:arrayUnion(job._id)
-    })
-    console.log('succesfully saved job')
-  }
+  // const saveJob=async(job)=>{
+  //   await updateDoc(doc(db,"users",user.uid),{
+  //     saved_jobs:arrayUnion(job._id)
+  //   })
+  //   console.log('succesfully saved job')
+  // }
 
-  const unsaveJob=async(job)=>{
-    await updateDoc(doc(db,"users",user.uid),{
-      saved_jobs:arrayRemove(job._id)
-    })
-    console.log('succesfully unsaved job')
-  }
+  // const unsaveJob=async(job)=>{
+  //   await updateDoc(doc(db,"users",user.uid),{
+  //     saved_jobs:arrayRemove(job._id)
+  //   })
+  //   console.log('succesfully unsaved job')
+  // }
 
 
   const cardColor=(title)=>{
@@ -68,10 +68,10 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
     }
   }
 
-  useEffect (()=>{
-   checkJobs();
-    // getSavedJobs();
-    },[])
+  // useEffect (()=>{
+  //  checkJobs();
+  //   // getSavedJobs();
+  //   },[])
 
     useEffect (()=>{
       // likedJob(job);
@@ -100,18 +100,18 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
            </div>
             <div className='d-flex flex-row align-items-center location-bubble'>
             <MapPin className='pb-1' size={20} weight='bold' />
-            <p className='m-0'>{job.municipality}, IL</p>
+            <p className='m-0'>{job.municipality}</p>
           </div>
         </Card.Text >
       </Link>
         <div className='d-flex flex-row justify-content-between job-description'>
         <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
-        <Card.Title className='job-card-title'>{titleCase(job.title)}</Card.Title>
+        <Card.Title className='job-card-title'>{job.title}</Card.Title>
         </Link>
        
-        {user.uid?<>
-        {liked?<><Heart onClick={()=>handleUnlike(job)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(job.title)} size={20} className='ms-auto like'/></>:<><Heart data-testid='likeJobBtn' color={cardColor(job.title)} onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}</>
-          :<><Heart data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={20} className='ms-auto'/></>}
+        {/* {user.uid?<> */}
+        {/* {liked?<><Heart onClick={()=>handleUnlike(job)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(job.title)} size={20} className='ms-auto like'/></>:<><Heart data-testid='likeJobBtn' color={cardColor(job.title)} onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}</>
+          :<><Heart data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={20} className='ms-auto'/></>} */}
         </div>
       </Card.Body>
     </Card>

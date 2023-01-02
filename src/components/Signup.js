@@ -8,7 +8,7 @@ import googlebtn from '../images/btn_google_signin_light_pressed_web@2x.png';
 import { validEmail, validPassword } from '../Regex.js';
 import { Fragment } from 'react';
 import lifeguardStockPhoto from '../images/omar-lopez-rGooKYcscyc-unsplash.jpg';
-export default function Signup({signUp, createPopUp,setUser}) {
+export default function Signup({signUp, createPopUp,setUser, user}) {
   const states = ["Alabama","Alaska","American Samoa","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Guam","Hawaii",
   "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
   "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
@@ -22,7 +22,6 @@ export default function Signup({signUp, createPopUp,setUser}) {
   const incrementLogin=async(user)=>{
     const userRef=doc(db,'users', user.uid);
     const docSnap = await getDoc(userRef);
-    
     if (docSnap.exists()) {
       const login_num=docSnap.data().user_logins + 1;
       await updateDoc(userRef, {user_logins:login_num})
@@ -30,6 +29,22 @@ export default function Signup({signUp, createPopUp,setUser}) {
       console.log("No such document in incrementLogin function");
     }
   };
+
+  const actionCodeSettings = {
+    // NEW DOMAIN NAME GOES BELOW
+    url: 'https://www.munitask-994ce.web.app/signup',
+    // This must be true.
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.example.ios'
+    },
+    android: {
+      packageName: 'com.example.android',
+      installApp: true,
+      minimumVersion: '12'
+    }
+  };
+  
 
   const handleFirstLogin=async(user_info)=>{
     // if (user_info.uid){
@@ -131,7 +146,7 @@ export default function Signup({signUp, createPopUp,setUser}) {
                         <h4 className="login-header me-2">Sign up to </h4>
                         <img height={27} loading='lazy' src={brand} alt='munitask brand'/>
             </div>
-                <form className='' onSubmit={(e)=>{signUpWithEmail(e)}}>
+                <form className='' onSubmit={(e)=>{signUpWithEmail(e); handleFirstLogin(user)}}>
             
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
@@ -160,7 +175,7 @@ export default function Signup({signUp, createPopUp,setUser}) {
                 <p className='my-4 text-center'><b>OR</b></p>
                 <div className='d-flex justify-content-center'>
                 
-                <img src={googlebtn} alt='...' data-testid='googleBtn' className='google-btn' onClick={()=>{createPopUp()}}/>
+                <img src={googlebtn} alt='...' data-testid='googleBtn' className='google-btn' onClick={()=>{createLoginPopUp()}}/>
               
                 </div>
                 <div className='d-flex flex-row justify-content-center mt-3'>

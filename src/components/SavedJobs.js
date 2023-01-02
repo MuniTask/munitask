@@ -26,8 +26,8 @@ export default function SavedJobs({user}) {
           console.log('queryJobsList',queryJobsList)
           for (let doc of queryJobsList){
             const zip_code=await getZip(doc.municipality)
-            const latitude=await getLat(doc.municipality)
-            const longitude=await getLng(doc.municipality)
+            const latitude=await getLat(parseFloat(doc.municipality))
+            const longitude=await getLng(parseFloat(doc.municipality))
             const logo_url=await getLogo(doc.municipality)
             const skip=await getLng(doc.municipality).then( 
               newJobsList.push({...doc, latitude: latitude, longitude:longitude, zip_code:zip_code, logo_url:logo_url})
@@ -44,7 +44,7 @@ export default function SavedJobs({user}) {
  
   
   const getZip=async(mun)=>{
-    const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+    const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
     if (data_lst === null || data_lst.length===0){
@@ -55,7 +55,7 @@ export default function SavedJobs({user}) {
   };  
   
   const getLogo=async(mun)=>{
-    const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+    const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
     const data2 = await getDocs(que);
     const data_lst=data2.docs.map((doc)=>({...doc.data()}));
     if (data_lst === null || data_lst.length===0){
@@ -66,7 +66,7 @@ export default function SavedJobs({user}) {
   };  
   
   const getLng=async(mun)=>{
-  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
   if (data_lst === null || data_lst.length===0){
@@ -76,7 +76,7 @@ export default function SavedJobs({user}) {
   return mun_lng;
   };
   const getLat=async(mun)=>{
-  const que=query(collection(db,'parks'),where("municipality","==",mun), limit(1));
+  const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
   const data2 = await getDocs(que);
   const data_lst=data2.docs.map((doc)=>({...doc.data()}));
   if (data_lst === null || data_lst.length===0){

@@ -28,6 +28,12 @@ export default function UserInfoForm({user}) {
     let currentDate = `${year-15}-${month}-${day}`;
    return currentDate
   };
+  const emptyField=(e)=>{
+    e.preventDefault();
+    if (e.target.value===''){
+      console.log('error!')
+    }
+  };
   const writePersonalInfo=async(e)=>{
     const contact=[];
       if (e.target.phone.checked===true){
@@ -43,6 +49,7 @@ export default function UserInfoForm({user}) {
         contact.push('No response')
       }
     e.preventDefault();
+    try{
     const userRef=doc(db,"users",user.uid)
     await updateDoc(userRef,{
       first_name:e.target.first_name.value,
@@ -69,7 +76,9 @@ export default function UserInfoForm({user}) {
     }, {merge:true})
     console.log('succesfully added personal info');
     setRedirect(true);
-   
+   handleShow();}catch(error){
+    console.log(error)
+   }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -127,7 +136,7 @@ export default function UserInfoForm({user}) {
   useEffect(()=>{
     console.log(minimum_year_of_birth())
   })
-  return (<Fragment className='page-container'>
+  return (<div className='page-container'>
   {redirect? <><Navigate to='/'/> </>:<>
     <MDBContainer fluid>
       <div className="check-info-blurb alert alert-warning" role='alert'>
@@ -141,33 +150,33 @@ export default function UserInfoForm({user}) {
     <h4 className="my-3">Personal Information</h4>
         <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
-            <div className="w-25 me-4">
+            <div className="w-25 me-4 required">
               <label htmlFor="first_name">First Name</label>
               <input name="first_name" type="text" placeholder="First Name" className="form-control " id="first_name"  required/>
              
             </div>
-            <div className="w-25 me-4">
+            <div className="w-25 me-4 required">
               <label htmlFor="last_name">Last Name</label>
              <input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" required/>
               
             </div>
-            <div className="w-25">
+            <div className="w-25 required">
             <label htmlFor="inputEmail4">Email</label>
               {user.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={user.email} /></>
               :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
              
             </div>
           </div>
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row required">
             <div className="w-25  mt-3 me-4">
                 <label htmlFor="inputTel4">Phone Number</label>
                 <input name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" required/>
               </div>
-            <div className="form-group w-25 mt-3 me-4 ">
+            <div className="form-group w-25 mt-3 me-4  required">
               <label htmlFor="birthday">Birthday</label>
              <input type="date" className="form-control" id="birthday" name="birthday" min='1970-01-01' max={minimum_year_of_birth()} required/>
             </div>
-            <div className="form-group w-25 mt-3">
+            <div className="form-group w-25 mt-3 required">
             <label htmlFor="age">Age of job seeker</label>
             <select name="age" id="inputAge" className="form-control w-50" required>
               <option disabled>Age</option>
@@ -179,7 +188,7 @@ export default function UserInfoForm({user}) {
             </div>
         </div>
 
-        <div className="form-group d-flex flex-row mb-5">
+        <div className="form-group d-flex flex-row mb-5 required">
           <div className="w-25 me-4">
             <label htmlFor="inputState">State</label>
             <select name="state" id="inputState" className="form-control" required>
@@ -189,19 +198,19 @@ export default function UserInfoForm({user}) {
                 </Fragment>)}
             </select>
           </div>
-          <div className="w-25 me-4">
+          <div className="w-25 me-4 required">
             <label htmlFor="inputCity">City</label>
           <input name="city" type="text" className="form-control" id="inputCity" required/>
            
           </div>
-          <div className="w-25 me-4">
+          <div className="w-25 me-4 required">
             <label htmlFor="inputZip">Zip</label>
             <input name="zip" type="text" className="form-control" id="inputZip" required/>
           
           </div>
         </div>
-        <h4 className="my-3">Personal Preferences</h4>
-              <p className='mb-1'>Select jobs that interest you:</p>
+        <h4 className="my-3 required ">Personal Preferences</h4>
+              <p className='mb-1 required-p'>Select jobs that interest you:</p>
               <div className='mb-2'>
                   <input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" />
                   <label htmlFor="lifeguard">lifeguard</label>
@@ -227,12 +236,12 @@ export default function UserInfoForm({user}) {
                 <label htmlFor="golf_ranger">golf ranger</label>
               <br />
               </div>
-            <div className="form-group mb-3 w-50 my-4">
+            <div className="form-group mb-3 w-50 my-4 required">
               <label htmlFor="inputZip">Preferred job location zip code</label>
               <input name="job_zip" type="text" className="form-control" id="inputZip" required/>
             </div>
           <div className="d-flex flex-column mb-3">
-            <p className="mb-1">
+            <p className="mb-1 required-p">
              I am...
             </p>
             <div>
@@ -245,7 +254,7 @@ export default function UserInfoForm({user}) {
             </div>
           </div>
           <div className="d-flex flex-column mb-3">
-            <p className="mb-1">
+            <p className="mb-1 required-p">
               What's the best way for us to follow up with you?
             </p>
             <div>
@@ -271,18 +280,18 @@ export default function UserInfoForm({user}) {
             <label htmlFor="social">
             Please share a social media handle or username
             </label>
-           <input name="social" type="text" className="form-control" id="social" placeholder="..." required/>
+           <input name="social" type="text" className="form-control" id="social" placeholder="..." />
           </div>
           <div>
             <label htmlFor="other-info">Is there anything else you'd like us to know about you?</label>
-              <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" required></textarea>
+              <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea>
           </div>
       
 
         {/* <button type="submit" className="btn btn-primary mt-4">
           Submit
         </button> */}
-        <Button variant="success" className='mt-4' data-testid='updateProfileInfoBtn' type="submit" onClick={handleShow}>
+        <Button variant="success" className='mt-4' data-testid='updateProfileInfoBtn' type="submit" >
         Save Changes
       </Button>
 
@@ -298,5 +307,5 @@ export default function UserInfoForm({user}) {
       {/* </>} */}
      
     </MDBContainer>
-    </>} </Fragment> )
+    </>} </div> )
 }

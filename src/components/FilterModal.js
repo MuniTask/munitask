@@ -3,9 +3,11 @@ import { collection, endAt, getDocs, orderBy, query, startAt } from 'firebase/fi
 import {Modal,Form, Button, Col, Row} from 'react-bootstrap';
 import {db} from '../firebase';
 import { distanceBetween, geohashQueryBounds } from 'geofire-common';
-export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFilterOnly}) {
+export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFilterOnly, location, setLocation, distance, setDistance}) {
   const [ value, setValue ] = useState(10);
   const [ pay, setPay ] = useState(0);
+
+  const [compensation, setCompensation]=useState();
  
 
   
@@ -18,6 +20,7 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
   const getFilters=async(e)=>{
     e.preventDefault();
     if (e.target.zip.value !=='' ){
+      setLocation(e.target.zip.value);
       const zip=await searchZip(e.target.zip.value);
       let feature_index=0
       if (zip.features[0].place_name.includes('Illinois')){
@@ -43,6 +46,7 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
       //   }
     }
     else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
+      setCompensation(e.target['payFilter'].value);
       const payFilter=e.target['payFilter'].value
       const matchingJobs=[]
       for (let x of myjobs){
@@ -82,6 +86,7 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
       const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
       const distanceInM = distanceInKm * 1000;
       if (wage !=='all'){
+        setCompensation(wage)
         if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(wage)) {
           matchingDocs.push(snap);
           }
@@ -105,14 +110,14 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
         <Modal.Body>
           <Form onSubmit={(e)=>{getFilters(e); handleClose()}}>
           <label  className='mb-1' htmlFor='zip'>Location</label><br></br>
-          <input data-testid='filterLocationBtn' className='location-input mb-3' type='text' name='zip'/><br></br>
+          <input data-testid='filterLocationBtn' className='location-input mb-3' defaultValue={location} placeholder='City, state, or zip' type='text' name='zip'/><br></br>
           <Form.Label>Distance</Form.Label>
           <Row>
             <Col xs='9'>
-              <Form.Range data-testid='filterLocationRangeSlider' defaultValue={value} onChange={e => setValue(e.target.value)}/>
+              <Form.Range data-testid='filterLocationRangeSlider' defaultValue={distance} onChange={e => setDistance(e.target.value)}/>
             </Col>
             <Col xs='3' className='d-flex flex-row align-items-baseline'>
-              <Form.Control className='me-2' name='distance_range' readOnly value={value}/>
+              <Form.Control className='me-2' name='distance_range' readOnly value={distance}/>
               <p>miles</p>
             </Col>
           </Row>

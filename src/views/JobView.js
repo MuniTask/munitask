@@ -1,19 +1,29 @@
-import { arrayUnion, collection, doc, getDocs, query, updateDoc, addDoc } from 'firebase/firestore';
+import { arrayUnion, collection, doc, getDocs, query, updateDoc, addDoc, getDoc, arrayRemove } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {Bag, CalendarBlank, CaretLeft, Clock, CurrencyDollar, MapPin } from 'phosphor-react';
+import {Bag, CalendarBlank, CaretLeft, Clock, CurrencyDollar, Heart, MapPin } from 'phosphor-react';
 import {db} from '../firebase';import JobViewMap from '../components/JobViewMap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InterestForm from '../components/InterestForm';
 import { titleCase } from '../FunctionStorage';
+import { convertDate } from '../Regex';
 
 export default function JobView({user, createPopUp}) {
   const [jobs, setJobs]=useState({})
   const [show, setShow] = useState(false);
+  const [liked, setLiked]=useState(false);
   const location=useLocation();
   const [signInPopUp, setsignInPopUp] = useState(false);
- 
+  const handleLike = (job) => {
+    setLiked(true);
+    saveJob(jobs);
+  }
+  
+    const handleUnlike = (job) => {
+      setLiked(false);
+      unsaveJob(jobs);
+    }
   const handleClosePopUp = () => setsignInPopUp(false);
   const handleShowPopUp = () => setsignInPopUp(true);
   const handleClose = () => setShow(false);
@@ -21,7 +31,39 @@ export default function JobView({user, createPopUp}) {
   const setJob=()=>{
     setJobs(location.state.job);
   };
-  
+  const jobBullets=(text)=>{
+    const my_array=text.split('-');
+    return(my_array.map((item, i)=> <li key={i}>{item}</li>))
+  };
+  const cardColor=(title)=>{
+    switch(title){
+      case "lifeguard":
+        return "#DB2118";
+      case "camp counselor":
+        return "blue";
+      case "swim instructor":
+        return "#745cac";
+      case "pool maintenance":
+        return "#33DDFF";
+      case "park maintenance":
+        return "#ee7600";
+      case "golf ranger":
+        return "green";
+    }
+  }
+  const saveJob=async(job)=>{
+    await updateDoc(doc(db,"users",user.uid),{
+      saved_jobs:arrayUnion(job._id)
+    })
+    console.log('succesfully saved job')
+  }
+
+  const unsaveJob=async(job)=>{
+    await updateDoc(doc(db,"users",user.uid),{
+      saved_jobs:arrayRemove(job._id)
+    })
+    console.log('succesfully unsaved job')
+  }
   const writeInterestForm = async(e)=> {
     e.preventDefault()
       await addDoc(collection(db,"interestForms"),{
@@ -44,17 +86,44 @@ export default function JobView({user, createPopUp}) {
       handleClose();
   }
 
+  const checkJobs=async()=>{
+    if (user.uid){
+      const userRef=doc(db,"users",user.uid)
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        if (docSnap.data().saved_jobs.includes(jobs._id)){
+          console.log('saved job');
+          setLiked(true)
+        }
+      } else {
+        console.log("No saved jobs!");
+      }
+    }
+   
+   
+  }
+
   useEffect(()=>{
     setJob();
+    
   },[])
+  useEffect(()=>{
+    checkJobs()
+    
+  },[jobs])
   return (
+   
   <div className='page-container me-5 ms-5 mt-2'>
+     {jobs? <>
     <Link to='/' className='btn mb-3 mt-2'><CaretLeft size={20} weight="bold" />Back to jobs</Link>
     <div className='jobview-container'>
     <div className='d-flex flex-row justify-content-between flex-wrap mb-5'>
       <div className='job-info-header'>
         <div className='d-flex flex-row flex-wrap align-items-baseline'>
-          <h4 className='display-5'>{jobs.title}</h4>
+          <h4 className='job-info-header-title'>{jobs.title}</h4>
+          {user.uid?<>
+        {liked?<><Heart onClick={()=>handleUnlike(jobs)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(jobs.title)} size={20} className='ms-auto like'/></>:<><Heart data-testid='likeJobBtn' color={cardColor(jobs.title)} onClick={()=>handleLike(jobs)} size={20} className='ms-auto'/></>}</>
+          :<><Heart data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={20} className='ms-auto'/></>}
           {user.uid?<><p className='interest-btn ms-3 ' data-testid='submitInterestBtn' onClick={handleShow}>
             Submit Interest
           </p></>
@@ -91,11 +160,12 @@ export default function JobView({user, createPopUp}) {
     </div>
     <div className='mt-4 mb-4 '>
       <div className='me-auto quick-facts'>
-      <div className='ms-4 d-flex flex-row'><Bag size={22} className='pt-1' color='#745cac' weight="fill" /><p>{jobs.title}</p></div>
-      <div className='ms-4 d-flex flex-row'><CalendarBlank className='pt-1' size={22} weight="fill" color='#745cac'/><p>Date Posted</p></div>
-      <div className='ms-4 d-flex flex-row'><Clock className='pt-1' size={22} weight="fill" color='#745cac'/><p>Part-Time/Full-Time</p></div>
-      <div className='ms-4 d-flex flex-row'><CurrencyDollar className='pt-1' size={22} weight="bold" color='#745cac'/><p>12-14/HR</p></div>
-      <div className='ms-4 d-flex flex-row'><MapPin className='pt-1' size={22} weight="fill" color='#745cac'/><p>Location</p></div>
+      <div className='ms-4 d-flex flex-row'><Bag size={22} className='pt-1' color='#745cac' weight="fill" /><p>{titleCase(jobs.title)}</p></div>
+      {/* {jobs.date_added? <><div className='ms-4 d-flex flex-row'><CalendarBlank className='pt-1' size={22} weight="fill" color='#745cac'/><p>{String(jobs.date_added).match(convertDate)}</p></div></>:<></>} */}
+      
+      <div className='ms-4 d-flex flex-row'><Clock className='pt-1' size={22} weight="fill" color='#745cac'/><p>{jobs.full_or_part_time}-time</p></div>
+      <div className='ms-4 d-flex flex-row'><CurrencyDollar className='pt-1' size={22} weight="bold" color='#745cac'/><p>{jobs.wage}</p></div>
+      <div className='ms-4 d-flex flex-row'><MapPin className='pt-1' size={22} weight="fill" color='#745cac'/><p>{jobs.municipality}</p></div>
       </div>
       {/* <button className='me-4 btn btn-primary'>Submit Interest</button> */}
             
@@ -114,28 +184,24 @@ export default function JobView({user, createPopUp}) {
     <div className='job-info-body'>
       <div className='qual'>
         <h4>Qualifications</h4>
+     
         <ul>
-          <li>You may be required to show proof of your fully vaccinated status at the time of your start date, or have received a medical or religious exemption from the fully vaccinated requirement at the time of your start date</li>
-          <li>Certified lifeguard and first aide training through American Red Cross- not required, will provide training</li>
-          <li>CPR Certified or ability to obtain</li>
-          <li>Retrieve 3 rings from 4-7 foot depth in one breath</li>
+          {jobs.qualifications? <>
+            {jobBullets(jobs.qualifications)}</>:<>{jobs.qualifications}</>}
+      
         </ul>
       </div>
       <div className='qual'>
         <h4>Responsibilities</h4>
-        <ul>
-          <li>Observe the safety and wellbeing of swimmers</li>
-          <li>Observe weather – as conditions may change rapidly</li>
-          <li>This is an “as needed” position responsible for monitoring the safety and wellbeing of guest as they use the pools at Rock Eagle
-</li>
-        
-        </ul>
+        {jobs.responsibilities? <>
+            {jobBullets(jobs.responsibilities)}</>:<></>}
       </div>
     </div>
     <div className='jobview-map-container'>
       <JobViewMap job={jobs}/>
     </div>
     </div>
+    </>:<></>}
   </div>
   )
 }
