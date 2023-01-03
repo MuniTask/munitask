@@ -74,14 +74,14 @@ export default function JobView({user, createPopUp}) {
         training: e.target.certifications.value,
         other_info:e.target.other_info.value
       })
-      window.dataLayer.push({
-        event: 'submitted_interest',
-        eventProps:{
-          category:'form submit',
-          action:'click',
-          label:'submit interest form'
-        }
-      })
+      // window.dataLayer.push({
+      //   event: 'submitted_interest',
+      //   eventProps:{
+      //     category:'form submit',
+      //     action:'click',
+      //     label:'submit interest form'
+      //   }
+      // })
       console.log('interest Submitted')
       handleClose();
   }
