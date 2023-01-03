@@ -92,27 +92,24 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
       </div></>}
       </Link>
       <Card.Body className='job-card-body pb-0 mb-0'  style={{ borderTop: `4px solid ${cardColor(job.title)}`, borderRight:`4px solid ${cardColor(job.title)}`, borderBottom:`4px solid ${cardColor(job.title)}`}}>
+      <div className='d-flex flex-row justify-content-between job-description'>
+        <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
+        <Card.Title className='job-card-title'>{titleCase(job.title)}</Card.Title>
+        </Link>
+        </div>
     <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
-        <Card.Text className='d-flex flex-row justify-content-between mb-3  p-1 job-item-info-bubble'>
-          <div className='d-flex flex-row align-items-center wage-bubble'>
-           <CurrencyDollar color='rgba(86, 87, 117, .8)' size={15} weight='bold'/>
-           <p className='m-0' style={{color:'rgba(86, 87, 117, .8)'}}>{job.wage}/hr</p>
+        <Card.Text className='d-flex flex-row flex-wrap'>
+          <div className='d-flex flex-row align-items-center wage-bubble me-2'>
+           <CurrencyDollar color='rgba(86, 87, 117, .8)' size={14} weight='bold'/>
+           <p className='m-0' >{job.wage}/hr</p>
            </div>
             <div className='d-flex flex-row align-items-center location-bubble'>
-            <MapPin className='pb-1' size={20} weight='bold' />
+            <MapPin className='pb-1' color='rgba(86, 87, 117, .8)' size={18} weight='bold' />
             <p className='m-0'>{job.municipality}</p>
           </div>
         </Card.Text >
       </Link>
-        <div className='d-flex flex-row justify-content-between job-description'>
-        <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
-        <Card.Title className='job-card-title'>{titleCase(job.title)}</Card.Title>
-        </Link>
-       
-        {/* {user.uid?<> */}
-        {/* {liked?<><Heart onClick={()=>handleUnlike(job)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(job.title)} size={20} className='ms-auto like'/></>:<><Heart data-testid='likeJobBtn' color={cardColor(job.title)} onClick={()=>handleLike(job)} size={20} className='ms-auto'/></>}</>
-          :<><Heart data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={20} className='ms-auto'/></>} */}
-        </div>
+     
       </Card.Body>
     </Card>
     <Modal  show={signInPopUp} onHide={handleClosePopUp}>

@@ -7,14 +7,14 @@ div.job-card{
 
 }
 .job-card-body{
-  color: black;
+  color: rgb(86, 87, 117);
     border-radius: 0px 8px 8px 0px;
     height: 8rem;
     padding-top: 20px;
   }
-  .job-item-info-bubble{
-    background-color: rgba(194, 190, 246, 0.1);
-    border-radius: 10px;
+  .wage-bubble, .location-bubble{
+  font-size: .8rem;
+  font-weight: bold;
   }
 
 img.job-img{
@@ -23,14 +23,14 @@ img.job-img{
 }
   .job-card-link{
     text-decoration: none;
-    color: black;
+    color: rgba(86, 87, 117, .8);
     z-index: 1;
     &:hover{
-        color: rgb(99, 99, 99);
+        color: rgba(86, 87, 117, .9)
     }
   }
 .card-text{
-  color: rgb(99, 99, 99);
+  color: rgba(86, 87, 117, .8)
 }
   .like{
     z-index: 3;
@@ -47,7 +47,7 @@ img.job-img{
     overflow: hidden;
   white-space: nowrap;
   margin:1px;
-  color: rgb(86, 87, 117);
+  color: rgba(86, 87, 117, .8)
   }
   .card-text{
     font-size:.9rem;
