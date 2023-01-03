@@ -1,5 +1,5 @@
 import { deleteUser, EmailAuthCredential, EmailAuthProvider, getAuth, GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { Password } from 'phosphor-react';
 import React, { Fragment, useEffect, useState } from 'react'
 import { Button, ButtonGroup, Form, Modal } from 'react-bootstrap';
@@ -76,8 +76,8 @@ export default function Settings({user, signUserOut, setUser}) {
       // The signed-in user info.
       const user = result.user;
       console.log('user',user)
-      setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
+      // setUser(user);
+      // localStorage.setItem('user', JSON.stringify(user));
       setCanSubmit(true)
     };
     
@@ -151,7 +151,21 @@ export default function Settings({user, signUserOut, setUser}) {
           console.log(error)
         });
         
-      }
+      };
+     
+          const userRef=doc(db,"users",user.uid)
+          await updateDoc(userRef,{
+          first_name:e.target.first_name.value,
+          last_name:e.target.last_name.value,
+          birthday:e.target.birthday.value,
+          state:e.target.state.value,
+          age:e.target.age.value,
+          zip:e.target.zip.value,
+          city:e.target.city.value,
+          phone_number:e.target.phone_number.value
+        }, {merge:true});
+        console.log('changes saved');
+        setCanSubmit(false)
     };
 
   const getUser=async(user)=>{
@@ -310,12 +324,12 @@ export default function Settings({user, signUserOut, setUser}) {
               :<><input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
               
             </div>
-            <div className="w-25">
+            {/* <div className="w-25">
               <label htmlFor="inputEmail4">Email</label>
               {currentUser.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} /></>
               :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
              
-            </div>
+            </div> */}
           </div>
           <div className="d-flex flex-row">
             <div className="w-25  mt-3 me-4">

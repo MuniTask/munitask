@@ -14,7 +14,7 @@ import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firesto
 import { titleCase } from '../FunctionStorage';
 
 
-export default function Maps({myjobs, user, savedJobs, createPopUp}) {
+export default function Maps({myjobs, user, createPopUp}) {
     const [lat, setLat]=useState(41.88);
     const [lng, setLng]=useState(-87.62);
 
@@ -33,45 +33,16 @@ export default function Maps({myjobs, user, savedJobs, createPopUp}) {
         }
         setVerticalActive(value);
       };
-//   const findLat=async(mun)=>{
-//         const que=query(collection(db,'parks'),where("municipality","==",mun));
-//         const data = await getDocs(que);
-        
-//         const new_lst=[]
-//         data.forEach((doc) => {
-//           new_lst.push(doc.data())
-//           console.log(doc.id, " => ", doc.data());
-//         });
-        
-//         console.log(new_lst[0].latitude);
-//         const mun_lat = new_lst[0].latitude;
-//         return  mun_lat 
-        
-//   }
-//   const findLng=async(mun)=>{
-//     const que=query(collection(db,'parks'),where("municipality","==",mun));
-//         const data = await getDocs(que);
-        
-//         const new_lst=[]
-//         data.forEach((doc) => {
-//           new_lst.push(doc.data())
-//           console.log(doc.id, " => ", doc.data());
-//         });
-//         console.log( typeof new_lst[0].longitude)
-//         const mun_lng = new_lst[0].longitude;
-//         return  mun_lng;
-// }
-  
+
 useEffect(()=>{
-  // findLat('Alsip');
-  // findLng('Alsip');
+
   console.log('hi')
 },[])
   //  style={{width:"600px",height:"800px",border:"1px solid lightgray"}}
   return (
     <div className='map-body d-flex flex-row '>
         <div className='d-flex flex-column map-scroll mx-auto align-items-center' style={{overflowY:"scroll"}}>
-            {myjobs.map((job, i)=> <JobItem className='' createPopUp={createPopUp} savedJobs={savedJobs} key={i} myjobs={myjobs} job={job} user={user}/>)}
+            {myjobs.map((job, i)=> <JobItem className='' createPopUp={createPopUp} key={i} myjobs={myjobs} job={job} user={user}/>)}
         </div>
     <div  className='map-div mx-auto ' >
       

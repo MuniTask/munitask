@@ -27,7 +27,7 @@ export default function Home2({user, createPopUp, redirect, setGlobalJobs, globa
   const [keywords, setKeywords]=useState('');
   const [showModal, setShowModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const [savedJobs, setSavedJobs]=useState([]);
+  // const [savedJobs, setSavedJobs]=useState([]);
   const [location, setLocation]=useState();
   const [distance, setDistance]=useState(10);
   const handleCloseModal = () => setShowModal(false);
@@ -87,10 +87,11 @@ const getJobs=async()=>{
         const zip_code=await getZip(document.data().municipality)
         const latitude=await getLat(document.data().municipality)
         const longitude=await getLng(document.data().municipality)
+        const park_url=await getUrl(document.data().municipality)
         const logo_url=await getLogo(document.data().municipality)
         const hash=geohashForLocation([parseFloat(latitude), parseFloat(longitude)])
         const skip=await getLng(document.data().municipality).then( 
-          await updateDoc(doc(db,'jobs',document.id),{_id:document.id,geohash:hash,latitude:parseFloat(latitude), longitude:parseFloat(longitude),logo_url:logo_url, zip_code:zip_code}).then(()=>{
+          await updateDoc(doc(db,'jobs',document.id),{_id:document.id,geohash:hash,park_url:park_url,latitude:parseFloat(latitude), longitude:parseFloat(longitude),logo_url:logo_url, zip_code:zip_code}).then(()=>{
            console.log('docs updated')
           })
          
@@ -122,6 +123,16 @@ const getZip=async(mun)=>{
   }
   const mun_zip=data_lst[0].zip_code;
   return mun_zip;
+};  
+const getUrl=async(mun)=>{
+  const que=query(collection(db,'parksInfo'),where("municipality","==",mun), limit(1));
+  const data2 = await getDocs(que);
+  const data_lst=data2.docs.map((doc)=>({...doc.data()}));
+  if (data_lst === null || data_lst.length===0){
+    return 0
+  }
+  const park_url=data_lst[0].park_url;
+  return park_url;
 };  
 
 const getLogo=async(mun)=>{
@@ -159,7 +170,7 @@ return mun_lat;
 
   const showJob=()=>{
     if (myjobs !=='' && myjobs !==[]){
-        return(myjobs.map((job, i)=> <JobItem key={i} createPopUp={createPopUp} constJobs={constJobs} savedJobs={savedJobs} myjobs={myjobs} job={job} user={user}/>))
+        return(myjobs.map((job, i)=> <JobItem key={i} createPopUp={createPopUp} constJobs={constJobs} myjobs={myjobs} job={job} user={user}/>))
     } else{
         return(<><h5>No jobs match this search</h5></>)
     }
@@ -197,17 +208,17 @@ return mun_lat;
     setmyjobs(new_list)
   }
 
-  const getSavedJobs=async()=>{
-    if (user.uid){
-      const userRef=doc(db,"users",user.uid)
-      const docSnap = await getDoc(userRef);
-      if (docSnap.exists()) {
-        setSavedJobs(docSnap.data().saved_jobs);
-      } else {
-        console.log("No saved jobs!");
-      }
-    }
-  };
+  // const getSavedJobs=async()=>{
+  //   if (user.uid){
+  //     const userRef=doc(db,"users",user.uid)
+  //     const docSnap = await getDoc(userRef);
+  //     if (docSnap.exists()) {
+  //       setSavedJobs(docSnap.data().saved_jobs);
+  //     } else {
+  //       console.log("No saved jobs!");
+  //     }
+  //   }
+  // };
  
   useEffect(() => {
     getSearchedJobs();
@@ -223,9 +234,9 @@ return mun_lat;
     })
     
   },[])
-  useEffect(()=>{
-    getSavedJobs();
-  },[])
+  // useEffect(()=>{
+  //   getSavedJobs();
+  // },[])
 
   return (
     
@@ -302,7 +313,7 @@ return mun_lat;
           <>
          
               
-              <Maps user={user} myjobs={myjobs} savedJobs={savedJobs} createPopUp={createPopUp}/>
+              <Maps user={user} myjobs={myjobs} createPopUp={createPopUp}/>
             
           </>:<>
         

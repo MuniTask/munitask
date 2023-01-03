@@ -12,7 +12,7 @@ import { titleCase } from '../FunctionStorage';
 
 
 export default function JobItem({job, savedJobs, user, createPopUp}) {
-  const [currentJob, ]=useState(job);
+  const [currentJob, ]=useState({...job, title:titleCase(job.title)});
 //  const [liked, setLiked]=useState(false);
  const [signInPopUp, setsignInPopUp] = useState(false);
  
@@ -106,7 +106,7 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
       </Link>
         <div className='d-flex flex-row justify-content-between job-description'>
         <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
-        <Card.Title className='job-card-title'>{job.title}</Card.Title>
+        <Card.Title className='job-card-title'>{titleCase(job.title)}</Card.Title>
         </Link>
        
         {/* {user.uid?<> */}

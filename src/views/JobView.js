@@ -1,7 +1,7 @@
 import { arrayUnion, collection, doc, getDocs, query, updateDoc, addDoc, getDoc, arrayRemove } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {Bag, CalendarBlank, CaretLeft, Clock, CurrencyDollar, Heart, MapPin } from 'phosphor-react';
+import {Bag, BookmarkSimple, CalendarBlank, CaretLeft, Clock, CurrencyDollar, Heart, MapPin } from 'phosphor-react';
 import {db} from '../firebase';import JobViewMap from '../components/JobViewMap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -117,19 +117,28 @@ export default function JobView({user, createPopUp}) {
      {jobs? <>
     <Link to='/' className='btn mb-3 mt-2'><CaretLeft size={20} weight="bold" />Back to jobs</Link>
     <div className='jobview-container'>
-    <div className='d-flex flex-row justify-content-between flex-wrap mb-5'>
+      <div className='d-flex flex-row justify-content-between align-items-start mt-2 mb-3'>
+        <div>
+          <img style={{width:'9rem'}} src={jobs.logo_url}/>
+        </div>
+        <div className='d-flex flex-row'>
+            {user.uid?<>
+                {liked?<><BookmarkSimple onClick={()=>handleUnlike(jobs)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(jobs.title)} size={28} className='ms-auto like'/></>:<><BookmarkSimple data-testid='likeJobBtn' color={cardColor(jobs.title)} onClick={()=>handleLike(jobs)} size={28} className='ms-auto'/></>}</>
+                  :<><BookmarkSimple data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={28} className='ms-auto'/></>}
+            {user.uid?<><p className='interest-btn ms-3 ' data-testid='submitInterestBtn' onClick={handleShow}>
+                  Declare Interest
+                </p></>
+                :<><p className='interest-btn ms-3 ' data-testid='submitInterestBtnGuest' onClick={handleShowPopUp}>
+                Declare Interest
+              </p></>}
+          </div>
+      </div>
+    <div className='d-flex flex-row justify-content-between flex-wrap mt-5 mb-3'>
+      
       <div className='job-info-header'>
-        <div className='d-flex flex-row flex-wrap align-items-baseline'>
+        <div className=''>
           <h4 className='job-info-header-title'>{jobs.title}</h4>
-          {user.uid?<>
-        {liked?<><Heart onClick={()=>handleUnlike(jobs)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(jobs.title)} size={20} className='ms-auto like'/></>:<><Heart data-testid='likeJobBtn' color={cardColor(jobs.title)} onClick={()=>handleLike(jobs)} size={20} className='ms-auto'/></>}</>
-          :<><Heart data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={20} className='ms-auto'/></>}
-          {user.uid?<><p className='interest-btn ms-3 ' data-testid='submitInterestBtn' onClick={handleShow}>
-            Submit Interest
-          </p></>
-          :<><p className='interest-btn ms-3 ' data-testid='submitInterestBtnGuest' onClick={handleShowPopUp}>
-          Submit Interest
-        </p></>}
+          <a href={jobs.park_url} data-testid='parkUrlLink' className='mb-4'>{jobs.park_url}</a>
         <Modal  show={signInPopUp} onHide={handleClosePopUp}>
               
               <Modal.Body>Sign in or create an account to save listings.</Modal.Body>
@@ -150,22 +159,19 @@ export default function JobView({user, createPopUp}) {
               </Modal.Footer>
         </Modal>
         </div>
-        <p>{jobs.municipality} Park Disctrict</p>
-        <a href={jobs.park_url} data-testid='parkUrlLink' className='mb-4'>{jobs.park_url}</a>
+     
         
       </div>
-      <div>
-        <img style={{width:'9rem'}} src={jobs.logo_url}/>
-      </div>
+     
     </div>
-    <div className='mt-4 mb-4 '>
-      <div className='me-auto quick-facts'>
-      <div className='ms-4 d-flex flex-row'><Bag size={22} className='pt-1' color='#745cac' weight="fill" /><p>{titleCase(jobs.title)}</p></div>
+    <div className=' mb-4 '>
+      <div className=' quick-facts'>
+      <div className='d-flex flex-row'><Bag size={22} className='pt-1' color='#745cac' weight="fill" /><p>{jobs.title}</p></div>
       {/* {jobs.date_added? <><div className='ms-4 d-flex flex-row'><CalendarBlank className='pt-1' size={22} weight="fill" color='#745cac'/><p>{String(jobs.date_added).match(convertDate)}</p></div></>:<></>} */}
       
       <div className='ms-4 d-flex flex-row'><Clock className='pt-1' size={22} weight="fill" color='#745cac'/><p>{jobs.full_or_part_time}-time</p></div>
       <div className='ms-4 d-flex flex-row'><CurrencyDollar className='pt-1' size={22} weight="bold" color='#745cac'/><p>{jobs.wage}</p></div>
-      <div className='ms-4 d-flex flex-row'><MapPin className='pt-1' size={22} weight="fill" color='#745cac'/><p>{jobs.municipality}</p></div>
+      <div className='ms-4 d-flex flex-row'><MapPin className='pt-1' size={22} weight="fill" color='#745cac'/><p>{jobs.municipality} Park District</p></div>
       </div>
       {/* <button className='me-4 btn btn-primary'>Submit Interest</button> */}
             

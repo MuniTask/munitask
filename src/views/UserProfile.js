@@ -34,14 +34,14 @@ export default function UserProfile({user,setUser, incrementLogin, signUserOut, 
       e.preventDefault();
       const userRef=doc(db,"users",user.uid)
       await updateDoc(userRef,{
-        first_name:e.target.first_name.value,
-          last_name:e.target.last_name.value,
-          birthday:e.target.birthday.value,
-          email:e.target.email.value,
-          state:e.target.state.value,
-          city:e.target.city.value,
-          zip:e.target.zip.value,
-          phone_number:e.target.phone_number.value,
+        // first_name:e.target.first_name.value,
+        //   last_name:e.target.last_name.value,
+        //   birthday:e.target.birthday.value,
+        //   email:e.target.email.value,
+        //   state:e.target.state.value,
+        //   city:e.target.city.value,
+        //   zip:e.target.zip.value,
+        //   phone_number:e.target.phone_number.value,
           parent_or_child: e.target.parent_or_child.value,
           contact_by:contact[0],
           job_zip:e.target.job_zip.value,
@@ -53,7 +53,7 @@ export default function UserProfile({user,setUser, incrementLogin, signUserOut, 
           park_field_maintenance:e.target.park_field_maintenance.checked,
           pool_maintenance:e.target.pool_maintenance.checked,
           golf_ranger:e.target.golf_ranger.checked,
-          age:e.target.age.value,
+          // age:e.target.age.value,
          
       }, {merge:true})
       console.log('succesfully added personal info')

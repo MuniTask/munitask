@@ -266,7 +266,8 @@ a.nav-link.active.profile-tab{
 }
 
 .job-info-header-title{
-  font-size: 2rem;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 .terms-container{
   box-shadow: -2px 2px 5px 2px rgba(0,0,0,0.26);
@@ -284,7 +285,7 @@ div.jobview-container{
   box-shadow: -2px 2px 5px 2px rgba(0,0,0,0.26);
 -webkit-box-shadow: -2px 2px 5px 2px rgba(0,0,0,0.26);
 -moz-box-shadow: -2px 2px 5px 2px rgba(0,0,0,0.26);
-  padding: 10px;
+  padding: 5vh 5vw;
 }
 .jobview-map-container{
   height: 510px;
@@ -339,6 +340,7 @@ div.jobview-container{
 .quick-facts{
    display: flex;
    flex-direction: row; 
+   
 }
 .required label, .required-p{
   &::after{
