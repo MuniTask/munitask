@@ -165,7 +165,16 @@ export default function Settings({user, signUserOut, setUser}) {
           phone_number:e.target.phone_number.value
         }, {merge:true});
         console.log('changes saved');
-        setCanSubmit(false)
+        setCanSubmit(false);
+        
+    };
+    const handleSubmit = (e) => {
+      e.preventDefault();
+        window.dataLayer.push({
+          event:'form_submitted',
+          'form_name':'settings_form',
+          'action': `form updated`,
+        })
     };
 
   const getUser=async(user)=>{
@@ -297,7 +306,7 @@ export default function Settings({user, signUserOut, setUser}) {
     </Form>
       </>:
       <>
-      <Form onSubmit={(e)=>update_info(e)}>
+      <Form onSubmit={(e)=>{update_info(e);handleSubmit(e)}}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
         <Form.Control type="email" name='new_email' placeholder='email' />
