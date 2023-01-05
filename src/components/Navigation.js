@@ -58,7 +58,7 @@ export default function Navigation({user, signUserOut}) {
         </Dropdown.Toggle>
       <Dropdown.Menu show={show} onMouseEnter={showDropdown}  onMouseLeave={hideDropdown} className='user-dropdown'>
         <Link onClick={()=>{signUserOut()}} data-testid='signoutLink' to='/'>Sign Out</Link><br/>
-        <Link to='/userprofile' data-testid='profileLink'>Profile</Link>
+        <Link to='/userprofile' data-testid='profileLink'>Account</Link>
       </Dropdown.Menu>
     </Dropdown>
         </>

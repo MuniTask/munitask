@@ -18,6 +18,7 @@ import Signup from './components/Signup';
 import WhoWeAre from './views/WhoWeAre';
 import UserInfoForm from './views/UserInfoForm';
 import Terms from './views/Terms';
+import Privacy from './views/Privacy';
 
 
 function App() {
@@ -190,6 +191,7 @@ useEffect(()=>{
       <Route path='/addtodb2' element={<Addtodb2 />}/>
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>
       <Route path='/termsofservice' element={<Terms />}/>
+      <Route path='/privacystatement' element={<Privacy />}/>
       <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} writeUserData={writeUserData} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
       <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} user={user} createPopUp={createPopUp}/>}/>
       {/* <Route path='/maps' element={<Maps />}/> */}

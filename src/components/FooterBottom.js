@@ -58,8 +58,8 @@ export default function FooterBottom() {
                   </Link>
                 </p>
                 <p>
-                  <Link to='/' className='text-reset'>
-                    Privacy Policy
+                  <Link to='/privacystatement' className='text-reset'>
+                    Privacy Statement
                   </Link>
                 </p>
                 

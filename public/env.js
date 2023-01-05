@@ -32,9 +32,9 @@ window.env = {
   "USER_ZDOTDIR": "/Users/sydneycdoemeldoemel",
   "CONDA_PREFIX": "/opt/anaconda3",
   "__CFBundleIdentifier": "com.microsoft.VSCode",
-  "npm_command": "run-script",
+  "npm_command": "start",
   "PWD": "/Users/sydneycdoemeldoemel/Documents/MuniTask/MuniTask-App/munitask",
-  "npm_lifecycle_event": "build",
+  "npm_lifecycle_event": "start",
   "EDITOR": "vi",
   "npm_config_react_flash_message": "true",
   "npm_package_name": "munitask",
@@ -52,7 +52,7 @@ window.env = {
   "npm_config_cache": "/Users/sydneycdoemeldoemel/.npm",
   "CONDA_PYTHON_EXE": "/opt/anaconda3/bin/python",
   "LOGNAME": "sydneycdoemeldoemel",
-  "npm_lifecycle_script": "react-dotenv && react-scripts build",
+  "npm_lifecycle_script": "react-dotenv && react-scripts start",
   "VSCODE_GIT_IPC_HANDLE": "/var/folders/r6/6313st55431gsl2jqzb2lrz80000gn/T/vscode-git-607b8358a5.sock",
   "CONDA_DEFAULT_ENV": "base",
   "npm_config_user_agent": "npm/8.11.0 node/v16.16.0 darwin x64 workspaces/false",
@@ -62,6 +62,5 @@ window.env = {
   "npm_config_prefix": "/usr/local",
   "COLORTERM": "truecolor",
   "REACT_APP_MAPBOX_TOKEN": "pk.eyJ1IjoibXVuaXRhc2siLCJhIjoiY2xhYjhmZ3ZpMDFudDNycHFlcDZnNnR2byJ9.XeCgoPpc2GvLlJdJMSqNfA",
-  "REACT_APP_FIREBASE_API_KEY": "AIzaSyDd9JE4_F9Nf012Bpj_RgE9Qh6G1farz7U",
-  "REACT_APP_GA_ID": "G-X48F0CEJ6Y"
+  "REACT_APP_FIREBASE_API_KEY": "AIzaSyDd9JE4_F9Nf012Bpj_RgE9Qh6G1farz7U"
 };

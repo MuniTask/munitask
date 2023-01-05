@@ -173,6 +173,40 @@ img.job-img {
   color: gray;
 }
 
+.google-btn {
+  width: 220px;
+  height: auto;
+}
+
+.facebook-signin-btn, .google-signin-btn, .twitter-signin-btn, .apple-signin-btn {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  height: 50px;
+  width: 220px;
+  border: none;
+  border-radius: 1px;
+  font-size: 0.95rem;
+}
+
+.facebook-signin-btn {
+  background-color: #4267B2;
+  color: white;
+}
+
+.google-signin-btn {
+  background-color: #FFFFFF;
+}
+
+.twitter-signin-btn {
+  background-color: #00acee;
+  color: white;
+}
+
+.apple-signin-btn {
+  background-color: black;
+  color: white;
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }
