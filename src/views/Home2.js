@@ -281,10 +281,11 @@ return mun_lat;
 
         <div  className='d-flex justify-content-end align-items-baseline mb-5 w-75'>
           <div className='d-flex justify-content-end me-2 refresh-jobs-btn' data-testid='refreshJobsBtn' onClick={()=>{getJobs()}}>
-            <p className='me-2' >Refresh</p>
+            <p className='me-2' >Reset</p>
             <ArrowsClockwise size={24} />
           </div>
-          <Dropdown>
+          {/* sort by dropdown below */}
+          {/* <Dropdown>
               <Dropdown.Toggle variant='link' data-testid='sortByDropdown' focusfirstitemonshow='false' className='sort-btn' id="dropdown-basic">
                 Sort By
               </Dropdown.Toggle>
@@ -293,7 +294,7 @@ return mun_lat;
                 <Dropdown.Item data-testid='sortByRecentBtn' onClick={sortByRecent}>Most Recent</Dropdown.Item>
                 <Dropdown.Item data-testid='sortByRelevantBtn' onClick={()=>{handleFilter('')}}>Relevance</Dropdown.Item>
               </Dropdown.Menu>
-            </Dropdown>
+            </Dropdown> */}
             
           <div>
           <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal} data-testid='showFilterModalBtn'>Filter<SlidersHorizontal size={32}/></Button>

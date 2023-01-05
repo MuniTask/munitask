@@ -10,10 +10,10 @@ export default function FooterBottom() {
           </div>
   
           <div className="me-auto">
-            <a href='' className='me-4 text-reset'data-testid='footer-tiktok-link' >
+            <a target='_blank' href='' className='me-4 text-reset'data-testid='footer-tiktok-link' >
             <TiktokLogo size={32} /> 
             </a>
-            <a href='https://www.linkedin.com/company/munitask/about/' data-testid='footer-linkedin-link' className='me-4 text-reset'>
+            <a target='_blank' href='https://www.linkedin.com/company/munitask/about/' data-testid='footer-linkedin-link' className='me-4 text-reset'>
             <LinkedinLogo size={32} />
             </a>
           </div>
@@ -67,10 +67,6 @@ export default function FooterBottom() {
   
               <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
-                <p>
-                  <MDBIcon icon="home" className="me-2" />
-                 Chicago, IL 60654, US
-                </p>
                 <p>
                   <MDBIcon icon="envelope" className="me-3" />
                   hello@munitask.com

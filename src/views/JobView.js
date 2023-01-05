@@ -138,7 +138,7 @@ export default function JobView({user, createPopUp}) {
       <div className='job-info-header'>
         <div className=''>
           <h4 className='job-info-header-title'>{jobs.title}</h4>
-          <a href={jobs.park_url} data-testid='parkUrlLink' className='mb-4'>{jobs.park_url}</a>
+          <a rel="noreferrer" target="_blank" href={jobs.park_url} data-testid='parkUrlLink' className='mb-4'>{jobs.park_url}</a>
         <Modal  show={signInPopUp} onHide={handleClosePopUp}>
               
               <Modal.Body>Sign in or create an account to save listings.</Modal.Body>
