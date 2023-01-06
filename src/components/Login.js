@@ -230,7 +230,7 @@ export default function Login({logIn, createPopUp, writeUserData, setUser, user}
       <p className='my-4 text-center'><b>OR</b></p>
       <div className='d-flex flex-row flex-wrap justify-content-center'>
       <img src={googlebtn} alt='...' className='google-btn m-3' onClick={()=>{createLoginPopUp()}}/>
-      <button className='facebook-signin-btn p-0 m-3 d-flex flex-row align-items-center p-1'><FacebookLogo size={28} className='me-3' weight="fill" color='white'/><div>Sign in with Facebook</div></button>
+      <button className='facebook-signin-btn p-0 m-3 d-flex flex-row align-items-center p-1' onClick={()=>{createFacebookPopup()}}><FacebookLogo size={28} className='me-3' weight="fill" color='white'/><div>Sign in with Facebook</div></button>
       <button className='twitter-signin-btn p-0 m-3 d-flex flex-row align-items-center p-1'> <TwitterLogo size={28} className='me-3' weight="fill" color='white'/><div>Sign in with Twitter</div></button>
       
       <button className='apple-signin-btn p-0  m-3 d-flex flex-row align-items-center p-1'><img src={appleLogo} style={{height:'28px', width:'auto'}} className='me-3' alt='apple logo'/> <div>Sign in with Apple</div></button>

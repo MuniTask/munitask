@@ -61,6 +61,6 @@ window.env = {
   "npm_node_execpath": "/usr/local/bin/node",
   "npm_config_prefix": "/usr/local",
   "COLORTERM": "truecolor",
-  "REACT_APP_MAPBOX_TOKEN": "pk.eyJ1IjoibXVuaXRhc2siLCJhIjoiY2xhYjhmZ3ZpMDFudDNycHFlcDZnNnR2byJ9.XeCgoPpc2GvLlJdJMSqNfA",
+  "REACT_APP_MAPBOX_TOKEN": "pk.eyJ1IjoibXVuaXRhc2siLCJhIjoiY2xhYjc2aWR4MGV2cTNudGlraHhyaWFrdiJ9.XwJBKGKovqP_NVLZDZF2rA",
   "REACT_APP_FIREBASE_API_KEY": "AIzaSyDd9JE4_F9Nf012Bpj_RgE9Qh6G1farz7U"
 };

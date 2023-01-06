@@ -187,7 +187,7 @@ export default function JobView({user, createPopUp}) {
               </Modal.Footer>
             </Modal>
     </div>
-    <div className='job-info-body'>
+    <div className='job-info-body mb-5'>
       <div className='qual'>
         <h4>Qualifications</h4>
      
@@ -203,7 +203,7 @@ export default function JobView({user, createPopUp}) {
             {jobBullets(jobs.responsibilities)}</>:<></>}
       </div>
     </div>
-    <div className='jobview-map-container'>
+    <div className='jobview-map-container mt-5'>
       <JobViewMap job={jobs}/>
     </div>
     </div>

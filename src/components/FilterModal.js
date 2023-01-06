@@ -5,9 +5,9 @@ import {db} from '../firebase';
 import { distanceBetween, geohashQueryBounds } from 'geofire-common';
 export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFilterOnly, location, setLocation, distance, setDistance}) {
   const [ value, setValue ] = useState(10);
-  const [ pay, setPay ] = useState(0);
+  // const [ pay, setPay ] = useState(0);
 
-  const [compensation, setCompensation]=useState();
+  // const [compensation, setCompensation]=useState();
  
 
   
@@ -45,23 +45,23 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
       //   console.log('radius in meters and pay checkboxes',radiusInM)
       //   }
     }
-    else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
-      setCompensation(e.target['payFilter'].value);
-      const payFilter=e.target['payFilter'].value
-      const matchingJobs=[]
-      for (let x of myjobs){
-        if (parseFloat(x.wage) >= parseFloat(payFilter)){
-          matchingJobs.push(x)
-        }
-        else if (payFilter === 'all'){
-          matchingJobs.push(...myjobs)
-        }
-      }
-      setmyjobs([...matchingJobs]);
-      setFilterOnly([...matchingJobs]);
-      setPay(payFilter)
-      console.log(payFilter)
-       }
+    // else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
+    //   setCompensation(e.target['payFilter'].value);
+    //   const payFilter=e.target['payFilter'].value
+    //   const matchingJobs=[]
+    //   for (let x of myjobs){
+    //     if (parseFloat(x.wage) >= parseFloat(payFilter)){
+    //       matchingJobs.push(x)
+    //     }
+    //     else if (payFilter === 'all'){
+    //       matchingJobs.push(...myjobs)
+    //     }
+    //   }
+    //   setmyjobs([...matchingJobs]);
+    //   setFilterOnly([...matchingJobs]);
+    //   setPay(payFilter)
+    //   console.log(payFilter)
+    //    }
   };
 
   const getBounds=async(lat,lng,radiusInM, wage)=>{
@@ -85,17 +85,17 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
       const snapLng = snap.longitude
       const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
       const distanceInM = distanceInKm * 1000;
-      if (wage !=='all'){
-        setCompensation(wage)
-        if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(wage)) {
-          matchingDocs.push(snap);
-          }
-        }
-      else{
+      // if (wage !=='all'){
+      //   setCompensation(wage)
+      //   if (distanceInM <= radiusInM && parseFloat(snap.wage) >= parseFloat(wage)) {
+      //     matchingDocs.push(snap);
+      //     }
+      //   }
+      // else{
         if (distanceInM <= radiusInM) {
           matchingDocs.push(snap);
             }
-          }
+          // }
     }
     console.log('matching docs',matchingDocs)
     setmyjobs([...matchingDocs]);
@@ -121,11 +121,11 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
               <p>miles</p>
             </Col>
           </Row>
-          <Form.Label>Compensation</Form.Label>
+          {/* <Form.Label>Compensation</Form.Label>
           <Form.Check name='payFilter' data-testid='filterWageAllRadio' type='radio' defaultChecked value='all' label='all'/>
           <Form.Check name='payFilter' data-testid='filterWage10upRadio' type='radio' value='10' label='$10/hr & up'/>
           <Form.Check name='payFilter' data-testid='filterWage15upRadio' type='radio' value='15' label='$15/hr & up'/>
-          <Form.Check name='payFilter' data-testid='filterWage20upRadio' type='radio' value='20' label='$20/hr & up'/>
+          <Form.Check name='payFilter' data-testid='filterWage20upRadio' type='radio' value='20' label='$20/hr & up'/> */}
 
           <Button className='mt-2' data-testid='saveFilterOptionsBtn' variant="dark" type='submit'>
             Save Changes

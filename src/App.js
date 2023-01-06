@@ -19,6 +19,7 @@ import WhoWeAre from './views/WhoWeAre';
 import UserInfoForm from './views/UserInfoForm';
 import Terms from './views/Terms';
 import Privacy from './views/Privacy';
+import SamplePaginate from './views/SamplePaginate';
 
 
 function App() {
@@ -184,6 +185,7 @@ useEffect(()=>{
      <Routes>
       <Route path='/' element={<Home2   globalJobs={globalJobs} setGlobalJobs={setGlobalJobs} createPopUp={createPopUp}  user={user}/>}/>
       <Route path='/home2' element={<Home2  incrementLogin={incrementLogin} user={user}/>}/>
+      <Route path='/samplepage' element={<SamplePaginate  globalJobs={globalJobs} setGlobalJobs={setGlobalJobs} createPopUp={createPopUp}  user={user}/>}/>
       <Route path='/:jobTitle' element={<JobView createPopUp={createPopUp} user={user}/>}/>
       <Route path='/whoweare' element={<WhoWeAre />}/>
       <Route path='/howitworks' element={<HowItWorks signUp={signUpWithEmail} logIn={logInWithEmail}/>}/>
