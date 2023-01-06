@@ -18,7 +18,7 @@ import parkMaint from '../images/under-maintenance.png';
 import { geohashForLocation } from 'geofire-common';
 
    
-export default function SamplePaginate({user, createPopUp, redirect, setGlobalJobs, globalJobs}) {
+export default function LoadData({user, createPopUp, redirect, setGlobalJobs, globalJobs}) {
   const  [myjobs, setmyjobs]=useState();
   const  [noMatches, setNoMatches]=useState(false);
   const [constJobs, setConstJobs]=useState();

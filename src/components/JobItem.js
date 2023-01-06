@@ -54,17 +54,23 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
   const cardColor=(title)=>{
     switch(title){
       case "lifeguard":
-        return "#DB2118";
+        // return "#DB2118";
+        return "#009CFA"
       case "camp counselor":
-        return "blue";
+        // return "blue";
+        return "#5A9053"
       case "swim instructor":
-        return "#745cac";
+        // return "#745cac";
+        return "#0D3869"
       case "pool maintenance":
-        return "#33DDFF";
+        // return "#33DDFF";
+        return "#005989"
       case "park maintenance":
-        return "#ee7600";
+        // return "#ee7600";
+        return "#746E6E"
       case "golf ranger":
-        return "green";
+        return "#E2EA8B"
+        // return "green";
     }
   }
 

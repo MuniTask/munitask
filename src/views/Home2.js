@@ -250,27 +250,27 @@ return mun_lat;
          <p className='job-icon-text text-center'>All</p>
          </div>
         <div className='job-icon-div icon-div2 d-flex flex-column '>
-        <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+        <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid #E2EA8B',}}/>
         <p className='job-icon-text text-center'>Golf Ranger</p>
         </div>
         <div className='job-icon-div icon-div3 d-flex flex-column '>
-        <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
+        <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #0D3869',}}/>
          <p className='job-icon-text text-center'>Swim Instructor</p>
          </div>
         <div className='job-icon-div icon-div4 d-flex flex-column '>
-        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguardFilterBtn' className='mx-auto job-icon' src={lifeguard} alt='...' style={{border:'4px solid #DB2118',}}/>
+        <img onClick={()=>handleFilter('lifeguard')} data-testid='lifeguardFilterBtn' className='mx-auto job-icon' src={lifeguard} alt='...' style={{border:'4px solid #009CFA',}}/>
          <p className='job-icon-text text-center'>Lifeguard</p>
          </div>
         <div className='job-icon-div icon-div5  d-flex flex-column '>
-        <img onClick={()=>handleFilter('pool maintenance')} data-testid='poolMaintenanceFilterBtn' className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #33DDFF',}}/>
+        <img onClick={()=>handleFilter('pool maintenance')} data-testid='poolMaintenanceFilterBtn' className='mx-auto job-icon' src={poolMaint} alt='...' style={{border:'4px solid #005989',}}/>
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
         <div className='job-icon-div icon-div6 d-flex flex-column '>
-        <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+        <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid #5A9053',}}/>
          <p className='job-icon-text text-center'>Camp Counselor</p>
          </div>
         <div className='job-icon-div icon-div7 d-flex flex-column'>
-        <img onClick={()=>handleFilter('park maintenance')} data-testid='parkMaintenanceFilterBtn' className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #ee7600',}}/>
+        <img onClick={()=>handleFilter('park maintenance')} data-testid='parkMaintenanceFilterBtn' className='mx-auto  job-icon' src={parkMaint} alt='...' style={{border:'4px solid #746E6E',}}/>
          <p className='job-icon-text text-center'>Park Maintenance</p>
          </div>
         

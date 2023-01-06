@@ -5,9 +5,9 @@ import {db} from '../firebase';
 import { distanceBetween, geohashQueryBounds } from 'geofire-common';
 export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFilterOnly, location, setLocation, distance, setDistance}) {
   const [ value, setValue ] = useState(10);
-  // const [ pay, setPay ] = useState(0);
+  const [ pay, setPay ] = useState(0);
 
-  // const [compensation, setCompensation]=useState();
+  const [compensation, setCompensation]=useState();
  
 
   
@@ -35,7 +35,7 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
       }
       const center=zip.features[feature_index].center
       const radiusInM=e.target.distance_range.value *1609.34;
-       await getBounds(center[1],center[0],radiusInM, e.target['payFilter'].value)
+       await getBounds(center[1],center[0],radiusInM)
       //  if (e.target['payFilter'].value !== 'all'){
       //   const payFilter=e.target['payFilter'].value
       //   setPay(payFilter)
@@ -47,8 +47,8 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
     }
     // else if(e.target.zip.value === '' && e.target['payFilter'].value !== 'all'){
     //   setCompensation(e.target['payFilter'].value);
-    //   const payFilter=e.target['payFilter'].value
-    //   const matchingJobs=[]
+      const payFilter=e.target['payFilter'].value
+      const matchingJobs=[]
     //   for (let x of myjobs){
     //     if (parseFloat(x.wage) >= parseFloat(payFilter)){
     //       matchingJobs.push(x)
@@ -57,14 +57,13 @@ export default function FilterModal({handleClose, show, myjobs, setmyjobs, setFi
     //       matchingJobs.push(...myjobs)
     //     }
     //   }
-    //   setmyjobs([...matchingJobs]);
-    //   setFilterOnly([...matchingJobs]);
-    //   setPay(payFilter)
-    //   console.log(payFilter)
+      setmyjobs([...matchingJobs]);
+      setFilterOnly([...matchingJobs]);
+   
     //    }
   };
 
-  const getBounds=async(lat,lng,radiusInM, wage)=>{
+  const getBounds=async(lat,lng,radiusInM)=>{
     console.log(lat, lng, radiusInM)
     const bounds= geohashQueryBounds([lat,lng],radiusInM);
     const promises=[]
