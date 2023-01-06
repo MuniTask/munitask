@@ -1,15 +1,18 @@
 div.job-card{
-    height: 8rem;
+    width:24rem;
+    height:8rem;
     z-index: 1;
     overflow: hidden;
-  
-  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
+  
 }
 .job-card-body{
   color: rgb(86, 87, 117);
     border-radius: 0px 8px 8px 0px;
-    height: 8rem;
+    height: 110%;
     padding-top: 20px;
   }
   .wage-bubble, .location-bubble{
@@ -20,7 +23,11 @@ div.job-card{
 img.job-img{
   z-index: -99;
   overflow: hidden;
+  height: 8rem;
+  object-fit: contain;
+ 
 }
+
   .job-card-link{
     text-decoration: none;
     color: rgba(86, 87, 117, .8);
@@ -53,3 +60,22 @@ img.job-img{
     font-size:.9rem;
     margin-bottom: 7px;
   }
+  @media only screen and (max-width: 417px) {
+   div.job-card{
+    flex-direction: column;
+    height: 35vh;
+    width:60vw;
+   }
+   .job-img-div{
+    height:15vh;
+    padding-top: 10px;
+   }
+   .job-img{
+    overflow: hidden;
+    object-fit:contain;
+    height: 13vh;
+   }
+  
+  }
+  
+  

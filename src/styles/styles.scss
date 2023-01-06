@@ -432,6 +432,14 @@ div.accordion.faq-accordion{
   .personal-settings-group2, .personal-settings-group3, .personal-settings-group4{
     flex-direction: column;
   }
- 
-}
+  .accordion-container{
+    padding-top: 8%;
+    background-color: white;
+    border-radius: 100px 110px 0px 0px;
+    -moz-border-radius: 100px 110px 0px 0px;
+    -webkit-border-radius: 100px 110px 0px 0px;
+    border: 0px solid #000000;
+  
+  }
+ }
 
