@@ -3,7 +3,7 @@ import { MDBContainer, MDBInput, MDBInputGroup } from "mdb-react-ui-kit";
 import { Check, Pencil, X } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Dropdown, Modal } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import {db} from '../firebase';
 
@@ -16,6 +16,9 @@ export default function UserInfoForm({user}) {
   const parent_or_child_array=['the parent of a job seeker.', 'a job seeker.'];
   const [redirect, setRedirect]=useState(false);
   const [show, setShow] = useState(false);
+  const [choiceOne, setChoiceOne]=useState()
+  const [jobRank, setJobRank]=useState([1,2,3,4,5,6])
+  const [message, setMessage]=useState(false)
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -30,26 +33,27 @@ export default function UserInfoForm({user}) {
   };
   const emptyField=(e)=>{
     e.preventDefault();
-    if (e.target.value===''){
+    if (e.target.job_pref1.value===''){
       console.log('error!')
     }
   };
+  const handleJobPrefChange=(e)=>{
+    e.preventDefault();
+ 
+    const new_list=[]
+    if (jobRank.includes(e.target.value)){
+      new_list.push(e.target.value)
+    }
+    setJobRank(new_list)
+
+  }
   const writePersonalInfo=async(e)=>{
-    const contact=[];
-      if (e.target.phone.checked===true){
-        contact.push('phone')
-        
-      } 
-      if (e.target.text.checked===true){
-        contact.push('text')
-      } if(e.target.email.checked===true){
-        contact.push('email')
-      };
-      if (!e.target.email.checked && !e.target.phone.checked && !e.target.text.checked){
-        contact.push('No response')
-      }
+    if (e.target.pref_1.value==e.target.pref_2.value||e.target.pref_1.value==e.target.pref_3.value||e.target.pref_3.value==e.target.pref_2.value){
+      setMessage(true)
+    }else{
     e.preventDefault();
     try{
+
     const userRef=doc(db,"users",user.uid)
     await updateDoc(userRef,{
       first_name:e.target.first_name.value,
@@ -61,72 +65,29 @@ export default function UserInfoForm({user}) {
         zip:e.target.zip.value,
         phone_number:e.target.phone_number.value,
         parent_or_child: e.target.parent_or_child.value,
-        contact_by:contact[0],
+        contact_by:e.target.follow_up.value,
         job_zip:e.target.job_zip.value,
-        social: e.target.social.value,
         other_info:e.target.other_info.value,
-        lifeguard:e.target.lifeguard.checked,
-        swim_instructor:e.target.swim_instructor.checked,
-        camp_counselor:e.target.camp_counselor.checked,
-        park_field_maintenance:e.target.park_field_maintenance.checked,
-        pool_maintenance:e.target.pool_maintenance.checked,
-        golf_ranger:e.target.golf_ranger.checked,
+        job_pref_1:e.target.pref_1.value,
+        job_pref_2:e.target.pref_2.value,
+        job_pref_3:e.target.pref_3.value,
         age:e.target.age.value,
+        social_1_pref:e.target.social_1_pref.value,
+        social_1_handle:e.target.social_1_handle.value,
+        social_2_pref:e.target.social_2_pref.value,
+        social_2_handle:e.target.social_2_handle.value,
+        student:e.target.student.value
+
        
     }, {merge:true})
     console.log('succesfully added personal info');
     setRedirect(true);
    handleShow();}catch(error){
     console.log(error)
-   }
+   }}
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-  //     let complete=true;
-  //     let percent_complete=0;
-  //     const contact=[];
-  //       if (e.target.phone.checked===true){
-  //         contact.push('phone')
-  //       } 
-  //       if (e.target.text.checked===true){
-  //         contact.push('text')
-  //       } if(e.target.email.checked===true){
-  //         contact.push('email')
-  //       };
-  //       if (!e.target.email.checked && !e.target.phone.checked && !e.target.text.checked){
-  //         contact.push('')
-  //       };
-  //       const job_pref_list=[e.target.lifeguard.checked, 
-  //         e.target.swim_instructor.checked, 
-  //         e.target.camp_counselor.checked, 
-  //         e.target.park_field_maintenance.checked,
-  //         e.target.pool_maintenance.checked,
-  //         e.target.golf_ranger.checked];
-  //       if (job_pref_list.includes(true)){
-  //         percent_complete++
-  //       }
-  //       const datalayer_list=[e.target.first_name.value,
-  //         e.target.last_name.value,
-  //         e.target.birthday.value,
-  //         e.target.email.value,
-  //         e.target.state.value,
-  //         e.target.city.value,
-  //         e.target.zip.value,
-  //         e.target.phone_number.value,
-  //         contact[0],
-  //         e.target.job_zip.value,
-  //         e.target.social.value,
-  //         e.target.other_info.value,
-  //         e.target.age.value,
-  //         e.target.parent_or_child.value
-  //       ]
-  //     for (let x of datalayer_list){
-  //       if (x !=='' && x!== null && x!== undefined){
-  //         percent_complete++
-  //       }
-  //     }
-  //     console.log('percent complete:', `${Math.round(percent_complete/.15)}%`)    
-  //     console.log('succesfully added personal info')
       window.dataLayer.push({
         event:'form_submitted',
         'form_name':'personal_info_form',
@@ -188,7 +149,7 @@ export default function UserInfoForm({user}) {
             </div>
         </div>
 
-        <div className="form-group d-flex flex-row mb-5 required">
+        <div className="form-group d-flex flex-row mb-2 required">
           <div className="w-25 me-4">
             <label htmlFor="inputState">State</label>
             <select name="state" id="inputState" className="form-control" required>
@@ -208,34 +169,63 @@ export default function UserInfoForm({user}) {
             <input name="zip" type="text" className="form-control" id="inputZip" required/>
           
           </div>
+         
         </div>
+        <div className="w-25 me-4 mb-4">
+              <p htmlFor="student" className="required-p mb-0 pb-0">Are you a student?</p>
+              <div>
+              <label htmlFor="student">Yes</label>
+              <input className="student_yes" type="radio" id="student" name="student" value={true}/>
+              </div>
+            <div>
+            <label htmlFor="student">No</label>
+              <input className="student_no" type="radio" id="student" name="student" value={false} />
+            </div>
+          </div>
+
         <h4 className="my-3 required ">Personal Preferences</h4>
-              <p className='mb-1 required-p'>Select jobs that interest you:</p>
+              <p className='mb-1 required-p'>Select your top 3 job preferences (each choice must be unique):</p>
+              {message?<>
+                <p style={{color:'red'}}>*Please choose a different job for each choice</p>
+              </>:<></>}
+            
               <div className='mb-2'>
-                  <input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" />
-                  <label htmlFor="lifeguard">lifeguard</label>
+                  <label htmlFor="pref_1">First choice</label>
+                  <select name="pref_1" id="pref_1" className="form-control w-50" onChange={(e)=>handleJobPrefChange(e)} required>
+                    <option disabled selected>Select one...</option>
+                         <option>Camp Counselor</option>
+                         <option>Golf Ranger</option>
+                         <option>Lifeguard</option>
+                         <option>Park Maintenance</option>
+                         <option>Pool Maintenance</option>
+                         <option>Swim Instructor</option>
+                    </select>
               </div>
               <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="swim_instructor" name="swim_instructor" />
-                <label htmlFor="swim_instructor">swim instructor</label>
+                <label htmlFor="pref_2">Second Choice</label>
+                <select name="pref_2" id="lifepref_2uard" className="form-control w-50" onChange={(e)=>handleJobPrefChange(e)} required>
+                <option disabled selected>Select one...</option>
+                         <option>Camp Counselor</option>
+                         <option>Golf Ranger</option>
+                         <option>Lifeguard</option>
+                         <option>Park Maintenance</option>
+                         <option>Pool Maintenance</option>
+                         <option>Swim Instructor</option>
+                    </select>
               </div>
               <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="camp_counselor" name="camp_counselor" />
-                <label htmlFor="camp_counselor">camp counselor</label>
+                <label htmlFor="pref_3">Third Choice</label>
+                <select name="pref_3" id="pref_3" className="form-control w-50" onChange={(e)=>handleJobPrefChange(e)} required>
+                    <option disabled selected>Select one...</option>
+                    <option>Camp Counselor</option>
+                         <option>Golf Ranger</option>
+                         <option>Lifeguard</option>
+                         <option>Park Maintenance</option>
+                         <option>Pool Maintenance</option>
+                         <option>Swim Instructor</option>
+                    </select>
               </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="park_field_maintenance" name="park_field_maintenance" />
-                <label htmlFor="park_field_maintenance">park/field maintenance</label>
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="pool_maintenance" name="pool_maintenance" />
-                <label htmlFor="pool_maintenance">pool maintenance</label>
-              </div>
-              <div className='mb-2'>
-                <input className="job_pref me-2" type="checkbox" id="golf_ranger" name="golf_ranger" />
-                <label htmlFor="golf_ranger">golf ranger</label>
-              <br />
-              </div>
+             
             <div className="form-group mb-3 w-50 my-4 required">
               <label htmlFor="inputZip">Preferred job location zip code</label>
               <input name="job_zip" type="text" className="form-control" id="inputZip" required/>
@@ -257,30 +247,43 @@ export default function UserInfoForm({user}) {
             <p className="mb-1 required-p">
               What's the best way for us to follow up with you?
             </p>
-            <div>
-               <input className="" type="checkbox" id="phone" name="phone" />
-                <label className="ms-2" htmlFor="phone">
-                  Phone call
-                </label>
-            </div>
-            <div>
-               <input className="" type="checkbox" id="text" name="text" />
-                <label className="ms-2" htmlFor="text">
-                  Text message
-                </label>
-            </div>
-            <div>
-               <input className="" type="checkbox" id="email" name="email" defaultChecked/>
-                <label className="ms-2" htmlFor="email">
-                  Email
-                </label>
-            </div>
+            
+            <select name="follow_up" id="followUp" className="form-control w-50" required>
+              <option disabled>Select one...</option>
+                <option>Phone call</option>
+                <option>Email</option>
+                <option>Text</option>
+                <option>Social media</option>
+            </select>
           </div>
           <div className="form-group col-md-6 mb-3">
             <label htmlFor="social">
-            Please share a social media handle or username
+            Please share a social media handles or usernames
             </label>
-           <input name="social" type="text" className="form-control" id="social" placeholder="..." />
+            <div className="d-flex flex-row mb-2">
+            <select name="social_1_pref" id="social1Pref" className="form-control w-25 me-3" required>
+                <option disabled selected>Select one...</option>
+                         <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input name='social_1_handle' type="text" id='social1' className="w-50"/>
+                    </div>
+                <div className="d-flex flex-row">
+                    <select name="social_2_pref" id="social2Pref" className="form-control w-25 me-3"  required>
+                <option disabled selected>Select one...</option>
+                <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input name='social_2_handle' type="text" id='social2' className="w-50"/>
+                    </div>
           </div>
           <div>
             <label htmlFor="other-info">Is there anything else you'd like us to know about you?</label>

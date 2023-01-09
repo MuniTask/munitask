@@ -92,6 +92,10 @@ img.job-img {
   min-width: 600px;
 }
 
+.map-body-jobview {
+  height: 30vh;
+}
+
 .map-scroll {
   width: 45%;
   height: "90vh";
@@ -198,18 +202,29 @@ img.job-img {
 }
 
 .google-btn {
+  height: 50px;
+  width: auto;
+}
+.google-btn:hover {
+  cursor: pointer;
+}
+
+.login-btns {
   width: 220px;
-  height: auto;
 }
 
 .facebook-signin-btn, .google-signin-btn, .twitter-signin-btn, .apple-signin-btn {
   font-family: "Roboto", sans-serif;
   font-weight: 500;
-  height: 50px;
-  width: 220px;
+  height: 43px;
+  width: 210px;
   border: none;
-  border-radius: 1px;
-  font-size: 0.95rem;
+  box-shadow: 0.2px 1px 2px 1px rgb(158, 158, 158);
+  border-radius: 2px;
+  font-size: 0.85rem;
+}
+.facebook-signin-btn:hover, .google-signin-btn:hover, .twitter-signin-btn:hover, .apple-signin-btn:hover {
+  cursor: pointer;
 }
 
 .facebook-signin-btn {
@@ -231,6 +246,14 @@ img.job-img {
   color: white;
 }
 
+.advice-container {
+  height: 100vh;
+}
+
+.ask-a-question-container {
+  height: 100vh;
+}
+
 * {
   font-family: "Poppins", sans-serif;
 }
@@ -239,6 +262,9 @@ img.job-img {
   position: relative;
   min-height: 100vh;
   background-color: #fafafa;
+}
+.page-container .jobview, .App .jobview {
+  margin: 0vh 2vw;
 }
 
 .about-container {
@@ -272,6 +298,14 @@ img.job-img {
   -webkit-border-radius: 0px 0px 158px 69px;
   border: 0px solid #000000;
   color: #217961;
+}
+
+.job-filter-bar {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding: 0;
+  margin: 2vh 0vh;
 }
 
 div.accordion.faq-accordion {
@@ -669,4 +703,37 @@ div.jobview-container {
     -webkit-border-radius: 100px 110px 0px 0px;
     border: 0px solid #000000;
   }
+}
+.pagination {
+  margin: 15px auto;
+  display: flex;
+  list-style: none;
+  outline: none;
+}
+
+.pagination > .active > a {
+  background-color: #745cac;
+  border-color: #745cac;
+  color: #fff;
+}
+
+.pagination > li > a {
+  border: 1px solid #745cac;
+  padding: 5px 10px;
+  outline: none;
+  cursor: pointer;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+  background-color: #745cac;
+  border-color: #745cac;
+  outline: none;
+}
+
+.pagination > li > a, .pagination > li > span {
+  color: #745cac;
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
+  border-radius: unset;
 }/*# sourceMappingURL=styles.css.map */

@@ -16,13 +16,13 @@ useEffect(()=>{
   setLatitude(job)
 },[job])
   return (
-    <div className='map-body d-flex flex-row justify-content-between'>
+    <div className='map-body-jobview'>
        
        {isTrue? <>
-    <div  className='map-div mx-auto map-2' >
-       <Map doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
-         style={{width: '60vw', height: '30vh', border:"1px solid lightgray"}} 
-        initialViewState={{latitude:41.00, longitude:-88.00, zoom:6}}
+    <div  className='map-div map-2 ' >
+       <Map  doubleClickZoom={true} mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} 
+         style={{width: '60vw', height: '30vh', border:"1px solid lightgray", margin:'auto'}} 
+        initialViewState={{latitude:job.latitude, longitude:job.longitude, zoom:8}}
         mapStyle="mapbox://styles/mapbox/streets-v9" 
          >
         <Marker mapStyle="mapbox://styles/mapbox/streets-v9"  longitude={lng} latitude={lat}><MapPin size={20} weight="fill" /></Marker>

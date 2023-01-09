@@ -11,44 +11,13 @@ import { titleCase } from '../FunctionStorage';
 
 
 
-export default function JobItem({job, savedJobs, user, createPopUp}) {
+export default function JobItem({job}) {
   const [currentJob, ]=useState({...job, title:titleCase(job.title)});
-//  const [liked, setLiked]=useState(false);
  const [signInPopUp, setsignInPopUp] = useState(false);
  
  const handleClosePopUp = () => setsignInPopUp(false);
  const handleShowPopUp = () => setsignInPopUp(true);
-  // const checkJobs=()=>{
-  //     if(savedJobs){
-  //       if (savedJobs.includes(job._id)){
-  //         console.log('saved job');
-  //         setLiked(true)
-  //       }}
-  //   }
-
-//  const handleLike = (job) => {
-//   setLiked(true);
-//   saveJob(job);
-// }
-
-//   const handleUnlike = (job) => {
-//     setLiked(false);
-//     unsaveJob(job);
-//   }
-
-  // const saveJob=async(job)=>{
-  //   await updateDoc(doc(db,"users",user.uid),{
-  //     saved_jobs:arrayUnion(job._id)
-  //   })
-  //   console.log('succesfully saved job')
-  // }
-
-  // const unsaveJob=async(job)=>{
-  //   await updateDoc(doc(db,"users",user.uid),{
-  //     saved_jobs:arrayRemove(job._id)
-  //   })
-  //   console.log('succesfully unsaved job')
-  // }
+  
 
 
   const cardColor=(title)=>{
@@ -74,10 +43,7 @@ export default function JobItem({job, savedJobs, user, createPopUp}) {
     }
   }
 
-  // useEffect (()=>{
-  //  checkJobs();
-  //   // getSavedJobs();
-  //   },[])
+ 
 
     useEffect (()=>{
       // likedJob(job);

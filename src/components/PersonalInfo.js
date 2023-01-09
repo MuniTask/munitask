@@ -14,6 +14,7 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
   const [text, setText]=useState(false);
   const [call, setCall]=useState(false);
   const [email, setEmail]=useState(false);
+  const [parent, setParent]=useState(false)
   // const age_array=Array.from({length: 50}, (x, i) => i+15);
   const parent_or_child_array=['the parent of a job seeker.', 'a job seeker.']
   // const illinois_cities = [];
@@ -25,17 +26,7 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
 
 
 
-const contactBy=()=>{
-    if (currentUser.contact_by==='phone'){
-      setCall(true)
-    }
-    else if (currentUser.contact_by==='text'){
-      setText(true)
-    }
-    else if (currentUser.contact_by==='email'){
-      setEmail(true)
-    }
-  };
+
 
   const getUser=async(user)=>{
         const docRef=doc(db,'users',user.uid)
@@ -59,127 +50,54 @@ const contactBy=()=>{
 
   useEffect(()=>{
     getUser(user); 
-    contactBy();
+
+    if (currentUser.parent_or_child==='the parent of a job seeker.'){
+      setParent(true)
+    }
   },[])
 
   return (
     <MDBContainer fluid>
       <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
   
-        {/* <div className="form-row mb-3">
-          <div className="form-group d-flex flex-row">
-            <div className="w-25 me-4">
-              <label htmlFor="first_name">First Name</label>
-              {currentUser.first_name?<> <input name="first_name" type="text" defaultValue={currentUser.first_name} onChange={handleChange} className="form-control " id="first_name"  /></>
-              :<> <input name="first_name" type="text" placeholder="First Name" onChange={handleChange} className="form-control " id="first_name"  /></>}
-             
-            </div>
-            <div className="w-25 me-4">
-              <label htmlFor="last_name">Last Name</label>
-              {currentUser.last_name?<><input name="last_name" type="text" className="form-control " id="last_name" defaultValue={currentUser.last_name} onChange={handleChange}/></>
-              :<><input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
-              
-            </div>
-            <div className="w-25">
-              <label htmlFor="inputEmail4">Email</label>
-              {currentUser.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} onChange={handleChange}/></>
-              :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
-             
-            </div>
-          </div>
-          <div className="d-flex flex-row">
-            <div className="w-25  mt-3 me-4">
-                <label htmlFor="inputTel4">Phone Number</label>
-                {currentUser.phone_number?<><input name="phone_number" type="tel" className="form-control" id="inputTel4" defaultValue={currentUser.phone_number} onChange={handleChange}/></>
-                :<><input name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" /></>}
-              </div>
-            <div className="form-group w-25 mt-3 me-4 ">
-              <label htmlFor="birthday">Birthday</label>
-              {currentUser.birthday?<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" defaultValue={currentUser.birthday} onChange={handleChange}/></>
-              :<><input type="date" className="form-control" id="birthday" name="birthday" min="1900-01-01" max="2024-01-01" /></>}
-            </div>
-            <div className="form-group w-25 mt-3">
-            <label htmlFor="age">Age of job seeker</label>
-            <select name="age" id="inputAge" className="form-control w-50">
-              {currentUser.age?<>
-                <option>{currentUser.age}</option>
-                {age_array.map((age,i)=><Fragment key={i}>
-              <option>{age}</option>
-              </Fragment>)}</>
-              :<>{age_array.map((age,i)=><Fragment key={i}>
-                <option>{age}</option>
-                </Fragment>)}</>}
-            </select>
-            </div>
-            </div>
-        </div>
-
-        <div className="form-group d-flex flex-row mb-5">
-          <div className="w-25 me-4">
-            <label htmlFor="inputState">State</label>
-            <select name="state" id="inputState" className="form-control">
-              {currentUser.state?<>
-                <option>{currentUser.state}</option>
-                {states.map((state,i)=><Fragment key={i}>
-              <option>{state}</option>
-              </Fragment>)}</>
-              :<>{states.map((state,i)=><Fragment key={i}>
-                <option>{state}</option>
-                </Fragment>)}</>}
-            </select>
-          </div>
-          <div className="w-25 me-4">
-            <label htmlFor="inputCity">City</label>
-            {currentUser.city?<> <input name="city" type="text" className="form-control" id="inputCity" defaultValue={currentUser.city} onChange={handleChange}/>
-            </>:<> <input name="city" type="text" className="form-control" id="inputCity" /></>}
-           
-          </div>
-          <div className="w-25 me-4">
-            <label htmlFor="inputZip">Zip</label>
-            {currentUser.zip?<>  <input name="zip" type="text" className="form-control" id="inputZip" defaultValue={currentUser.zip} onChange={handleChange}/></>
-            :<>  <input name="zip" type="text" className="form-control" id="inputZip" /></>}
-          
-          </div>
-        </div> */}
+     
 
               <p className='mb-1'>Select jobs that interest you:</p>
               <div className='mb-2'>
-                  {currentUser.lifeguard?<><input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" defaultChecked='checked' onChange={handleChange}/></>
-                  :<><input className="job_pref me-2" type="checkbox" id="lifeguard" name="lifeguard" /></>}
-                  <label htmlFor="lifeguard">lifeguard</label>
+                  <label htmlFor="pref_1">First choice</label>
+                  <select value={currentUser.job_pref_1} name="pref_1" id="pref_1" className="form-control w-50" onChange={(e)=>handleChange(e)} required>
+                    <option disabled selected>Select one...</option>
+                         <option>Camp Counselor</option>
+                         <option>Golf Ranger</option>
+                         <option>Lifeguard</option>
+                         <option>Park Maintenance</option>
+                         <option>Pool Maintenance</option>
+                         <option>Swim Instructor</option>
+                    </select>
               </div>
               <div className='mb-2'>
-              {currentUser.swim_instructor?<><input className="job_pref me-2" type="checkbox" id="swim_instructor" name="swim_instructor" defaultChecked='checked' onChange={handleChange}/></>
-              :<><input className="job_pref me-2" type="checkbox" id="swim_instructor" name="swim_instructor" /></>}
-                
-                <label htmlFor="swim_instructor">swim instructor</label>
-                
+                <label htmlFor="pref_2">Second Choice</label>
+                <select value={currentUser.job_pref_2} name="pref_2" id="lifepref_2uard" className="form-control w-50" onChange={(e)=>handleChange(e)} required>
+                <option disabled selected>Select one...</option>
+                         <option>Camp Counselor</option>
+                         <option>Golf Ranger</option>
+                         <option>Lifeguard</option>
+                         <option>Park Maintenance</option>
+                         <option>Pool Maintenance</option>
+                         <option>Swim Instructor</option>
+                    </select>
               </div>
               <div className='mb-2'>
-              {currentUser.camp_counselor?<> <input className="job_pref me-2" type="checkbox" id="camp_counselor" name="camp_counselor" defaultChecked='checked' onChange={handleChange}/></>
-              :<> <input className="job_pref me-2" type="checkbox" id="camp_counselor" name="camp_counselor" /></>}
-               
-                <label htmlFor="camp_counselor">camp counselor</label>
-                
-              </div>
-              <div className='mb-2'>
-              {currentUser.park_field_maintenance?<><input className="job_pref me-2" type="checkbox" id="park_field_maintenance" name="park_field_maintenance" defaultChecked='checked' onChange={handleChange}/></>
-              :<><input className="job_pref me-2" type="checkbox" id="park_field_maintenance" name="park_field_maintenance" /></>}
-                <label htmlFor="park_field_maintenance">park/field maintenance</label>
-                
-              </div>
-              <div className='mb-2'>
-              {currentUser.pool_maintenance?<> <input className="job_pref me-2" type="checkbox" id="pool_maintenance" name="pool_maintenance" defaultChecked='checked' onChange={handleChange}/></>
-              :<> <input className="job_pref me-2" type="checkbox" id="pool_maintenance" name="pool_maintenance" /></>}
-                <label htmlFor="pool_maintenance">pool maintenance</label>
-                
-              </div>
-              <div className='mb-2'>
-              {currentUser.golf_ranger?<> <input className="job_pref me-2" type="checkbox" id="golf_ranger" name="golf_ranger"  defaultChecked='checked' onChange={handleChange}/></>
-              :<> <input className="job_pref me-2" type="checkbox" id="golf_ranger" name="golf_ranger" /></>}
-                <label htmlFor="golf_ranger">golf ranger</label>
-                
-              <br />
+                <label htmlFor="pref_3">Third Choice</label>
+                <select value={currentUser.job_pref_3} name="pref_3" id="pref_3" className="form-control w-50" onChange={(e)=>handleChange(e)} required>
+                    <option disabled selected>Select one...</option>
+                    <option>Camp Counselor</option>
+                         <option>Golf Ranger</option>
+                         <option>Lifeguard</option>
+                         <option>Park Maintenance</option>
+                         <option>Pool Maintenance</option>
+                         <option>Swim Instructor</option>
+                    </select>
               </div>
             <div className="form-group mb-3 w-50 my-4">
               <label htmlFor="inputZip">Preferred job location zip code</label>
@@ -193,64 +111,63 @@ const contactBy=()=>{
             </p>
             <div>
             <select name="parent_or_child" id="inputParentorChild" className="form-control w-50">
-              {currentUser.parent_or_child?<>
-                <option>{currentUser.parent_or_child}</option>
-                {parent_or_child_array.map((PorC,i)=><Fragment key={i}>
-              <option>{PorC}</option>
-              </Fragment>)}</>
+              {parent?<>
+                <option selected>the parent of a job seeker.</option>
+                <option>a job seeker.</option>
+                </>
               :<>
-              <option>Select one...</option>
-              {parent_or_child_array.map((PorC,i)=><Fragment key={i}>
-                <option>{PorC}</option>
-                </Fragment>)}</>}
+               <option>the parent of a job seeker.</option>
+                <option selected>a job seeker.</option></>}
             </select>
             </div>
           </div>
           <div className="d-flex flex-column mb-3">
-            <p className="mb-1">
+            <p className="mb-1 required-p">
               What's the best way for us to follow up with you?
             </p>
-            <div>
-                {currentUser.contact_by?<>
-                {call?<><input className="" type="checkbox" id="phone" name="phone" onChange={handleChange} defaultChecked='checked'/></>:<><input className="" type="checkbox" id="phone" name="phone" /></>}
-                </>:<><input className="" type="checkbox" id="phone" name="phone" /></>}
-                <label className="ms-2" htmlFor="phone">
-                  Phone call
-                </label>
-            </div>
-            <div>
-                {currentUser.contact_by?<>
-                {text?<><input className="" type="checkbox" id="text" name="text" onChange={handleChange} defaultChecked='checked'/></>:<><input className="" type="checkbox" id="text" name="text" /></>}
-                </>:<><input className="" type="checkbox" id="text" name="text" /></>}
-                <label className="ms-2" htmlFor="text">
-                  Text message
-                </label>
-            </div>
-            <div>
-                {currentUser.contact_by?<>
-                {email?<><input className="" type="checkbox" id="email" name="email" onChange={handleChange} defaultChecked='checked'/></>:<><input className="" type="checkbox" id="email" name="email" /></>}
-                </>:<><input className="" type="checkbox" id="email" name="email" /></>}
-                <label className="ms-2" htmlFor="email">
-                  Email
-                </label>
-            </div>
+            
+            <select value={currentUser.contact_by} name="follow_up" onChange={handleChange} id="followUp" className="form-control w-50" required>
+              <option disabled>Select one...</option>
+              <option>Phone call</option>
+                <option>Phone call</option>
+                <option>Email</option>
+                <option>Text</option>
+                <option>Social media</option>
+            </select>
           </div>
           <div className="form-group col-md-6 mb-3">
             <label htmlFor="social">
-            Please share a social media handle or username
+            Please share a social media handles or usernames
             </label>
-            {currentUser.social?<><input name="social" type="text" className="form-control" id="social" placeholder="..." defaultValue={currentUser.social} onChange={handleChange}/></>
-              :<><input name="social" type="text" className="form-control" id="social" placeholder="..." /></>}
-            
+            <div className="d-flex flex-row mb-2">
+            <select value={currentUser.social_1_pref} name="social_1_pref" id="social1Pref" className="form-control w-25 me-3" required>
+                <option disabled >Select one...</option>
+                         <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input name='social_1_handle' value={currentUser.social_1_handle} type="text" id='social1' className="w-50"/>
+                    </div>
+                <div className="d-flex flex-row">
+                    <select value={currentUser.social_2_pref} name="social_2_pref" id="social2Pref" className="form-control w-25 me-3"  required>
+                <option disabled >Select one...</option>
+                <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input value={currentUser.social_2_handle} name='social_2_handle' type="text" id='social2' className="w-50"/>
+                    </div>
           </div>
           <div>
             <label htmlFor="other-info">Is there anything else you'd like us to know about you?</label>
-            {currentUser.other_info?<> <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" defaultValue={currentUser.other_info} onChange={handleChange}></textarea></>
-            :<>
-              <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea></>}
-          
+              <textarea name="other_info" value={currentUser.other_info} className="form-control" id="other_info" rows="5" cols="50" ></textarea>
           </div>
-      
 
         {/* <button type="submit" className="btn btn-primary mt-4">
           Submit

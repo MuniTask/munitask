@@ -18,43 +18,22 @@ export default function UserProfile({user,setUser, incrementLogin, signUserOut, 
     const parksRef = collection(db, 'interestForms');
    
     const writePersonalInfo=async(e)=>{
-      const contact=[];
-        if (e.target.phone.checked===true){
-          contact.push('phone')
-          
-        } 
-        if (e.target.text.checked===true){
-          contact.push('text')
-        } if(e.target.email.checked===true){
-          contact.push('email')
-        };
-        if (!e.target.email.checked && !e.target.phone.checked && !e.target.text.checked){
-          contact.push('No response')
-        }
+     
       e.preventDefault();
       const userRef=doc(db,"users",user.uid)
       await updateDoc(userRef,{
-        // first_name:e.target.first_name.value,
-        //   last_name:e.target.last_name.value,
-        //   birthday:e.target.birthday.value,
-        //   email:e.target.email.value,
-        //   state:e.target.state.value,
-        //   city:e.target.city.value,
-        //   zip:e.target.zip.value,
-        //   phone_number:e.target.phone_number.value,
           parent_or_child: e.target.parent_or_child.value,
-          contact_by:contact[0],
+          contact_by:e.target.follow_up.value,
           job_zip:e.target.job_zip.value,
-          social: e.target.social.value,
+          social_1_pref:e.target.social_1_pref.value,
+          social_1_handle:e.target.social_1_handle.value,
+          social_2_pref:e.target.social_2_pref.value,
+          social_2_handle:e.target.social_2_handle.value,
           other_info:e.target.other_info.value,
-          lifeguard:e.target.lifeguard.checked,
-          swim_instructor:e.target.swim_instructor.checked,
-          camp_counselor:e.target.camp_counselor.checked,
-          park_field_maintenance:e.target.park_field_maintenance.checked,
-          pool_maintenance:e.target.pool_maintenance.checked,
-          golf_ranger:e.target.golf_ranger.checked,
-          // age:e.target.age.value,
-         
+          job_pref_1:e.target.pref_1.value,
+          job_pref_2:e.target.pref_2.value,
+          job_pref_3:e.target.pref_3.value,
+        
       }, {merge:true})
       console.log('succesfully added personal info')
      

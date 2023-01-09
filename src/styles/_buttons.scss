@@ -61,17 +61,29 @@
     }
   }
   .google-btn{
-    width: 220px;
-    height:auto;
+    height:50px;
+    width: auto;
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .login-btns{
+    width:220px;
   }
   .facebook-signin-btn,.google-signin-btn,.twitter-signin-btn,.apple-signin-btn{
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
-    height:50px;
-    width:220px;
+    height:43px;
+    width:210px;
     border:none;
-    border-radius: 1px;
-    font-size: .95rem;
+    -webkit-box-shadow: 0.2px 1px 2px 1px rgba(158,158,158,1);
+    -moz-box-shadow: 0.2px 1px 2px 1px rgba(158,158,158,1);
+    box-shadow: 0.2px 1px 2px 1px rgba(158,158,158,1);
+    border-radius: 2px;
+    font-size: .85rem;
+    &:hover{
+      cursor: pointer;
+    }
   }
   .facebook-signin-btn{
     background-color: #4267B2;

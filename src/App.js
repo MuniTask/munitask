@@ -21,6 +21,8 @@ import Terms from './views/Terms';
 import Privacy from './views/Privacy';
 import SamplePaginate from './views/LoadData';
 import LoadData from './views/LoadData';
+import Advice from './views/Advice';
+import AskAQuestion from './views/AskAQuestion';
 
 
 function App() {
@@ -192,6 +194,8 @@ useEffect(()=>{
       <Route path='/howitworks' element={<HowItWorks signUp={signUpWithEmail} logIn={logInWithEmail}/>}/>
       <Route path='/addtodb' element={<AddToDb />}/>
       <Route path='/addtodb2' element={<Addtodb2 />}/>
+      <Route path='/advice' element={<Advice />}/>
+      <Route path='/ask-a-question' element={<AskAQuestion />}/>      
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>
       <Route path='/termsofservice' element={<Terms />}/>
       <Route path='/privacystatement' element={<Privacy />}/>

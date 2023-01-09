@@ -49,6 +49,16 @@ export default function Navigation({user, signUserOut}) {
             Who We Are
             </Link>
           </MDBNavbarItem >
+          <MDBNavbarItem>
+            <Link  data-testid='adviceNavItem' className='nav-link' to="/advice" >
+           Advice
+            </Link>
+          </MDBNavbarItem >
+          <MDBNavbarItem>
+            <Link  data-testid='AskAQuestionWeAreNavItem' className='nav-link' to="/ask-a-question" >
+            Ask a Question
+            </Link>
+          </MDBNavbarItem >
      
         </MDBNavbarNav>
         {user.displayName? <>

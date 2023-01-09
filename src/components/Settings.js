@@ -16,7 +16,8 @@ export default function Settings({user, signUserOut, setUser}) {
     const [currentUser, setCurrentUser]=useState({});
     const age_array=Array.from({length: 50}, (x, i) => i+15);
     const [canSubmit, setCanSubmit]=useState(false)
-    const [provider, setProvider]=useState(false)
+    const [provider, setProvider]=useState(false);
+    const [student, setStudent]=useState(false)
     const [showDeleteModal, setShowDeleteModal]=useState(false)
     const [data, setData]=useState({
         email:user.email,
@@ -39,6 +40,11 @@ export default function Settings({user, signUserOut, setUser}) {
       let currentDate = `${year-15}-${month}-${day}`;
      return currentDate
     };
+    const handleStudent=()=>{
+      if (currentUser.student ==='true'){
+        setStudent(true)
+      }
+    }
     const delete_user=()=>{
       const auth = getAuth();
     const user = auth.currentUser;
@@ -127,42 +133,44 @@ export default function Settings({user, signUserOut, setUser}) {
   
     const update_info=async(e)=>{
       e.preventDefault();
-      if (e.target.new_password.value!==''){
-        const password=e.target.new_password.value;
-        update_pass(password);
-      }
-      if(e.target.new_username.value!==''){
-        const username=e.target.new_username.value;
-        updateProfile(auth.currentUser, {
-          displayName: username
-        }).then(() => {
-        }).catch((error) => {
-        });
-      };
-      if (e.target.new_email.value!==''){
-        const email=e.target.new_email.value;    
-        await setDoc(doc(db, `users`, `${auth.currentUser.uid}`), {
-          email: email
-        }, {merge:true});
-          updateEmail(auth.currentUser, email
-        ).then(() => {
-          console.log('auth email changed')
-        }).catch((error) => {
-          console.log(error)
-        });
+      // if (e.target.new_password.value!==''){
+      //   const password=e.target.new_password.value;
+      //   update_pass(password);
+      // }
+      // if(e.target.new_username.value!==''){
+      //   const username=e.target.new_username.value;
+      //   updateProfile(auth.currentUser, {
+      //     displayName: username
+      //   }).then(() => {
+      //   }).catch((error) => {
+      //   });
+      // };
+      // if (e.target.new_email.value!==''){
+      //   const email=e.target.new_email.value;    
+      //   await setDoc(doc(db, `users`, `${auth.currentUser.uid}`), {
+      //     email: email
+      //   }, {merge:true});
+      //     updateEmail(auth.currentUser, email
+      //   ).then(() => {
+      //     console.log('auth email changed')
+      //   }).catch((error) => {
+      //     console.log(error)
+      //   });
         
-      };
+      // };
      
           const userRef=doc(db,"users",user.uid)
           await updateDoc(userRef,{
           first_name:e.target.first_name.value,
           last_name:e.target.last_name.value,
           birthday:e.target.birthday.value,
+          email:e.target.email.value,
           state:e.target.state.value,
           age:e.target.age.value,
           zip:e.target.zip.value,
           city:e.target.city.value,
-          phone_number:e.target.phone_number.value
+          phone_number:e.target.phone_number.value,
+          student:e.target.student.value
         }, {merge:true});
         console.log('changes saved');
         setCanSubmit(false);
@@ -187,6 +195,7 @@ export default function Settings({user, signUserOut, setUser}) {
      console.log(user.email);
       google_or_email();
       getUser(user);
+      handleStudent();
     },[])
   return (
     
@@ -207,20 +216,7 @@ export default function Settings({user, signUserOut, setUser}) {
           <h5 className='me-2 pt-2'>You are signed in with</h5>
           <img style={{height:'1.8rem'}} src={google_logo} alt='google-logo'/>
         </div></>:<>
-        <div className='personal-settings-group1'>
-        <Form.Group className="mb-3 " controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control disabled type="email" name='new_email' placeholder='email' />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control disabled type="username" name='new_username' placeholder='username'/>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control disabled type="password" name='new_password'  placeholder='password' />
-      </Form.Group>
-      </div>
+       
         </>}
         <div className="form-row mb-3">
           <div className="form-group personal-settings-group2">
@@ -236,12 +232,12 @@ export default function Settings({user, signUserOut, setUser}) {
               :<><input disabled name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
               
             </div>
-            {/* <div className="">
+            <div className="">
               <label htmlFor="inputEmail4">Email</label>
               {currentUser.email?<><input disabled name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} /></>
               :<><input disabled name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
              
-            </div> */}
+            </div>
           </div>
           <div className="personal-settings-group3">
             <div className="  mt-3 me-4">
@@ -297,6 +293,28 @@ export default function Settings({user, signUserOut, setUser}) {
           
           </div>
         </div>
+        <div className="w-25 me-4 mb-4">
+              <p htmlFor="student" className="required-p mb-0 pb-0">Are you a student?</p>
+              {student? <>
+                    <div>
+                    <label htmlFor="student">Yes</label>
+                    <input className="student_no" disabled defaultChecked type="radio" id="student" name="student" />
+                    </div>
+                  <div>
+                  <label htmlFor="student">No</label>
+                    <input className="student_yes" disabled type="radio" id="student" name="student" />
+                    </div>
+              </>:<>
+                  <div>
+                  <label htmlFor="student">Yes</label>
+                  <input className="student_no" disabled type="radio" id="student" name="student" />
+                  </div>
+                <div>
+                <label htmlFor="student">No</label>
+                  <input defaultChecked className="student_yes" disabled type="radio" id="student" name="student" />
+                </div>
+                  </>}
+              </div>
       <div className='d-flex flex-row align-items-baseline'>
         <Button variant="primary" onClick={handleShow}>
        edit
@@ -307,18 +325,7 @@ export default function Settings({user, signUserOut, setUser}) {
       </>:
       <>
       <Form onSubmit={(e)=>{update_info(e);handleSubmit(e)}}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control type="email" name='new_email' placeholder='email' />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control type="username" name='new_username' placeholder='username'/>
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" name='new_password'  placeholder='password' />
-      </Form.Group>
+      
       <div className="form-row mb-3">
           <div className="form-group d-flex flex-row">
             <div className="w-25 me-4">
@@ -333,12 +340,12 @@ export default function Settings({user, signUserOut, setUser}) {
               :<><input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" /></>}
               
             </div>
-            {/* <div className="w-25">
+            <div className="w-25">
               <label htmlFor="inputEmail4">Email</label>
               {currentUser.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={currentUser.email} /></>
               :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
              
-            </div> */}
+            </div>
           </div>
           <div className="d-flex flex-row">
             <div className="w-25  mt-3 me-4">
@@ -394,6 +401,28 @@ export default function Settings({user, signUserOut, setUser}) {
           
           </div>
         </div>
+        <div className="w-25 me-4 mb-4">
+              <p htmlFor="student" className="required-p mb-0 pb-0">Are you a student?</p>
+              {student? <>
+                    <div>
+                    <label htmlFor="student">Yes</label>
+                    <input className="student_yes"  defaultChecked type="radio" value={true} id="student" name="student" />
+                    </div>
+                  <div>
+                  <label htmlFor="student">No</label>
+                    <input className="student_no"  type="radio" id="student" value={false} name="student" />
+                    </div>
+              </>:<>
+                  <div>
+                  <label htmlFor="student">Yes</label>
+                  <input className="student_yes"  type="radio" id="student" value={true} name="student" />
+                  </div>
+                <div>
+                <label htmlFor="student">No</label>
+                  <input defaultChecked className="student_no"  type="radio" value={false} id="student" name="student" />
+                </div>
+                  </>}
+              </div>
       <div className='d-flex flex-row align-items-baseline'>
         <p className='me-3' onClick={handleCancel} >Cancel</p>
        

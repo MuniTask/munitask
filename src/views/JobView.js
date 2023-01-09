@@ -113,11 +113,11 @@ export default function JobView({user, createPopUp}) {
   },[jobs])
   return (
    
-  <div className='page-container me-5 ms-5 mt-2'>
+  <div className='page-container jobview '>
      {jobs? <>
     <Link to='/' className='btn mb-3 mt-2'><CaretLeft size={20} weight="bold" />Back to jobs</Link>
     <div className='jobview-container'>
-      <div className='d-flex flex-row justify-content-between align-items-start mt-2 mb-3'>
+      <div className='d-flex flex-row flex-wrap justify-content-between align-items-start mt-2 mb-3'>
         <div>
           <img style={{width:'9rem'}} src={jobs.logo_url}/>
         </div>
