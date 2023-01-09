@@ -3,7 +3,7 @@ import { collection, endAt, getDocs, orderBy, query, startAt } from 'firebase/fi
 import {Modal,Form, Button, Col, Row} from 'react-bootstrap';
 import {db} from '../firebase';
 import { distanceBetween, geohashQueryBounds } from 'geofire-common';
-export default function FilterModal({offset, perPage, setSlice, setPageCount, handleClose, show, setmyjobs, setFilterOnly, location, setLocation, distance, setDistance}) {
+export default function FilterModal({setFilterParams,offset, perPage, setSlice, setPageCount, handleClose, show, setmyjobs, setFilterOnly, location, setLocation, distance, setDistance}) {
 
   const searchZip = async (city) => {
     const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${city}.json?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`);
@@ -29,7 +29,9 @@ export default function FilterModal({offset, perPage, setSlice, setPageCount, ha
       }
       const center=zip.features[feature_index].center
       const radiusInM=e.target.distance_range.value *1609.34;
-       await getBounds(center[1],center[0],radiusInM)
+      //  await getBounds(center[1],center[0],radiusInM);
+      const filterParameters={lat:center[1],lng:center[0],radiusInM:radiusInM}
+       setFilterParams({...filterParameters})
     }
     //   const matchingJobs=[]
     // // set paginate
@@ -43,41 +45,41 @@ export default function FilterModal({offset, perPage, setSlice, setPageCount, ha
     //    }
   };
 
-  const getBounds=async(lat,lng,radiusInM)=>{
-    console.log(lat, lng, radiusInM)
-    const bounds= geohashQueryBounds([lat,lng],radiusInM);
-    const promises=[]
-    const jobsRef=collection(db,'jobs')
-    for (const b of bounds){
-      console.log(b)
-      const q = query(jobsRef, orderBy('geohash'), startAt(b[0]), endAt(b[1]));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-      promises.push(doc.data())
-});
-    }
-    console.log('promises',promises)
-    const matchingDocs=[];
-    for (const snap of promises){
-      const snapLat = snap.latitude
-      const snapLng = snap.longitude
-      const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
-      const distanceInM = distanceInKm * 1000;
-        if (distanceInM <= radiusInM) {
-          matchingDocs.push(snap);
-            }
-    }
-    console.log('matching docs',matchingDocs)
-    // start paginate
-      const slice_lst =matchingDocs.slice(offset, offset+perPage)
-      setSlice([...slice_lst]);
-      setPageCount(Math.ceil(matchingDocs.length/perPage))
-      // end paginate
-    setmyjobs([...matchingDocs]);
-    setFilterOnly([...matchingDocs]);
+//   const getBounds=async(lat,lng,radiusInM)=>{
+//     console.log(lat, lng, radiusInM)
+//     const bounds= geohashQueryBounds([lat,lng],radiusInM);
+//     const promises=[]
+//     const jobsRef=collection(db,'jobs')
+//     for (const b of bounds){
+//       console.log(b)
+//       const q = query(jobsRef, orderBy('geohash'), startAt(b[0]), endAt(b[1]));
+//       const querySnapshot = await getDocs(q);
+//       querySnapshot.forEach((doc) => {
+//       console.log(doc.id, " => ", doc.data());
+//       promises.push(doc.data())
+// });
+//     }
+//     console.log('promises',promises)
+//     const matchingDocs=[];
+//     for (const snap of promises){
+//       const snapLat = snap.latitude
+//       const snapLng = snap.longitude
+//       const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
+//       const distanceInM = distanceInKm * 1000;
+//         if (distanceInM <= radiusInM) {
+//           matchingDocs.push(snap);
+//             }
+//     }
+//     console.log('matching docs',matchingDocs)
+//     // start paginate
+//       const slice_lst =matchingDocs.slice(offset, offset+perPage)
+//       setSlice([...slice_lst]);
+//       setPageCount(Math.ceil(matchingDocs.length/perPage))
+//       // end paginate
+//     setmyjobs([...matchingDocs]);
+//     setFilterOnly([...matchingDocs]);
    
-}
+// }
 
   return (
     <Modal show={show} onHide={handleClose}>

@@ -4,7 +4,7 @@ import '../styles/styles.css';
 import {ArrowsClockwise, DotsThreeOutline, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import { Button, ButtonGroup} from "react-bootstrap";
-import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc} from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc, startAt, endAt, startAfter, orderBy} from "firebase/firestore";
 import FilterModal from '../components/FilterModal';
 import {Puff} from 'react-loader-spinner';
 import Maps from '../components/Maps';
@@ -16,6 +16,8 @@ import campCounselor from '../images/tent.png';
 import parkMaint from '../images/under-maintenance.png';
 import { titleCase } from '../FunctionStorage';
 import ReactPaginate from 'react-paginate';
+import { distanceBetween, geohashQueryBounds } from 'geofire-common';
+
 
    
 export default function Home2({user, createPopUp, redirect, setGlobalJobs, globalJobs}) {
@@ -26,6 +28,7 @@ export default function Home2({user, createPopUp, redirect, setGlobalJobs, globa
   const [keywords, setKeywords]=useState('');
   const [showModal, setShowModal] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [filterParams, setFilterParams]=useState();
   // const [savedJobs, setSavedJobs]=useState([]);
   const [location, setLocation]=useState();
   const [distance, setDistance]=useState(10);
@@ -59,21 +62,31 @@ const handlePageClick = (e) => {
   const selectedPage = e.selected;
   setOffset(selectedPage + 1)
 };
+const clearFilters=()=>{
+  setFilterParams();
 
+}
 const getJobs=async()=>{
   // global jobs is state in App.js - we use globalJobs instead of making a new firebase call
   if (globalJobs){
-    // set paginate
-    const slice_lst =globalJobs.slice(offset, offset+perPage)
-    setSlice([...slice_lst]);
-    setPageCount(Math.ceil(globalJobs.length/perPage))
-    // end paginate
-    setmyjobs([...globalJobs]);
-    setConstJobs([...globalJobs]);
-    setFilterOnly([...globalJobs]);
-    setKeywords('')
-    setLocation();
-    setDistance(10);
+      if (filterParams){
+       
+          getBounds(filterParams.lat, filterParams.lng,filterParams.radiusInM)
+        
+      } else{
+      // set paginate
+      const slice_lst =globalJobs.slice(offset, offset+perPage)
+      setSlice([...slice_lst]);
+      setPageCount(Math.ceil(globalJobs.length/perPage))
+      // end paginate
+      setmyjobs([...globalJobs]);
+      setConstJobs([...globalJobs]);
+      setFilterOnly([...globalJobs]);
+      setKeywords('')
+      setLocation();
+      setDistance(10);
+      }
+    
   } else if (!globalJobs){
     // this happens on first page load - make firebase call 
      setLocation();
@@ -116,6 +129,9 @@ const getJobs=async()=>{
     if (keywords === "" ){
       // if const jobs exists, then we use const jobs to set myjobs so we don't have to make a call to firebase
       if (constJobs !== undefined){
+        if (filterParams){
+          getJobs()
+        }
         // set paginate
         const slice_lst =constJobs.slice(offset, offset+perPage)
         setSlice([...slice_lst]);
@@ -147,7 +163,43 @@ const getJobs=async()=>{
         setmyjobs([...newJobsList])
     }
   };
-
+  
+      const getBounds=async(lat,lng,radiusInM)=>{
+        console.log(lat, lng, radiusInM)
+        const bounds= geohashQueryBounds([lat,lng],radiusInM);
+        const promises=[]
+        const jobsRef=collection(db,'jobs')
+        for (const b of bounds){
+          console.log('bounds',b)
+          const q = query(jobsRef, orderBy('geohash'), startAfter(b[0]), endAt(b[1]));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data());
+          promises.push(doc.data())
+    });
+        }
+        console.log('promises',promises)
+        const matchingDocs=[];
+        for (const snap of promises){
+          const snapLat = snap.latitude
+          const snapLng = snap.longitude
+          const distanceInKm = distanceBetween([snapLat, snapLng], [lat,lng]);
+          const distanceInM = distanceInKm * 1000;
+            if (distanceInM <= radiusInM) {
+              matchingDocs.push(snap);
+                }
+        }
+        console.log('matching docs',matchingDocs)
+        // start paginate
+          const slice_lst =matchingDocs.slice(offset, offset+perPage)
+          setSlice([...slice_lst]);
+          setPageCount(Math.ceil(matchingDocs.length/perPage))
+          // end paginate
+       
+        setFilterOnly([...matchingDocs]);
+       
+    }
+    
   // const sortByRecent =()=>{
   //   const new_list=[...myjobs]
   //   new_list.sort((a,b)=>b.date_added - a.date_added)
@@ -157,6 +209,11 @@ const getJobs=async()=>{
   useEffect(() => {
     getSearchedJobs();
   }, [keywords, offset]);
+  
+  useEffect(() => {
+    getJobs()
+  }, [filterParams]);
+  
 
   useEffect(()=>{
     window.dataLayer.push({
@@ -210,7 +267,7 @@ const getJobs=async()=>{
     
 
         <div  className='job-filter-bar'>
-          <div className='d-flex justify-content-end me-2 refresh-jobs-btn' data-testid='refreshJobsBtn' onClick={()=>{getJobs()}}>
+          <div className='d-flex justify-content-end me-2 refresh-jobs-btn' data-testid='refreshJobsBtn' onClick={()=>{clearFilters()}}>
             <p className='me-2' >Reset</p>
             <ArrowsClockwise size={24} />
           </div>
@@ -228,7 +285,7 @@ const getJobs=async()=>{
             
           <div>
           <Button className='filter-btn' variant='link' type="button" onClick={handleShowModal} data-testid='showFilterModalBtn'>Filter<SlidersHorizontal size={32}/></Button>
-          <FilterModal offset={offset} perPage={perPage} setSlice={setSlice} setPageCount={setPageCount} location={location} setLocation={setLocation} distance={distance} setDistance={setDistance} setFilterOnly={setFilterOnly} handleClose={handleCloseModal} myjobs={myjobs}  setmyjobs={setmyjobs} show={showModal}/>
+          <FilterModal setFilterParams={setFilterParams} offset={offset} perPage={perPage} setSlice={setSlice} setPageCount={setPageCount} location={location} setLocation={setLocation} distance={distance} setDistance={setDistance} setFilterOnly={setFilterOnly} handleClose={handleCloseModal} myjobs={myjobs}  setmyjobs={setmyjobs} show={showModal}/>
            
             </div>
             <ButtonGroup >
@@ -243,7 +300,7 @@ const getJobs=async()=>{
           {showMap?
           <>
           
-              <Maps user={user} myjobs={myjobs} createPopUp={createPopUp}/>
+              <Maps user={user} myjobs={myjobs} slice={slice} createPopUp={createPopUp}/>
             
           </>:<>
         
