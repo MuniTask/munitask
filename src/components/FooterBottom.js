@@ -28,7 +28,7 @@ export default function FooterBottom() {
                   MuniTask
                 </h6>
                 <p>
-                MuniTask™ is a digital marketplace community connecting gig workers to seasonal work with local governments.
+                MuniTask™ is building the nation's #1 seasonal job marketplace and community engagement platform connecting youth and young adults to park and recreation organizations.
 
                 </p>
               </MDBCol >

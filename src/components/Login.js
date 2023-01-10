@@ -8,6 +8,7 @@ import appleLogo from '../images/Apple_logo_white.svg.png';
 import brand from '../images/munitask-brand.png';
 import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, signInWithRedirect, OAuthProvider, TwitterAuthProvider } from 'firebase/auth';
 import { FacebookLogo, TwitterLogo } from 'phosphor-react';
+import {generate} from "randomstring";
 
 export default function Login({logIn, createPopUp, writeUserData, setUser, user}) {
   const [redirect, setRedirect]=useState(false);
@@ -32,6 +33,7 @@ export default function Login({logIn, createPopUp, writeUserData, setUser, user}
     if (docSnap.exists()) {
       console.log('exists')
      if (docSnap.data().user_logins<=1 || !docSnap.data().user_logins){
+    await updateDoc(userRef, {referral_code:generate({length:12,charset:'alphanumeric'})})
      console.log(false);
      const go_to='/userinfo'
      setGoTo(go_to);

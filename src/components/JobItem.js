@@ -12,7 +12,6 @@ import { titleCase } from '../FunctionStorage';
 
 
 export default function JobItem({job}) {
-  const [currentJob, ]=useState({...job, title:titleCase(job.title)});
  const [signInPopUp, setsignInPopUp] = useState(false);
  
  const handleClosePopUp = () => setsignInPopUp(false);
@@ -47,6 +46,7 @@ export default function JobItem({job}) {
 
     useEffect (()=>{
       // likedJob(job);
+     
       },[])
   return (
     <>
@@ -54,7 +54,7 @@ export default function JobItem({job}) {
     <div className='m-2'>
     
     <Card style={{ borderTop: `4px solid ${cardColor(job.title)}`, borderLeft:`4px solid ${cardColor(job.title)}`,borderRight:`4px solid ${cardColor(job.title)}`, borderBottom:`4px solid ${cardColor(job.title)}`}} className='job-card'>
-    <Link className='job-card-link' data-testid='jobItemLinkToJob1'  to={`/${job._id}`} state={{job:currentJob}}>
+    <Link className='job-card-link' data-testid='jobItemLinkToJob1'  to={`/${job._id}`} state={{job}}>
       {job.logo_url?<>
       <div className='job-img-div'>
       <img className='job-img p-2' src={job.logo_url} alt={`${job.municipality} park district`} width={'150rem'}/>
@@ -65,21 +65,21 @@ export default function JobItem({job}) {
       </Link>
       <Card.Body className='job-card-body pb-0 mb-0 mt-3'  >
       <div className='d-flex flex-row justify-content-between job-description'>
-        <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
+        <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job}}>
         <Card.Title className='job-card-title'>{titleCase(job.title)}</Card.Title>
         </Link>
         </div>
-    <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job:currentJob}}>
-        <Card.Text className='d-flex flex-row flex-wrap'>
+    <Link className='job-card-link' data-testid='jobItemLinkToJob2' to={`/${job._id}`} state={{job}}>
+        <div className='d-flex flex-row flex-wrap'>
           <div className='d-flex flex-row align-items-center wage-bubble me-2'>
            <CurrencyDollar color='rgba(86, 87, 117, .8)' size={14} weight='bold'/>
-           <p className='m-0' >{job.wage}/hr</p>
+           <p className='m-0' >{job.wage}/hr </p>
            </div>
             <div className='d-flex flex-row align-items-center location-bubble'>
             <MapPin className='pb-1' color='rgba(86, 87, 117, .8)' size={18} weight='bold' />
             <p className='m-0'>{job.municipality}</p>
           </div>
-        </Card.Text >
+        </div >
       </Link>
      
       </Card.Body>

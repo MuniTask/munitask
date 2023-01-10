@@ -4,7 +4,7 @@ import '../styles/styles.css';
 import {ArrowsClockwise, DotsThreeOutline, SlidersHorizontal} from "phosphor-react";
 import {db} from '../firebase';
 import { Button, ButtonGroup} from "react-bootstrap";
-import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc, startAt, endAt, startAfter, orderBy} from "firebase/firestore";
+import { collection, query, where, getDocs, limit, doc, getDoc, updateDoc, startAt, endAt, startAfter, orderBy, Query} from "firebase/firestore";
 import FilterModal from '../components/FilterModal';
 import {Puff} from 'react-loader-spinner';
 import Maps from '../components/Maps';
@@ -93,10 +93,12 @@ const getJobs=async()=>{
     setDistance(10);
     setKeywords('');
     const setList=[];
-    const data2 = await getDocs(collection(db, 'jobs'));
+    const q=query(collection(db,'jobs'), orderBy('date_added'))
+    const data2 = await getDocs(q);
     data2.forEach((doc) => {
       setList.push(doc.data())
     });
+    
       // set paginate
       const slice_lst =setList.slice(offset, offset+perPage)
       setSlice([...slice_lst]);
@@ -112,7 +114,8 @@ const getJobs=async()=>{
 
 
   const showJob=()=>{
-    if (myjobs !=='' && myjobs !==[]){
+    console.log('myjobs',slice !==null && slice.length!==0)
+    if (slice !==null && slice.length!==0){
         // set paginate
         return(slice.map((job, i)=> <JobItem key={i} job={job} />))
         // end paginate

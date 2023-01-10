@@ -434,8 +434,11 @@ export default function Settings({user, signUserOut, setUser}) {
      
     </Form>
     </>}
-    
-    <div className='mt-5'>
+    <div className='d-flex flex-row mt-5'>
+      <p className='me-2' style={{fontWeight:'bold'}}>Referral code</p>
+      <p style={{color:'grey'}}>{currentUser.referral_code}</p>
+    </div>
+    <div className='mt-4'>
       <h5>Delete Account</h5>
       <p>All of your data and interest forms will be deleted from MuniTask.</p>
     <Button onClick={handleShowDeleteModal} variant="outline-danger" type="submit">

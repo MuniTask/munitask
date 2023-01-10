@@ -18,7 +18,7 @@ export default function Navigation({user, signUserOut}) {
     <MDBNavbar expand='lg' className='navigation'  dark bgColor='dark'  >
     <MDBContainer fluid>
 
-    <MDBNavbarBrand href='#'><img src={brand} height='30' alt='munitask brand' loading='lazy' /></MDBNavbarBrand>
+    <MDBNavbarBrand ><Link to='/'><img src={brand} height='30' alt='munitask brand' loading='lazy' /></Link></MDBNavbarBrand>
       <MDBNavbarToggler
         type='button'
         data-target='#navbarTogglerDemo01'

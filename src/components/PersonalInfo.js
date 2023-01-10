@@ -135,7 +135,7 @@ export default function PersonalInfo({ writePersonalInfo, user }) {
                 <option>Social media</option>
             </select>
           </div>
-          <div className="form-group col-md-6 mb-3">
+          <div className="form-group col-md-6 mb-3 pe-0 me-0">
             <label htmlFor="social">
             Please share a social media handles or usernames
             </label>

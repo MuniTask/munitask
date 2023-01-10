@@ -183,7 +183,7 @@ export default function UserInfoForm({user}) {
             </div>
           </div>
 
-        <h4 className="my-3 required ">Personal Preferences</h4>
+        <h4 className="my-3 required ">Job Preferences</h4>
               <p className='mb-1 required-p'>Select your top 3 job preferences (each choice must be unique):</p>
               {message?<>
                 <p style={{color:'red'}}>*Please choose a different job for each choice</p>
