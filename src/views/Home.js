@@ -282,8 +282,8 @@
 //          <p className='job-icon-text text-center'>All</p>
 //          </div>
 //         <div className='d-flex flex-column me-3'>
-//         <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
-//         <p className='job-icon-text text-center'>Golf Ranger</p>
+//         <img onClick={()=>handleFilter('golf caddy')} data-testid='golfCaddyFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+//         <p className='job-icon-text text-center'>Golf Caddy</p>
 //         </div>
 //         <div className='d-flex flex-column me-3'>
 //         <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
@@ -298,7 +298,7 @@
 //          <p className='job-icon-text text-center'>Pool Maintenance</p>
 //          </div>
 //         <div className='d-flex flex-column me-3'>
-//         <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+//         <img onClick={()=>handleFilter('camp counselor')} data-testid='golfCaddyFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
 //          <p className='job-icon-text text-center'>Camp Counselor</p>
 //          </div>
 //         <div className='d-flex flex-column'>

@@ -1,0 +1,26 @@
+
+  
+  .beta-banner {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color:#d1ecf1;
+    border: 2px solid #bee5eb;
+    height: 2.2rem;
+    padding-top: 3px;
+              /* Footer height */
+  }
+  .beta-text{
+    text-align: center;
+    color: #0c5460;
+    margin: 0px;
+    font-size: .9rem;
+   
+  }
+  @media only screen and (max-width: 610px) {
+  
+    .beta-banner{
+        height:3.1rem;
+    }
+ 
+   }

@@ -22,13 +22,7 @@ export default function UserProfile({user,setUser, incrementLogin, signUserOut, 
       e.preventDefault();
       const userRef=doc(db,"users",user.uid)
       await updateDoc(userRef,{
-          parent_or_child: e.target.parent_or_child.value,
-          contact_by:e.target.follow_up.value,
           job_zip:e.target.job_zip.value,
-          social_1_pref:e.target.social_1_pref.value,
-          social_1_handle:e.target.social_1_handle.value,
-          social_2_pref:e.target.social_2_pref.value,
-          social_2_handle:e.target.social_2_handle.value,
           other_info:e.target.other_info.value,
           job_pref_1:e.target.pref_1.value,
           job_pref_2:e.target.pref_2.value,

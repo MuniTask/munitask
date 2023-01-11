@@ -60,30 +60,30 @@ const getJobs=async()=>{
     const setList=[];
     let qual='';
     let resp='';
-    let wage='';
+  
     for (let document of data.docs){
       try{
   //  update job descriptions
         if (document.data().title==='pool maintenance' || document.data().title==='park maintenance'){
             qual='Must be 16 years of age or older by your first day of work.-Knowledge of common hand tools, materials, and standard equipment used in maintenance, repair, and construction work.-Knowledge of safety precautions and hazards.-Must be able to work outdoors.-Willing to work in an ever changing environment, sometimes fast or slow.-Openness to grow with a community of seasonal workers.-Must be subject to a background check.'
             resp="Helpful to have a valid driver's license to access different locations.-Perform manual labor, such as: clean, carry, climb, drag heavy items, grab, grip, lift heavy and/or awkward equipment, read maps, use protective gear, a two way radio, stand, sit, and walk, have proper alignment.-Follow verbal and written directions.-Communicate with supervisor of any issues.-Willing to work in an ever changing environment, sometimes fast or slow.-Openness to grow with a community of seasonal workers.-Must be subject to a background check.-Prepare for events and activities in parks, recreation fields, and buildings by mowing grass, sweeping, planting and gardening.-Tools to use include, but are not limited to: rake, lawn mower, shovel, scissor, hammer, nails, screwdrivers, ladder, vehicle, garbage can and bags, water hose, etc…"
-            wage='15-20'
+           
         } else if(document.data().title==='golf ranger'){
           qual='Friendly upbeat attitude -Willingness to learn and perform.-Customer Service Experience (preferred)'
           resp="Be comfortable for long periods of time in direct and indirect sunlight-Start groups at their respective times-Facilitate Pace Of Play on the course-Greet Members and Guests at the tee-Fill coolers with bottled water and ice-Provide excellent customer service to members and guests-Proactively look for opportunities to assist members' & guests' needs-Perform any other duties deemed necessary by a golf professional or golf shop staff-grounds cleanliness and upkeep-Assists members with golf bags, loading and unloading onto carts, club cleaning services, and maintains bag storage system-Provides carts for member and guest play by bringing them to cart staging area, and returning them to cart storage free of debris, towels, scorecards, etc-Operates equipment to retrieve range balls,and arranges baskets and range balls in accordance with approved club standards"
-          wage='12-20'
+          
         }else if(document.data().title==='lifeguard'){
           qual='Must be 15 years of age or older.-If you are 15 years old, you must obtain a work permit.-Willing to learn and use customer service skills with a positive attitude.-Willing to work in an ever changing environment, sometimes fast or slow.-Willing to grow with a community of seasonal workers.-Must be subject to a background check. -In some parks, a lifeguard certification is required before working.'
           resp="Must be a strong swimmer, must demonstrate by completing all in-water skills.-Knowledge of lifeguard responsibilities preferred.-Complete a swim assessment as a portion of training: 1)Swim 200 yards using front crawl and/or breaststroke 2)Tread for two minutes; one minute without your hands and one minute with your hands 3)Retrieve a 10lb brick from the bottom of the pool (6 feet)-Maintain a safe aquatic operation with prevention techniques which include enforcing pool rules, remaining vigilant at all times by scanning the pool zone, being rescue ready and performing in stressful situations.-Must be capable of implementing the emergency action plan and communicating emergency directions.-Must be able to successfully relay information pool status information to patrons."
-          wage='17-25'
+          
         }else if(document.data().title==='swim instructor'){
           qual='Must be 16 years of age or older by your first day of work.-Must have a swim instructor certificate OR complete the certification by your first day of work (we may be able to provide you the training at zero cost to you).-Must possess enthusiasm, creativity and the ability to communicate with people of all ages.-Motivation to teach people with no experience.-Must be flexible, willing to try new ideas and be organized, self-motivated and be consistently punctual.-Willing to learn and use customer service skills with a positive attitude.-Willing to work in an ever changing environment, sometimes fast or slow.-Openness to grow with a community of seasonal workers.-Must be subject to a background check.'
           resp="Capable of taking on new responsibilities as required for successful swim program and safety of participants.-Prepare daily swim lessons.-Effectively implement swim lesson plans as appropriate to program level and participants abilities.-Maintain a working knowledge of all general and department safety rules.-Enforce rules and improve public and employee knowledge by preventing or confronting any unsafe behavior.-Maintain a professional appearance and positive attitude.-Continue education and awareness by attending staff meetings and training sessions.-Promote excellent customer service relations with patrons, parents, and anyone visiting the park.-Enforce regulations and safety concerns.-Comply with Park District policies and administrative procedures."
-          wage='13-20'
+        
         }else if(document.data().title==='camp counselor'){
           qual='Must be 16 years of age or older by your first day of work.-Must possess enthusiasm, creativity and the ability to communicate with youth of all ages.-Motivation to improve camp participants experience.-Must be flexible, willing to try new ideas and be organized, self-motivated and be consistently punctual.-Willing to learn and use customer service skills with a positive attitude.-Willing to work in an ever changing environment, sometimes fast or slow.-Openness to grow with a community of seasonal workers.-Must be subject to a background check.'
           resp="Help implement a weekly schedule for specified camp groups.-Supervise campers with facilitating program rules, regulations and safety concerns.-Work collaboratively with other camp counselors. -Organize and lead a variety of age appropriate activities each week. Activities may include crafts, nature, songs, games, team-building games, swimming, etc…-Travel with camp participants on the bus and walking to various locations.-Identify and respond appropriately to camp participant behavior issues.-Ensure that the camp site is well maintained and organized.-Communicate with parents about their camp participant’s experiences.-Report concerns to Camp Leadership.-Maintain accurate program records including incident reports and daily attendance.-Comply with Park District policies and administrative procedures."
-          wage='13-20'
+        
         }else{
           console.log('problem')
         }
@@ -95,7 +95,7 @@ const getJobs=async()=>{
         const logo_url=await getLogo(document.data().municipality)
         const hash=geohashForLocation([parseFloat(latitude), parseFloat(longitude)])
         const skip=await getLng(document.data().municipality).then( 
-          await updateDoc(doc(db,'jobs',document.id),{_id:document.id,wage:wage,geohash:hash,qualifications:qual, responsibilities:resp,park_url:park_url,latitude:parseFloat(latitude), longitude:parseFloat(longitude),logo_url:logo_url, zip_code:zip_code}).then(()=>{
+          await updateDoc(doc(db,'jobs',document.id),{_id:document.id,geohash:hash,park_url:park_url,latitude:parseFloat(latitude), longitude:parseFloat(longitude),logo_url:logo_url, zip_code:zip_code}).then(()=>{
            console.log('docs updated')
           })
          
@@ -254,8 +254,8 @@ return mun_lat;
          <p className='job-icon-text text-center'>All</p>
          </div>
         <div className='job-icon-div icon-div2 d-flex flex-column '>
-        <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
-        <p className='job-icon-text text-center'>Golf Ranger</p>
+        <img onClick={()=>handleFilter('golf caddy')} data-testid='golfCaddyFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid green',}}/>
+        <p className='job-icon-text text-center'>Golf Caddy</p>
         </div>
         <div className='job-icon-div icon-div3 d-flex flex-column '>
         <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #745cac',}}/>
@@ -270,7 +270,7 @@ return mun_lat;
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
         <div className='job-icon-div icon-div6 d-flex flex-column '>
-        <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
+        <img onClick={()=>handleFilter('camp counselor')} data-testid='campCounselorFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid blue',}}/>
          <p className='job-icon-text text-center'>Camp Counselor</p>
          </div>
         <div className='job-icon-div icon-div7 d-flex flex-column'>

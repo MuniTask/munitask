@@ -36,7 +36,7 @@ export default function Maps({myjobs, user, createPopUp}) {
 
 useEffect(()=>{
 
-  console.log('hi')
+ 
 },[])
   //  style={{width:"600px",height:"800px",border:"1px solid lightgray"}}
   return (

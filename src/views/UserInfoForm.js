@@ -13,7 +13,7 @@ export default function UserInfoForm({user}) {
     "Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Minor Outlying Islands","Mississippi","Missouri","Montana",
     "Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Northern Mariana Islands","Ohio","Oklahoma","Oregon","Pennsylvania","Puerto Rico",
     "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","U.S. Virgin Islands","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming",];
-  const parent_or_child_array=['the parent of a job seeker.', 'a job seeker.'];
+  const parent_or_child_array=['the guardian of a job seeker.', 'a job seeker.'];
   const [redirect, setRedirect]=useState(false);
   const [show, setShow] = useState(false);
   const [choiceOne, setChoiceOne]=useState()
@@ -48,7 +48,7 @@ export default function UserInfoForm({user}) {
 
   }
   const writePersonalInfo=async(e)=>{
-    if (e.target.pref_1.value==e.target.pref_2.value||e.target.pref_1.value==e.target.pref_3.value||e.target.pref_3.value==e.target.pref_2.value){
+    if (e.target.pref_1.value===e.target.pref_2.value||e.target.pref_1.value===e.target.pref_3.value||e.target.pref_3.value===e.target.pref_2.value){
       setMessage(true)
     }else{
     e.preventDefault();
@@ -76,7 +76,8 @@ export default function UserInfoForm({user}) {
         social_1_handle:e.target.social_1_handle.value,
         social_2_pref:e.target.social_2_pref.value,
         social_2_handle:e.target.social_2_handle.value,
-        student:e.target.student.value
+        student:e.target.student.value,
+        profile_completed:true
 
        
     }, {merge:true})
@@ -108,80 +109,6 @@ export default function UserInfoForm({user}) {
     
       </div>
       <form id='PersonalInfoForm' name='personal_info_form' onSubmit={(e) => {  writePersonalInfo(e); handleSubmit(e)}} >
-    <h4 className="my-3">Personal Information</h4>
-        <div className="form-row mb-3">
-          <div className="form-group d-flex flex-row">
-            <div className="w-25 me-4 required">
-              <label htmlFor="first_name">First Name</label>
-              <input name="first_name" type="text" placeholder="First Name" className="form-control " id="first_name"  required/>
-             
-            </div>
-            <div className="w-25 me-4 required">
-              <label htmlFor="last_name">Last Name</label>
-             <input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" required/>
-              
-            </div>
-            <div className="w-25 required">
-            <label htmlFor="inputEmail4">Email</label>
-              {user.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={user.email} /></>
-              :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
-             
-            </div>
-          </div>
-          <div className="d-flex flex-row required">
-            <div className="w-25  mt-3 me-4">
-                <label htmlFor="inputTel4">Phone Number</label>
-                <input name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" required/>
-              </div>
-            <div className="form-group w-25 mt-3 me-4  required">
-              <label htmlFor="birthday">Birthday</label>
-             <input type="date" className="form-control" id="birthday" name="birthday" min='1970-01-01' max={minimum_year_of_birth()} required/>
-            </div>
-            <div className="form-group w-25 mt-3 required">
-            <label htmlFor="age">Age of job seeker</label>
-            <select name="age" id="inputAge" className="form-control w-50" required>
-              <option disabled>Age</option>
-              {age_array.map((age,i)=><Fragment key={i}>
-                <option >{age}</option>
-                </Fragment>)}
-            </select>
-            </div>
-            </div>
-        </div>
-
-        <div className="form-group d-flex flex-row mb-2 required">
-          <div className="w-25 me-4">
-            <label htmlFor="inputState">State</label>
-            <select name="state" id="inputState" className="form-control" required>
-              <option disabled>Select</option>
-             {states.map((state,i)=><Fragment key={i}>
-                <option>{state}</option>
-                </Fragment>)}
-            </select>
-          </div>
-          <div className="w-25 me-4 required">
-            <label htmlFor="inputCity">City</label>
-          <input name="city" type="text" className="form-control" id="inputCity" required/>
-           
-          </div>
-          <div className="w-25 me-4 required">
-            <label htmlFor="inputZip">Zip</label>
-            <input name="zip" type="text" className="form-control" id="inputZip" required/>
-          
-          </div>
-         
-        </div>
-        <div className="w-25 me-4 mb-4">
-              <p htmlFor="student" className="required-p mb-0 pb-0">Are you a student?</p>
-              <div>
-              <label htmlFor="student">Yes</label>
-              <input className="student_yes" type="radio" id="student" name="student" value={true}/>
-              </div>
-            <div>
-            <label htmlFor="student">No</label>
-              <input className="student_no" type="radio" id="student" name="student" value={false} />
-            </div>
-          </div>
 
         <h4 className="my-3 required ">Job Preferences</h4>
               <p className='mb-1 required-p'>Select your top 3 job preferences (each choice must be unique):</p>
@@ -230,13 +157,92 @@ export default function UserInfoForm({user}) {
               <label htmlFor="inputZip">Preferred job location zip code</label>
               <input name="job_zip" type="text" className="form-control" id="inputZip" required/>
             </div>
+        
+          <div>
+            <label htmlFor="other-info">Is there anything else you'd like us to know about you?</label>
+              <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea>
+          </div>
+            <h4 className="my-3">Personal Information</h4>
+        <div className="form-row mb-3">
+          <div className="form-group d-flex flex-row">
+            <div className="w-25 me-4 required">
+              <label htmlFor="first_name">First Name</label>
+              <input name="first_name" type="text" placeholder="First Name" className="form-control " id="first_name"  required/>
+             
+            </div>
+            <div className="w-25 me-4 required">
+              <label htmlFor="last_name">Last Name</label>
+             <input name="last_name" type="text" className="form-control " id="last_name" placeholder="Last Name" required/>
+              
+            </div>
+            <div className="w-25 required">
+            <label htmlFor="inputEmail4">Email</label>
+              {user.email?<><input name="email" type="email" className="form-control" id="inputEmail4" defaultValue={user.email} /></>
+              :<><input name="email" type="email" className="form-control" id="inputEmail4" placeholder="Email" /></>}
+             
+            </div>
+          </div>
+          <div className="d-flex flex-row required">
+            <div className="w-25  mt-3 me-4">
+                <label htmlFor="inputTel4">Phone Number</label>
+                <input name="phone_number" type="tel" className="form-control" id="inputTel4" placeholder="Phone Number" required/>
+              </div>
+            <div className="form-group w-25 mt-3 me-4  required">
+              <label htmlFor="birthday">Birthday</label>
+             <input type="date" className="form-control" id="birthday" name="birthday" min='1970-01-01' max={minimum_year_of_birth()} required/>
+            </div>
+            <div className="form-group w-25 mt-3 required">
+            <label htmlFor="age">Age of job seeker</label>
+            <select name="age" id="inputAge" className="form-control w-50" required>
+              <option disabled>Age</option>
+              {age_array.map((age,i)=><Fragment key={i}>
+                <option >{age}</option>
+                </Fragment>)}
+            </select>
+            </div>
+            </div>
+        </div>
+
+        <div className="form-group d-flex flex-row mb-2 required">
+          <div className="w-25 me-4">
+            <label htmlFor="inputState">State</label>
+            <select name="state" id="inputState" className="form-control" required>
+              <option selected disabled>Select one...</option>
+             {states.map((state,i)=><Fragment key={i}>
+                <option>{state}</option>
+                </Fragment>)}
+            </select>
+          </div>
+          <div className="w-25 me-4 required">
+            <label htmlFor="inputCity">City</label>
+          <input name="city" type="text" className="form-control" id="inputCity" required/>
+           
+          </div>
+          <div className="w-25 me-4 required">
+            <label htmlFor="inputZip">Zip</label>
+            <input name="zip" type="text" className="form-control" id="inputZip" required/>
+          
+          </div>
+         
+        </div>
+        <div className="w-25 me-4 mb-4">
+              <p htmlFor="student" className="required-p mb-0 pb-0">Are you a student?</p>
+              <div>
+              <label htmlFor="student">Yes</label>
+              <input className="student_yes" type="radio" id="student" name="student" value={true}/>
+              </div>
+            <div>
+            <label htmlFor="student">No</label>
+              <input className="student_no" type="radio" id="student" name="student" value={false} />
+            </div>
+          </div>
           <div className="d-flex flex-column mb-3">
             <p className="mb-1 required-p">
              I am...
             </p>
             <div>
             <select name="parent_or_child" id="inputParentorChild" className="form-control w-50" required>
-              <option disabled>Select one...</option>
+              <option selected disabled>Select one...</option>
               {parent_or_child_array.map((PorC,i)=><Fragment key={i}>
                 <option>{PorC}</option>
                 </Fragment>)}
@@ -260,8 +266,8 @@ export default function UserInfoForm({user}) {
             <label htmlFor="social">
             Please share a social media handles or usernames
             </label>
-            <div className="d-flex flex-row mb-2">
-            <select name="social_1_pref" id="social1Pref" className="form-control w-25 me-3" required>
+            <div className="d-flex flex-row mb-2 required-p">
+            <select name="social_1_pref" id="social1Pref" className="form-control w-25 me-3 ">
                 <option disabled selected>Select one...</option>
                          <option>BeReal</option>
                          <option>Facebook</option>
@@ -270,7 +276,7 @@ export default function UserInfoForm({user}) {
                          <option>TikTok</option>
                          <option>Twitter</option>
                     </select>
-                    <input name='social_1_handle' type="text" id='social1' className="w-50"/>
+                    <input name='social_1_handle' type="text" id='social1' className="w-50 "/>
                     </div>
                 <div className="d-flex flex-row">
                     <select name="social_2_pref" id="social2Pref" className="form-control w-25 me-3"  required>
@@ -284,10 +290,6 @@ export default function UserInfoForm({user}) {
                     </select>
                     <input name='social_2_handle' type="text" id='social2' className="w-50"/>
                     </div>
-          </div>
-          <div>
-            <label htmlFor="other-info">Is there anything else you'd like us to know about you?</label>
-              <textarea name="other_info" className="form-control" id="other_info" rows="5" cols="50" ></textarea>
           </div>
       
 

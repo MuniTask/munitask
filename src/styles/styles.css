@@ -191,7 +191,7 @@ img.job-img {
   background-color: #745cac;
   color: whitesmoke;
   cursor: pointer;
-  width: 120px;
+  width: 155px;
   font-size: 0.8rem;
   font-weight: bold;
   padding: 7px;
@@ -254,6 +254,107 @@ img.job-img {
   height: 100vh;
 }
 
+.about-container {
+  min-height: 100vh;
+  margin: 2vh 2vw;
+  padding-top: 4vh;
+  box-shadow: 2px 0px 4px 0px rgb(194, 194, 194);
+}
+
+.who-we-are-blurb {
+  background-color: rgba(255, 217, 255, 0.2);
+  border-radius: 40px;
+  padding: 2vh 8vw;
+}
+.who-we-are-blurb b {
+  color: rgb(95, 95, 95);
+}
+
+.bolded-blurb {
+  font-family: "Abril Fatface", cursive;
+  font-size: 1.5rem;
+  color: rgb(95, 95, 95);
+}
+
+.park-img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+}
+
+.who-we-are-text {
+  width: 50%;
+}
+
+.park-img {
+  border-radius: 78px 12px 56px 149px;
+  -moz-border-radius: 78px 12px 56px 149px;
+  -webkit-border-radius: 78px 12px 56px 149px;
+  border: 0px solid #000000;
+}
+
+.regular-blurb {
+  font-size: 1.2rem;
+  color: gray;
+}
+
+.person-img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+}
+
+.person-card {
+  box-shadow: 2px 0px 4px 0px rgb(194, 194, 194);
+}
+
+.person-text {
+  padding: 0px 5px;
+  font-size: 1.2rem;
+}
+
+.person-card {
+  margin-bottom: 3vh;
+  background-color: white;
+}
+
+.our-team {
+  font-family: "Abril Fatface", cursive;
+  font-size: 3rem;
+}
+
+.person-img {
+  border: 10px solid white;
+}
+
+.people-section {
+  background-color: rgba(195, 219, 116, 0.1);
+  padding-top: 2vh;
+}
+
+.beta-banner {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: #d1ecf1;
+  border: 2px solid #bee5eb;
+  height: 2.2rem;
+  padding-top: 3px;
+  /* Footer height */
+}
+
+.beta-text {
+  text-align: center;
+  color: #0c5460;
+  margin: 0px;
+  font-size: 0.9rem;
+}
+
+@media only screen and (max-width: 610px) {
+  .beta-banner {
+    height: 3.1rem;
+  }
+}
 * {
   font-family: "Poppins", sans-serif;
 }
@@ -267,16 +368,10 @@ img.job-img {
   margin: 0vh 2vw;
 }
 
-.about-container {
-  position: relative;
-  min-height: 100vh;
-  background-color: #fafafa;
-  z-index: 1;
-}
-
 .content-wrap {
   padding-bottom: 2.5rem; /* Footer height */
   margin: 0px;
+  padding-top: 2.2rem;
 }
 
 .footer {
@@ -384,63 +479,6 @@ div.user-dropdown.dropdown-menu.show a {
 }
 div.user-dropdown.dropdown-menu.show a:hover {
   color: #a8b57f;
-}
-
-.about-container {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  grid-template-rows: 1fr 1fr;
-  grid-auto-columns: 1fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas: "about-founder about-founder" "about-img-left about-info-boxes";
-}
-
-.about-founder {
-  grid-area: about-founder;
-  text-align: center;
-  padding: 0 25%;
-}
-
-.about-img-left {
-  grid-area: about-img-left;
-  padding-left: 10%;
-  background-color: #f5e9fc;
-  padding-top: 30px;
-}
-
-.about-info-boxes {
-  grid-area: about-info-boxes;
-  padding: 0 7%;
-  background-color: #f5e9fc;
-  padding-top: 30px;
-}
-
-.sara-headshot {
-  height: 100px;
-  width: 100px;
-  border-radius: 70px;
-}
-
-.about-img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-}
-
-.boxes {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.box-1, .box-2, .box-3, .box-4 {
-  margin: 1.5rem;
-  width: 100%;
-  max-width: 18rem;
-  height: auto;
-  border: none;
-  background-color: #f8effd;
 }
 
 a.nav-link.profile-tab {
@@ -667,30 +705,6 @@ div.jobview-container {
     flex-wrap: wrap;
   }
 }
-@media only screen and (max-width: 1140px) {
-  .about-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-auto-columns: 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas: "about-founder" "about-img-left" "about-info-boxes";
-  }
-  .about-founder {
-    grid-area: about-founder;
-  }
-  .about-img-left {
-    grid-area: about-img-left;
-    padding-left: 0;
-    display: flex;
-    justify-content: center;
-  }
-  .about-info-boxes {
-    grid-area: about-info-boxes;
-    text-align: center;
-  }
-}
 @media only screen and (max-width: 812px) {
   .personal-settings-group2, .personal-settings-group3, .personal-settings-group4 {
     flex-direction: column;
@@ -736,4 +750,10 @@ div.jobview-container {
 
 .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
   border-radius: unset;
+}
+
+@media only screen and (max-width: 610px) {
+  .content-wrap {
+    padding-top: 3.1rem;
+  }
 }/*# sourceMappingURL=styles.css.map */

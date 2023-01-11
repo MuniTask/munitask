@@ -36,7 +36,7 @@ export default function JobItem({job}) {
       case "park maintenance":
         // return "#ee7600";
         return "#746E6E"
-      case "golf ranger":
+      case "golf caddy":
         return "#E2EA8B"
         // return "green";
     }

@@ -17,7 +17,8 @@ export default function Settings({user, signUserOut, setUser}) {
     const age_array=Array.from({length: 50}, (x, i) => i+15);
     const [canSubmit, setCanSubmit]=useState(false)
     const [provider, setProvider]=useState(false);
-    const [student, setStudent]=useState(false)
+    const [student, setStudent]=useState(false);
+    const [parent, setParent]=useState(false);
     const [showDeleteModal, setShowDeleteModal]=useState(false)
     const [data, setData]=useState({
         email:user.email,
@@ -133,35 +134,16 @@ export default function Settings({user, signUserOut, setUser}) {
   
     const update_info=async(e)=>{
       e.preventDefault();
-      // if (e.target.new_password.value!==''){
-      //   const password=e.target.new_password.value;
-      //   update_pass(password);
-      // }
-      // if(e.target.new_username.value!==''){
-      //   const username=e.target.new_username.value;
-      //   updateProfile(auth.currentUser, {
-      //     displayName: username
-      //   }).then(() => {
-      //   }).catch((error) => {
-      //   });
-      // };
-      // if (e.target.new_email.value!==''){
-      //   const email=e.target.new_email.value;    
-      //   await setDoc(doc(db, `users`, `${auth.currentUser.uid}`), {
-      //     email: email
-      //   }, {merge:true});
-      //     updateEmail(auth.currentUser, email
-      //   ).then(() => {
-      //     console.log('auth email changed')
-      //   }).catch((error) => {
-      //     console.log(error)
-      //   });
-        
-      // };
      
           const userRef=doc(db,"users",user.uid)
           await updateDoc(userRef,{
           first_name:e.target.first_name.value,
+          parent_or_child: e.target.parent_or_child.value,
+          contact_by:e.target.follow_up.value,
+          social_1_pref:e.target.social_1_pref.value,
+          social_1_handle:e.target.social_1_handle.value,
+          social_2_pref:e.target.social_2_pref.value,
+          social_2_handle:e.target.social_2_handle.value,
           last_name:e.target.last_name.value,
           birthday:e.target.birthday.value,
           email:e.target.email.value,
@@ -192,10 +174,13 @@ export default function Settings({user, signUserOut, setUser}) {
     setCurrentUser(docSnap.data())
   };
     useEffect(()=>{
-     console.log(user.email);
+
       google_or_email();
       getUser(user);
       handleStudent();
+      if (currentUser.parent_or_child==='the parent of a job seeker.'){
+        setParent(true)
+      };
     },[])
   return (
     
@@ -315,6 +300,65 @@ export default function Settings({user, signUserOut, setUser}) {
                 </div>
                   </>}
               </div>
+              <div className="d-flex flex-column mb-3">
+                  <p className="mb-1">
+                  I am...
+                  </p>
+              <div>
+              <select disabled name="parent_or_child" id="inputParentorChild" className="form-control w-50">
+                {parent?<>
+                  <option selected>the guardian of a job seeker.</option>
+                <option>a job seeker.</option>
+                </>
+              :<>
+               <option>the guardian of a job seeker.</option>
+                <option selected>a job seeker.</option></>}
+            </select>
+            </div>
+          </div>
+          <div className="d-flex flex-column mb-3">
+            <p className="mb-1 required-p">
+              What's the best way for us to follow up with you?
+            </p>
+            
+            <select disabled value={currentUser.contact_by} name="follow_up"  id="followUp" className="form-control w-50" required>
+              <option disabled>Select one...</option>
+              <option>Phone call</option>
+                <option>Phone call</option>
+                <option>Email</option>
+                <option>Text</option>
+                <option>Social media</option>
+            </select>
+          </div>
+          <div className="form-group col-md-6 mb-3 pe-0 me-0">
+            <label htmlFor="social">
+            Please share a social media handles or usernames
+            </label>
+            <div className="d-flex flex-row mb-2">
+            <select disabled value={currentUser.social_1_pref} name="social_1_pref" id="social1Pref" className="form-control w-25 me-3" required>
+                <option disabled >Select one...</option>
+                         <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input name='social_1_handle' disabled value={currentUser.social_1_handle} type="text" id='social1' className="w-50"/>
+                    </div>
+                <div className="d-flex flex-row">
+                    <select disabled value={currentUser.social_2_pref} name="social_2_pref" id="social2Pref" className="form-control w-25 me-3"  required>
+                <option disabled>Select one...</option>
+                <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input value={currentUser.social_2_handle} disabled name='social_2_handle' type="text" id='social2' className="w-50"/>
+                    </div>
+          </div>
       <div className='d-flex flex-row align-items-baseline'>
         <Button variant="primary" onClick={handleShow}>
        edit
@@ -423,6 +467,65 @@ export default function Settings({user, signUserOut, setUser}) {
                 </div>
                   </>}
               </div>
+              <div className="d-flex flex-column mb-3">
+                  <p className="mb-1">
+                  I am...
+                  </p>
+              <div>
+              <select name="parent_or_child" id="inputParentorChild" className="form-control w-50">
+                {parent?<>
+                  <option selected>the guardian of a job seeker.</option>
+                <option>a job seeker.</option>
+                </>
+              :<>
+               <option>the guardian of a job seeker.</option>
+                <option selected>a job seeker.</option></>}
+            </select>
+            </div>
+          </div>
+          <div className="d-flex flex-column mb-3">
+            <p className="mb-1 required-p">
+              What's the best way for us to follow up with you?
+            </p>
+            
+            <select defaultValue={currentUser.contact_by} name="follow_up"  id="followUp" className="form-control w-50" required>
+              <option disabled>Select one...</option>
+              <option>Phone call</option>
+                <option>Phone call</option>
+                <option>Email</option>
+                <option>Text</option>
+                <option>Social media</option>
+            </select>
+          </div>
+          <div className="form-group col-md-6 mb-3 pe-0 me-0">
+            <label htmlFor="social">
+            Please share a social media handles or usernames
+            </label>
+            <div className="d-flex flex-row mb-2">
+            <select defaultValue={currentUser.social_1_pref} name="social_1_pref" id="social1Pref" className="form-control w-25 me-3" required>
+                <option disabled >Select one...</option>
+                         <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input name='social_1_handle' defaultValue={currentUser.social_1_handle} type="text" id='social1' className="w-50"/>
+                    </div>
+                <div className="d-flex flex-row">
+                    <select defaultValue={currentUser.social_2_pref} name="social_2_pref" id="social2Pref" className="form-control w-25 me-3"  required>
+                <option disabled >Select one...</option>
+                <option>BeReal</option>
+                         <option>Facebook</option>
+                         <option>Instagram</option>
+                         <option>LinkedIn</option>
+                         <option>TikTok</option>
+                         <option>Twitter</option>
+                    </select>
+                    <input defaultValue={currentUser.social_2_handle} name='social_2_handle' type="text" id='social2' className="w-50"/>
+                    </div>
+          </div>
       <div className='d-flex flex-row align-items-baseline'>
         <p className='me-3' onClick={handleCancel} >Cancel</p>
        

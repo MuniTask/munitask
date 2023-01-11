@@ -10,7 +10,7 @@ import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sig
 import { FacebookLogo, TwitterLogo } from 'phosphor-react';
 import {generate} from "randomstring";
 
-export default function Login({logIn, createPopUp, setUser, user}) {
+export default function SsoSignUp({logIn, createPopUp, setUser, user}) {
   const [redirect, setRedirect]=useState(false);
  
   const [goTo, setGoTo]=useState('/');
@@ -254,43 +254,10 @@ const createTwitterRedirect=async()=>{
     <div className="body">
     <div className="login-card ">
     <div className="login-header-cont d-flex flex-row align-items-baseline justify-content-center mb-4">
-                    <h4 className="login-header me-2">Log in to </h4>
+                    <h4 className="login-header me-2">Sign up to </h4>
                     <img height={27} loading='lazy' src={brand} alt='munitask brand'/>
         </div>
-      {/* <form
-        className=""
-        onSubmit={(e) => {
-          logIn(e);handleFirstLogin(user)
-          
-        }}
-      >
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label" >
-            Email
-          </label>
-          <input type="text" className="form-control" name="email"  data-testid='login-email-input'/>
-        </div>
-    
-        <div className="mb-3 login-form">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            name="password"
-            data-testid='login-password-input'
-          />
-          <a href="/passwordrecovery" data-testid='forgotPassBtn' className="login-link1">
-            Forgot your password?
-          </a>
-        </div>
-    
-        <button type="submit" data-testid='LogInSubmit' className="btn btn-dark login-btn ">
-          Log In<i className="fa-solid fa-arrow-right-long fa-lg"></i>
-        </button>
-       
-      </form> */}
+      
     
       <div className='d-flex mx-auto login-btns flex-column flex-wrap justify-content-center'>
       <img src={googlebtn} alt='...' className='google-btn m-3' onClick={()=>{createLoginPopUp()}}/>

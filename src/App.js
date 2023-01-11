@@ -23,6 +23,8 @@ import SamplePaginate from './views/LoadData';
 import LoadData from './views/LoadData';
 import Advice from './views/Advice';
 import AskAQuestion from './views/AskAQuestion';
+import SsoSignUp from './components/SsoSignUp';
+import BetaBanner from './components/BetaBanner';
 
 
 function App() {
@@ -184,6 +186,7 @@ useEffect(()=>{
  
      <BrowserRouter >
      <div className='content-wrap'>
+      <BetaBanner />
      <Navigation user={user} signUp={signUpWithEmail} handleFirstLogin={handleFirstLogin} logIn={logInWithEmail} signUserOut={signUserOut} createPopUp={createPopUp}/>
      <Routes>
       <Route path='/' element={<Home2   globalJobs={globalJobs} setGlobalJobs={setGlobalJobs} createPopUp={createPopUp}  user={user}/>}/>
@@ -199,8 +202,9 @@ useEffect(()=>{
       <Route path='/passwordrecovery' element={<ForgotPassword />}/>
       <Route path='/termsofservice' element={<Terms />}/>
       <Route path='/privacystatement' element={<Privacy />}/>
-      <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} writeUserData={writeUserData} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
-      <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} user={user} createPopUp={createPopUp}/>}/>
+      <Route path='/login' element={<Login signedIn={signedIn} setUser={setUser} writeUserData={writeUserData} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>\
+      <Route path='/signup' element={<SsoSignUp signedIn={signedIn} setUser={setUser} writeUserData={writeUserData} user={user} logIn={logInWithEmail} createPopUp={createPopUp}/>}/>
+      {/* <Route path='/signup' element={<Signup setUser={setUser} signUp={signUpWithEmail} user={user} createPopUp={createPopUp}/>}/> */}
       {/* <Route path='/maps' element={<Maps />}/> */}
       <Route path='/userprofile' element={<UserProfile createPopUp={createPopUp}  signUserOut={signUserOut} incrementLogin={incrementLogin} setUser={setUser} user={user}/>}/>
       <Route path='/userinfo' element={<UserInfoForm user={user}/>}/>

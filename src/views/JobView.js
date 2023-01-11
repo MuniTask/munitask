@@ -2,7 +2,8 @@ import { arrayUnion, collection, doc, getDocs, query, updateDoc, addDoc, getDoc,
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {Bag, BookmarkSimple, CalendarBlank, CaretLeft, Clock, CurrencyDollar, Heart, MapPin } from 'phosphor-react';
-import {db} from '../firebase';import JobViewMap from '../components/JobViewMap';
+import {db} from '../firebase';
+import JobViewMap from '../components/JobViewMap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import InterestForm from '../components/InterestForm';
@@ -12,14 +13,16 @@ import { convertDate } from '../Regex';
 export default function JobView({user, createPopUp}) {
   const [jobs, setJobs]=useState({})
   const [show, setShow] = useState(false);
+  const [showCompleteProfile, setShowCompleteProfile] = useState(false);
   const [liked, setLiked]=useState(false);
   const location=useLocation();
+  const [profileComplete,setProfileComplete]=useState(false)
   const [signInPopUp, setsignInPopUp] = useState(false);
   const handleLike = (job) => {
     setLiked(true);
     saveJob(jobs);
   }
-  
+  const handleCloseCompleteProfile = () => setShowCompleteProfile(false);
     const handleUnlike = (job) => {
       setLiked(false);
       unsaveJob(jobs);
@@ -28,6 +31,7 @@ export default function JobView({user, createPopUp}) {
   const handleShowPopUp = () => setsignInPopUp(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleShowCompleteProfile = () => setShowCompleteProfile(true);
   const setJob=()=>{
     setJobs(location.state.job);
   };
@@ -47,7 +51,7 @@ export default function JobView({user, createPopUp}) {
         return "#33DDFF";
       case "park maintenance":
         return "#ee7600";
-      case "golf ranger":
+      case "golf caddy":
         return "green";
     }
   }
@@ -95,6 +99,9 @@ export default function JobView({user, createPopUp}) {
           console.log('saved job');
           setLiked(true)
         }
+        if (docSnap.data().profile_completed===true){
+          setProfileComplete(true)
+        }
       } else {
         console.log("No saved jobs!");
       }
@@ -109,12 +116,13 @@ export default function JobView({user, createPopUp}) {
   },[])
   useEffect(()=>{
     checkJobs()
-    
+   
   },[jobs])
   return (
    
   <div className='page-container jobview '>
      {jobs? <>
+ 
     <Link to='/' className='btn mb-3 mt-2'><CaretLeft size={20} weight="bold" />Back to jobs</Link>
     <div className='jobview-container'>
       <div className='d-flex flex-row flex-wrap justify-content-between align-items-start mt-2 mb-3'>
@@ -123,13 +131,21 @@ export default function JobView({user, createPopUp}) {
         </div>
         <div className='d-flex flex-row'>
             {user.uid?<>
-                {liked?<><BookmarkSimple onClick={()=>handleUnlike(jobs)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(jobs.title)} size={28} className='ms-auto like'/></>:<><BookmarkSimple data-testid='likeJobBtn' color={cardColor(jobs.title)} onClick={()=>handleLike(jobs)} size={28} className='ms-auto'/></>}</>
-                  :<><BookmarkSimple data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={28} className='ms-auto'/></>}
-            {user.uid?<><p className='interest-btn ms-3 ' data-testid='submitInterestBtn' onClick={handleShow}>
-                  Declare Interest
-                </p></>
-                :<><p className='interest-btn ms-3 ' data-testid='submitInterestBtnGuest' onClick={handleShowPopUp}>
-                Declare Interest
+                {liked?<><BookmarkSimple onClick={()=>handleUnlike(jobs)} data-testid='unlikeJobBtn' weight='fill' color={cardColor(jobs.title)} size={28} className='ms-auto like mt-3'/></>:<><BookmarkSimple data-testid='likeJobBtn' color={cardColor(jobs.title)} onClick={()=>handleLike(jobs)} size={28} className='ms-auto mt-3'/></>}</>
+                  :<><BookmarkSimple data-testid='guestLikeJobRedirectBtn' onClick={handleShowPopUp} size={28} className='ms-auto mt-3'/></>}
+            {user.uid?<>
+              {profileComplete? <>
+                <p className='interest-btn ms-3 mt-3' data-testid='submitInterestBtn' onClick={handleShow}>
+                  Submit Interest Form
+                </p>
+                </>:<>
+                <p className='interest-btn ms-3  mt-3' data-testid='submitInterestBtn' onClick={handleShowCompleteProfile}>
+                  Submit Interest Form
+                </p>
+                </>}
+                </>
+                :<><p className='interest-btn ms-3  mt-3' data-testid='submitInterestBtnGuest' onClick={handleShowPopUp}>
+                Submit Interest Form
               </p></>}
           </div>
       </div>
@@ -140,7 +156,6 @@ export default function JobView({user, createPopUp}) {
           <h4 className='job-info-header-title'>{jobs.title}</h4>
           <a rel="noreferrer" target="_blank" href={jobs.park_url} data-testid='parkUrlLink' className='mb-4'>{jobs.park_url}</a>
         <Modal  show={signInPopUp} onHide={handleClosePopUp}>
-              
               <Modal.Body>Sign in or create an account to save listings.</Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" data-testid='loginModalNoBtn' onClick={handleClosePopUp}>
@@ -154,6 +169,19 @@ export default function JobView({user, createPopUp}) {
                 <Link to='/signup' data-testid='loginModalSignupBtn'>
                   <Button variant="success">
                     Sign up
+                  </Button>
+                </Link>
+              </Modal.Footer>
+        </Modal>
+        <Modal  show={showCompleteProfile} onHide={handleShowCompleteProfile}>
+              <Modal.Body>Please complete your account and personal information before submitting an interest form.</Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" data-testid='loginModalNoBtn' onClick={handleCloseCompleteProfile}>
+                  Complete later
+                </Button>
+                <Link to='/userinfo'>
+                  <Button variant="success" data-testid='loginModalLoginBtn'>
+                    Complete profile
                   </Button>
                 </Link>
               </Modal.Footer>

@@ -108,13 +108,13 @@ const getJobs=async()=>{
     setConstJobs([...setList]);
     setGlobalJobs([...setList]);
     setFilterOnly([...setList]);
-    console.log(setList)
+   
   }
 };
 
 
   const showJob=()=>{
-    console.log('myjobs',slice !==null && slice.length!==0)
+   
     if (slice !==null && slice.length!==0){
         // set paginate
         return(slice.map((job, i)=> <JobItem key={i} job={job} />))
@@ -157,7 +157,7 @@ const getJobs=async()=>{
             newJobsList.push(x)
           }
       }
-        console.log('keyword only search',newJobsList)
+       
         // set paginate
         const slice_lst =newJobsList.slice(offset, offset+perPage)
         setSlice([...slice_lst]);
@@ -168,20 +168,20 @@ const getJobs=async()=>{
   };
   
       const getBounds=async(lat,lng,radiusInM)=>{
-        console.log(lat, lng, radiusInM)
+       
         const bounds= geohashQueryBounds([lat,lng],radiusInM);
         const promises=[]
         const jobsRef=collection(db,'jobs')
         for (const b of bounds){
-          console.log('bounds',b)
+        
           const q = query(jobsRef, orderBy('geohash'), startAfter(b[0]), endAt(b[1]));
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data());
+         
           promises.push(doc.data())
     });
         }
-        console.log('promises',promises)
+       
         const matchingDocs=[];
         for (const snap of promises){
           const snapLat = snap.latitude
@@ -192,7 +192,7 @@ const getJobs=async()=>{
               matchingDocs.push(snap);
                 }
         }
-        console.log('matching docs',matchingDocs)
+      
         // start paginate
           const slice_lst =matchingDocs.slice(offset, offset+perPage)
           setSlice([...slice_lst]);
@@ -240,8 +240,8 @@ const getJobs=async()=>{
          <p className='job-icon-text text-center'>All</p>
          </div>
         <div className='job-icon-div icon-div2 d-flex flex-column '>
-        <img onClick={()=>handleFilter('golf ranger')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid #E2EA8B',}}/>
-        <p className='job-icon-text text-center'>Golf Ranger</p>
+        <img onClick={()=>handleFilter('golf caddy')} data-testid='golfCaddyFilterBtn' className='mx-auto job-icon' src={golf} alt='...' style={{border:'4px solid #E2EA8B',}}/>
+        <p className='job-icon-text text-center'>Golf Caddy</p>
         </div>
         <div className='job-icon-div icon-div3 d-flex flex-column '>
         <img onClick={()=>handleFilter('swim instructor')} data-testid='swimInstructorFilterBtn' className='mx-auto  job-icon' src={swimInstructor} alt='...' style={{border:'4px solid #0D3869',}}/>
@@ -256,7 +256,7 @@ const getJobs=async()=>{
          <p className='job-icon-text text-center'>Pool Maintenance</p>
          </div>
         <div className='job-icon-div icon-div6 d-flex flex-column '>
-        <img onClick={()=>handleFilter('camp counselor')} data-testid='golfRangerFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid #5A9053',}}/>
+        <img onClick={()=>handleFilter('camp counselor')} data-testid='golfCaddyFilterBtn' className='mx-auto job-icon' src={campCounselor} alt='...' style={{border:'4px solid #5A9053',}}/>
          <p className='job-icon-text text-center'>Camp Counselor</p>
          </div>
         <div className='job-icon-div icon-div7 d-flex flex-column'>
@@ -309,9 +309,8 @@ const getJobs=async()=>{
         
          
             <div className='d-flex flex-row flex-wrap justify-content-center'>
-            {noMatches? <><h5>No jobs match this search</h5></>:<>
-            
-            {showJob()}</>}
+           
+            {showJob()}
             </div>
           <div className='d-flex justify-content-center'>
             <ReactPaginate

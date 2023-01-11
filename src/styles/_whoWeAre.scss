@@ -1,0 +1,73 @@
+.about-container{
+    min-height: 100vh;
+    margin: 2vh 2vw;
+    padding-top:  4vh;
+    -webkit-box-shadow: 2px 0px 4px 0px rgba(194,194,194,1);
+    -moz-box-shadow: 2px 0px 4px 0px rgba(194,194,194,1);
+    box-shadow: 2px 0px 4px 0px rgba(194,194,194,1);
+}
+
+.who-we-are-blurb{
+    background-color: rgba(255, 217, 255,.2);
+    border-radius:40px ;
+    padding:  2vh 8vw;
+    b{
+        color: rgb(95, 95, 95);
+    }
+}
+
+.bolded-blurb{
+    font-family: 'Abril Fatface', cursive;
+    font-size: 1.5rem;
+    color: rgb(95, 95, 95);
+}
+.park-img{
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+}
+.who-we-are-text{
+    width:50%;
+}
+.park-img{
+    border-radius: 78px 12px 56px 149px;
+-moz-border-radius: 78px 12px 56px 149px;
+-webkit-border-radius: 78px 12px 56px 149px;
+border: 0px solid #000000;
+}
+.regular-blurb{
+    font-size: 1.2rem;
+    color: gray;
+}
+
+.person-img{
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+}
+.person-card{
+    -webkit-box-shadow: 2px 0px 4px 0px rgba(194,194,194,1);
+    -moz-box-shadow: 2px 0px 4px 0px rgba(194,194,194,1);
+    box-shadow: 2px 0px 4px 0px rgba(194,194,194,1);
+  
+}
+.person-text{
+    padding: 0px 5px;
+    font-size: 1.2rem;
+}
+
+.person-card{
+    margin-bottom: 3vh;
+    background-color: white;
+}
+.our-team{
+    font-family: 'Abril Fatface', cursive;
+    font-size: 3rem;
+}
+.person-img{
+    border:10px solid white;
+}
+.people-section{
+    background-color: rgba(195, 219, 116,.1);
+    padding-top: 2vh;
+}

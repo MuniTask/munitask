@@ -76,7 +76,7 @@ export default function Navigation({user, signUserOut}) {
         <>
          <Dropdown >
           <Dropdown.Toggle  data-testid='guestUserDropdown' className='btn btn-light signin-btn' variant="success" id="dropdown-basic">
-            Hello, Guest
+            Sign Up or Log In
           </Dropdown.Toggle>
           <Dropdown.Menu show={show} onMouseEnter={showDropdown}  onMouseLeave={hideDropdown} className='user-dropdown' variant='dark'>
           <Link to='signup' data-testid='signUpLink'>Sign Up</Link>
